@@ -1,0 +1,44 @@
+---
+alwaysApply: true
+description: "Widget creation and component guidelines"
+---
+
+# Widgets & Components
+
+## Widget Structure
+- Create small, private widget classes instead of methods like `Widget _build...`
+- Structure files: exported widget, subwidgets, helpers, static content, types
+- Use composition over inheritance for widget design
+
+## State Management
+- Prefer StatelessWidget over StatefulWidget when possible
+- Use BlocBuilder for widgets that depend on Cubit/Bloc state
+- Use BlocListener for handling side effects, such as navigation or showing dialogs
+
+## Input Components
+- In TextFields, set appropriate `textCapitalization`, `keyboardType`, and `textInputAction`
+- Implement proper form validation
+- Use proper input formatters when needed
+
+## List Components
+- Implement `RefreshIndicator` for pull-to-refresh functionality
+- Use ListView.builder for performance optimization
+- Implement proper empty state handling
+- Use proper loading states
+
+## Custom Components
+- Create reusable custom components
+- Use const constructors for immutable widgets
+- Implement proper widget documentation
+- Use proper widget testing
+
+## Error Handling
+- Always include an `errorBuilder` when using `Image.network`
+- Implement proper error states for widgets
+- Use SelectableText.rich for error display
+- Handle loading states appropriately
+
+## Performance
+- Use const widgets where possible to optimize rebuilds
+- Implement proper widget tree structure to minimize rebuilds
+- Use proper key management for list items

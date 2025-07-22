@@ -1,0 +1,54 @@
+---
+alwaysApply: true
+description: "Clean Architecture implementation and folder structure guidelines"
+---
+
+# Clean Architecture & Folder Structure
+
+## Implementation Guidelines
+- Implement Clean Architecture with proper data, domain, and presentation layers for each feature
+- Use get_it for dependency injection and register all datasources, repositories, usecases, and blocs/cubits in [injection_container.dart](mdc:lib/injection/injection.dart)
+
+## Required Folder Structure
+```
+lib/
+├── core/                         # Global core utilities
+│   ├── error/                   # Error models, exceptions
+│   ├── network/                 # Network helpers, interceptors
+│   ├── usecases/                # Base usecase classes
+│   ├── utils/                   # General utils, extensions
+│   └── injection_container.dart # get_it setup for DI
+│
+├── features/                    # All app features
+│   ├── auth/                    # Auth feature
+│   │   ├── data/               # datasources, models, repository impl
+│   │   ├── domain/             # entities, repository abstract, usecases
+│   │   ├── presentation/       # blocs, pages, widgets
+│   │   └── auth_feature.dart   # barrel export file
+│   │
+│   ├── onboarding/             # Onboarding feature
+│   │   ├── data/
+│   │   ├── domain/
+│   │   ├── presentation/
+│   │   └── onboarding_feature.dart
+│   │
+│   └── ... other features
+│
+├── app/                        # App-wide configs
+│   ├── router/                 # GoRouter configuration
+│   │   └── app_router.dart
+│   ├── theme/                  # App themes
+│   └── app.dart                # App root widget
+│
+└── main.dart                   # Entry point
+```
+
+## Layer Responsibilities
+- **Data Layer**: Handle external data sources (API, database, cache)
+- **Domain Layer**: Business logic, entities, and use cases
+- **Presentation Layer**: UI components, state management (BLoC/Cubit)
+
+## Dependency Injection
+- Use get_it for all service registrations
+- Register services in order: datasources → repositories → usecases → blocs/cubits
+- Use barrel export files for each feature (e.g., `auth_feature.dart`)

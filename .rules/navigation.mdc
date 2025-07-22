@@ -1,0 +1,35 @@
+---
+description: "Navigation setup with GoRouter and redirects"
+alwaysApply: false
+---
+# Navigation & Routing
+
+## GoRouter Configuration
+- Use GoRouter for navigation and deep linking
+- Configure routes in [app_router.dart](mdc:lib/core/router/app_router.dart)
+- Implement type-safe navigation with go_router_builder when possible
+
+## Redirect Logic
+- Implement auth, onboarding, and authGate redirect logic within GoRouter configuration using `redirect` property
+- Use SharedPreferences to persist onboarding completed status and authentication tokens
+- Use get_it to access SharedPreferences instance globally in router redirects
+
+## Route Structure
+```dart
+final GoRouter _router = GoRouter(
+  initialLocation: '/splash',
+  redirect: (context, state) {
+    // Auth and onboarding redirect logic here
+    // Use get_it to access services
+  },
+  routes: [
+    // Define routes here
+  ],
+);
+```
+
+## Navigation Best Practices
+- Use context.go() for navigation instead of context.push() when replacing current route
+- Use context.push() for stacking routes
+- Implement proper deep linking support
+- Handle navigation state with proper route guards

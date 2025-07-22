@@ -1,0 +1,40 @@
+---
+alwaysApply: true
+description: "BLoC and Cubit state management patterns"
+---
+
+# BLoC & State Management
+
+## BLoC vs Cubit Selection
+- Use Cubit for managing simple state and Bloc for complex event-driven state management
+- Prefer Cubit for straightforward state transitions
+- Use Bloc when you need complex event handling and side effects
+
+## State Design
+- Extend states with Freezed for immutability
+- Use descriptive and meaningful event names for Bloc
+- Handle state transitions and side effects in Bloc's mapEventToState
+
+## Widget Integration
+- Prefer `context.read()` or `context.watch()` for accessing Cubit/Bloc states in widgets
+- Use BlocBuilder for widgets that depend on Cubit/Bloc state
+- Use BlocListener for handling side effects, such as navigation or showing dialogs
+- Use BlocConsumer when you need both builder and listener functionality
+
+## State Structure Example
+```dart
+@freezed
+class AuthState with _$AuthState {
+  const factory AuthState.initial() = _Initial;
+  const factory AuthState.loading() = _Loading;
+  const factory AuthState.authenticated(User user) = _Authenticated;
+  const factory AuthState.unauthenticated() = _Unauthenticated;
+  const factory AuthState.error(String message) = _Error;
+}
+```
+
+## Best Practices
+- Keep business logic in BLoC/Cubit, not in widgets
+- Use BlocObserver for debugging and monitoring
+- Implement proper disposal of resources in BLoC/Cubit
+- Use dependency injection to provide BLoC/Cubit instances
