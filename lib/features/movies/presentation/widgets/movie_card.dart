@@ -139,8 +139,8 @@ class MovieCard extends StatelessWidget {
                         const Spacer(),
                         Text(
                           movie.releaseDate.isNotEmpty 
-                              ? movie.releaseDate.substring(0, 4)
-                              : '',
+                              ? movie.releaseDate
+                              : 'N/A',
                           style: const TextStyle(
                             color: Color(0xFF94A3B8),
                             fontSize: 12,

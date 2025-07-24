@@ -1,9 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shartflix_movie_app/features/movies/movies_feature.dart';
 
 import '../../../../core/utils/logger.dart';
 import '../../domain/entities/movie.dart';
 import '../../domain/usecases/get_popular_movies_usecase.dart';
 import '../../domain/usecases/toggle_favorite_usecase.dart';
+import '../../data/models/movies_response_model.dart';
 import 'movies_event.dart';
 import 'movies_state.dart';
 
@@ -37,12 +39,13 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         Logger.error('Failed to load popular movies: ${failure.message}');
         emit(MoviesState.error(failure.message));
       },
-      (movies) {
-        Logger.info('Loaded ${movies.length} popular movies');
+      (moviesResponse) {
+        final movies = moviesResponse.movies.map((model) => model.toEntity()).toList();
+        Logger.info('Loaded ${movies.length} popular movies for page 1');
         emit(MoviesState.loaded(
           movies: movies,
-          currentPage: 1,
-          hasReachedMax: movies.length < 2, // 2 movies per page in mock
+          currentPage: moviesResponse.pagination.currentPage,
+          hasReachedMax: moviesResponse.pagination.currentPage >= moviesResponse.pagination.maxPage,
         ));
       },
     );
@@ -52,30 +55,37 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     LoadMoreMovies event,
     Emitter<MoviesState> emit,
   ) async {
-    state.whenOrNull(
-      loaded: (movies, hasReachedMax, currentPage) async {
-        if (hasReachedMax) return;
+    final currentState = state;
+    
+    // State'in loaded olup olmadığını kontrol et
+    final loadedState = currentState.maybeWhen(
+      loaded: (movies, hasReachedMax, currentPage) => 
+          (movies: movies, hasReachedMax: hasReachedMax, currentPage: currentPage),
+      orElse: () => null,
+    );
+    
+    if (loadedState == null) return;
+    if (loadedState.hasReachedMax) return;
 
-        final nextPage = currentPage + 1;
-        
-        final result = await _getPopularMoviesUseCase(
-          GetPopularMoviesParams(page: nextPage),
-        );
-        
-        result.fold(
-          (failure) {
-            Logger.error('Failed to load more movies: ${failure.message}');
-            emit(MoviesState.error(failure.message));
-          },
-          (newMovies) {
-            Logger.info('Loaded ${newMovies.length} more movies (page $nextPage)');
-            emit(MoviesState.loaded(
-              movies: [...movies, ...newMovies],
-              currentPage: nextPage,
-              hasReachedMax: newMovies.length < 2, // 2 movies per page in mock
-            ));
-          },
-        );
+    final nextPage = loadedState.currentPage + 1;
+    
+    final result = await _getPopularMoviesUseCase(
+      GetPopularMoviesParams(page: nextPage),
+    );
+    
+    result.fold(
+      (failure) {
+        Logger.error('Failed to load more movies: ${failure.message}');
+        emit(MoviesState.error(failure.message));
+      },
+      (moviesResponse) {
+        final newMovies = moviesResponse.movies.map((model) => model.toEntity()).toList();
+        Logger.info('Loaded ${newMovies.length} more movies (page $nextPage)');
+        emit(MoviesState.loaded(
+          movies: [...loadedState.movies, ...newMovies],
+          currentPage: moviesResponse.pagination.currentPage,
+          hasReachedMax: moviesResponse.pagination.currentPage >= moviesResponse.pagination.maxPage,
+        ));
       },
     );
   }

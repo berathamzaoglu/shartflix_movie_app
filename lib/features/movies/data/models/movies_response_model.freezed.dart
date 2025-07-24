@@ -14,12 +14,8 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$MoviesResponseModel {
-  int get page;
-  List<MovieModel> get results;
-  @JsonKey(name: 'total_pages')
-  int get totalPages;
-  @JsonKey(name: 'total_results')
-  int get totalResults;
+  List<MovieModel> get movies;
+  PaginationModel get pagination;
 
   /// Create a copy of MoviesResponseModel
   /// with the given fields replaced by the non-null parameter values.
@@ -37,22 +33,19 @@ mixin _$MoviesResponseModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is MoviesResponseModel &&
-            (identical(other.page, page) || other.page == page) &&
-            const DeepCollectionEquality().equals(other.results, results) &&
-            (identical(other.totalPages, totalPages) ||
-                other.totalPages == totalPages) &&
-            (identical(other.totalResults, totalResults) ||
-                other.totalResults == totalResults));
+            const DeepCollectionEquality().equals(other.movies, movies) &&
+            (identical(other.pagination, pagination) ||
+                other.pagination == pagination));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, page,
-      const DeepCollectionEquality().hash(results), totalPages, totalResults);
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(movies), pagination);
 
   @override
   String toString() {
-    return 'MoviesResponseModel(page: $page, results: $results, totalPages: $totalPages, totalResults: $totalResults)';
+    return 'MoviesResponseModel(movies: $movies, pagination: $pagination)';
   }
 }
 
@@ -62,11 +55,9 @@ abstract mixin class $MoviesResponseModelCopyWith<$Res> {
           MoviesResponseModel value, $Res Function(MoviesResponseModel) _then) =
       _$MoviesResponseModelCopyWithImpl;
   @useResult
-  $Res call(
-      {int page,
-      List<MovieModel> results,
-      @JsonKey(name: 'total_pages') int totalPages,
-      @JsonKey(name: 'total_results') int totalResults});
+  $Res call({List<MovieModel> movies, PaginationModel pagination});
+
+  $PaginationModelCopyWith<$Res> get pagination;
 }
 
 /// @nodoc
@@ -82,29 +73,29 @@ class _$MoviesResponseModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? page = null,
-    Object? results = null,
-    Object? totalPages = null,
-    Object? totalResults = null,
+    Object? movies = null,
+    Object? pagination = null,
   }) {
     return _then(_self.copyWith(
-      page: null == page
-          ? _self.page
-          : page // ignore: cast_nullable_to_non_nullable
-              as int,
-      results: null == results
-          ? _self.results
-          : results // ignore: cast_nullable_to_non_nullable
+      movies: null == movies
+          ? _self.movies
+          : movies // ignore: cast_nullable_to_non_nullable
               as List<MovieModel>,
-      totalPages: null == totalPages
-          ? _self.totalPages
-          : totalPages // ignore: cast_nullable_to_non_nullable
-              as int,
-      totalResults: null == totalResults
-          ? _self.totalResults
-          : totalResults // ignore: cast_nullable_to_non_nullable
-              as int,
+      pagination: null == pagination
+          ? _self.pagination
+          : pagination // ignore: cast_nullable_to_non_nullable
+              as PaginationModel,
     ));
+  }
+
+  /// Create a copy of MoviesResponseModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $PaginationModelCopyWith<$Res> get pagination {
+    return $PaginationModelCopyWith<$Res>(_self.pagination, (value) {
+      return _then(_self.copyWith(pagination: value));
+    });
   }
 }
 
@@ -201,19 +192,14 @@ extension MoviesResponseModelPatterns on MoviesResponseModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(
-            int page,
-            List<MovieModel> results,
-            @JsonKey(name: 'total_pages') int totalPages,
-            @JsonKey(name: 'total_results') int totalResults)?
+    TResult Function(List<MovieModel> movies, PaginationModel pagination)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _MoviesResponseModel() when $default != null:
-        return $default(
-            _that.page, _that.results, _that.totalPages, _that.totalResults);
+        return $default(_that.movies, _that.pagination);
       case _:
         return orElse();
     }
@@ -234,18 +220,13 @@ extension MoviesResponseModelPatterns on MoviesResponseModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(
-            int page,
-            List<MovieModel> results,
-            @JsonKey(name: 'total_pages') int totalPages,
-            @JsonKey(name: 'total_results') int totalResults)
+    TResult Function(List<MovieModel> movies, PaginationModel pagination)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _MoviesResponseModel():
-        return $default(
-            _that.page, _that.results, _that.totalPages, _that.totalResults);
+        return $default(_that.movies, _that.pagination);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -265,18 +246,13 @@ extension MoviesResponseModelPatterns on MoviesResponseModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(
-            int page,
-            List<MovieModel> results,
-            @JsonKey(name: 'total_pages') int totalPages,
-            @JsonKey(name: 'total_results') int totalResults)?
+    TResult? Function(List<MovieModel> movies, PaginationModel pagination)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _MoviesResponseModel() when $default != null:
-        return $default(
-            _that.page, _that.results, _that.totalPages, _that.totalResults);
+        return $default(_that.movies, _that.pagination);
       case _:
         return null;
     }
@@ -287,30 +263,21 @@ extension MoviesResponseModelPatterns on MoviesResponseModel {
 @JsonSerializable()
 class _MoviesResponseModel implements MoviesResponseModel {
   const _MoviesResponseModel(
-      {required this.page,
-      required final List<MovieModel> results,
-      @JsonKey(name: 'total_pages') required this.totalPages,
-      @JsonKey(name: 'total_results') required this.totalResults})
-      : _results = results;
+      {required final List<MovieModel> movies, required this.pagination})
+      : _movies = movies;
   factory _MoviesResponseModel.fromJson(Map<String, dynamic> json) =>
       _$MoviesResponseModelFromJson(json);
 
+  final List<MovieModel> _movies;
   @override
-  final int page;
-  final List<MovieModel> _results;
-  @override
-  List<MovieModel> get results {
-    if (_results is EqualUnmodifiableListView) return _results;
+  List<MovieModel> get movies {
+    if (_movies is EqualUnmodifiableListView) return _movies;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_results);
+    return EqualUnmodifiableListView(_movies);
   }
 
   @override
-  @JsonKey(name: 'total_pages')
-  final int totalPages;
-  @override
-  @JsonKey(name: 'total_results')
-  final int totalResults;
+  final PaginationModel pagination;
 
   /// Create a copy of MoviesResponseModel
   /// with the given fields replaced by the non-null parameter values.
@@ -333,22 +300,19 @@ class _MoviesResponseModel implements MoviesResponseModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _MoviesResponseModel &&
-            (identical(other.page, page) || other.page == page) &&
-            const DeepCollectionEquality().equals(other._results, _results) &&
-            (identical(other.totalPages, totalPages) ||
-                other.totalPages == totalPages) &&
-            (identical(other.totalResults, totalResults) ||
-                other.totalResults == totalResults));
+            const DeepCollectionEquality().equals(other._movies, _movies) &&
+            (identical(other.pagination, pagination) ||
+                other.pagination == pagination));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, page,
-      const DeepCollectionEquality().hash(_results), totalPages, totalResults);
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_movies), pagination);
 
   @override
   String toString() {
-    return 'MoviesResponseModel(page: $page, results: $results, totalPages: $totalPages, totalResults: $totalResults)';
+    return 'MoviesResponseModel(movies: $movies, pagination: $pagination)';
   }
 }
 
@@ -360,11 +324,10 @@ abstract mixin class _$MoviesResponseModelCopyWith<$Res>
       __$MoviesResponseModelCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {int page,
-      List<MovieModel> results,
-      @JsonKey(name: 'total_pages') int totalPages,
-      @JsonKey(name: 'total_results') int totalResults});
+  $Res call({List<MovieModel> movies, PaginationModel pagination});
+
+  @override
+  $PaginationModelCopyWith<$Res> get pagination;
 }
 
 /// @nodoc
@@ -380,29 +343,29 @@ class __$MoviesResponseModelCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? page = null,
-    Object? results = null,
-    Object? totalPages = null,
-    Object? totalResults = null,
+    Object? movies = null,
+    Object? pagination = null,
   }) {
     return _then(_MoviesResponseModel(
-      page: null == page
-          ? _self.page
-          : page // ignore: cast_nullable_to_non_nullable
-              as int,
-      results: null == results
-          ? _self._results
-          : results // ignore: cast_nullable_to_non_nullable
+      movies: null == movies
+          ? _self._movies
+          : movies // ignore: cast_nullable_to_non_nullable
               as List<MovieModel>,
-      totalPages: null == totalPages
-          ? _self.totalPages
-          : totalPages // ignore: cast_nullable_to_non_nullable
-              as int,
-      totalResults: null == totalResults
-          ? _self.totalResults
-          : totalResults // ignore: cast_nullable_to_non_nullable
-              as int,
+      pagination: null == pagination
+          ? _self.pagination
+          : pagination // ignore: cast_nullable_to_non_nullable
+              as PaginationModel,
     ));
+  }
+
+  /// Create a copy of MoviesResponseModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $PaginationModelCopyWith<$Res> get pagination {
+    return $PaginationModelCopyWith<$Res>(_self.pagination, (value) {
+      return _then(_self.copyWith(pagination: value));
+    });
   }
 }
 

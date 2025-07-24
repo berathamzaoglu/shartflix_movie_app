@@ -184,7 +184,7 @@ Future<void> _setupMoviesDependencies() async {
   // Data sources
   if (!getIt.isRegistered<MoviesRemoteDataSource>()) {
     getIt.registerLazySingleton<MoviesRemoteDataSource>(
-      () => MoviesRemoteDataSourceImpl(getIt.get<Dio>(instanceName: 'dio')),
+      () => MoviesRemoteDataSourceImpl(getIt<DioClient>()),
     );
     print('✅ MoviesRemoteDataSource registered');
   }

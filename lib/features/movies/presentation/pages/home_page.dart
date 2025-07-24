@@ -5,7 +5,7 @@ import '../../../../injection/injection.dart';
 import '../bloc/movies_bloc.dart';
 import '../bloc/movies_event.dart';
 import '../bloc/movies_state.dart';
-import '../widgets/movie_grid.dart';
+import '../widgets/movie_discovery_view.dart';
 import '../widgets/bottom_navigation_bar.dart';
 
 class HomePage extends StatefulWidget {
@@ -138,88 +138,9 @@ class MovieDiscoveryPage extends StatelessWidget {
           ),
         ),
         
-        // Movies Grid
+        // Movie Discovery View
         Expanded(
-          child: BlocBuilder<MoviesBloc, MoviesState>(
-            builder: (context, state) {
-              return state.when(
-                initial: () => const Center(
-                  child: CircularProgressIndicator(
-                    color: Color(0xFFE53E3E),
-                  ),
-                ),
-                loading: () => const Center(
-                  child: CircularProgressIndicator(
-                    color: Color(0xFFE53E3E),
-                  ),
-                ),
-                loaded: (movies, hasReachedMax, currentPage) {
-                  return MovieGrid(
-                    movies: movies,
-                    hasReachedMax: hasReachedMax,
-                    onLoadMore: () {
-                      context.read<MoviesBloc>().add(
-                        const MoviesEvent.loadMoreMovies(),
-                      );
-                    },
-                    onRefresh: () {
-                      context.read<MoviesBloc>().add(
-                        const MoviesEvent.refreshMovies(),
-                      );
-                    },
-                    onToggleFavorite: (movie) {
-                      context.read<MoviesBloc>().add(
-                        MoviesEvent.toggleFavorite(movie),
-                      );
-                    },
-                  );
-                },
-                error: (message) => Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.error_outline,
-                        color: Color(0xFFE53E3E),
-                        size: 64,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'Bir hata oluştu',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        message,
-                        style: TextStyle(
-                          color: Color(0xFF94A3B8),
-                          fontSize: 14,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 24),
-                      ElevatedButton(
-                        onPressed: () {
-                          context.read<MoviesBloc>().add(
-                            const MoviesEvent.loadPopularMovies(),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFE53E3E),
-                          foregroundColor: Colors.white,
-                        ),
-                        child: const Text('Tekrar Dene'),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
+          child: const MovieDiscoveryView(),
         ),
       ],
     );

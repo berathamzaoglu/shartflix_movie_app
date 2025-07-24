@@ -1,94 +1,102 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../../core/utils/logger.dart';
 import '../../domain/entities/movie.dart';
 
-class MovieModel {
-  final int id;
-  final String title;
-  final String overview;
-  final String? posterPath;
-  final String? backdropPath;
-  final double voteAverage;
-  final int voteCount;
-  final String releaseDate;
-  final List<int> genreIds;
-  final bool adult;
-  final String originalLanguage;
-  final String originalTitle;
-  final double popularity;
-  final bool video;
+part 'movie_model.freezed.dart';
+part 'movie_model.g.dart';
 
-  const MovieModel({
-    required this.id,
-    required this.title,
-    required this.overview,
-    this.posterPath,
-    this.backdropPath,
-    required this.voteAverage,
-    required this.voteCount,
-    required this.releaseDate,
-    required this.genreIds,
-    required this.adult,
-    required this.originalLanguage,
-    required this.originalTitle,
-    required this.popularity,
-    required this.video,
-  });
+@freezed
+abstract class MovieModel with _$MovieModel {
+  const factory MovieModel({
+    @JsonKey(name: '_id') required String id,
+    @JsonKey(name: 'Title') required String title,
+    @JsonKey(name: 'Year') required String year,
+    @JsonKey(name: 'Rated') required String rated,
+    @JsonKey(name: 'Released') required String released,
+    @JsonKey(name: 'Runtime') required String runtime,
+    @JsonKey(name: 'Genre') required String genre,
+    @JsonKey(name: 'Director') required String director,
+    @JsonKey(name: 'Writer') required String writer,
+    @JsonKey(name: 'Actors') required String actors,
+    @JsonKey(name: 'Plot') required String plot,
+    @JsonKey(name: 'Language') required String language,
+    @JsonKey(name: 'Country') required String country,
+    @JsonKey(name: 'Awards') required String awards,
+    @JsonKey(name: 'Poster') required String poster,
+    @JsonKey(name: 'Metascore') required String metascore,
+    @JsonKey(name: 'imdbRating') required String imdbRating,
+    @JsonKey(name: 'imdbVotes') required String imdbVotes,
+    @JsonKey(name: 'imdbID') required String imdbId,
+    @JsonKey(name: 'Type') required String type,
+    @JsonKey(name: 'Response') required String response,
+    @JsonKey(name: 'Images') @Default([]) List<String> images,
+    @JsonKey(name: 'ComingSoon') @Default(false) bool comingSoon,
+    @JsonKey(name: 'isFavorite') @Default(false) bool isFavorite,
+  }) = _MovieModel;
 
-  factory MovieModel.fromJson(Map<String, dynamic> json) {
-    return MovieModel(
-      id: json['id'] as int,
-      title: json['title'] as String,
-      overview: json['overview'] as String,
-      posterPath: json['poster_path'] as String?,
-      backdropPath: json['backdrop_path'] as String?,
-      voteAverage: (json['vote_average'] as num).toDouble(),
-      voteCount: json['vote_count'] as int,
-      releaseDate: json['release_date'] as String,
-      genreIds: List<int>.from(json['genre_ids'] ?? []),
-      adult: json['adult'] as bool,
-      originalLanguage: json['original_language'] as String,
-      originalTitle: json['original_title'] as String,
-      popularity: (json['popularity'] as num).toDouble(),
-      video: json['video'] as bool,
-    );
-  }
+  factory MovieModel.fromJson(Map<String, dynamic> json) =>
+      _$MovieModelFromJson(json);
+}
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'overview': overview,
-      'poster_path': posterPath,
-      'backdrop_path': backdropPath,
-      'vote_average': voteAverage,
-      'vote_count': voteCount,
-      'release_date': releaseDate,
-      'genre_ids': genreIds,
-      'adult': adult,
-      'original_language': originalLanguage,
-      'original_title': originalTitle,
-      'popularity': popularity,
-      'video': video,
-    };
-  }
-
-  // Convert to domain entity
+extension MovieModelX on MovieModel {
   Movie toEntity() {
+    // Released alanından yıl kısmını çıkar (örn: "18 Dec 2009" -> "2009")
+    String extractYear(String released) {
+      final parts = released.split(' ');
+      if (parts.isNotEmpty) {
+        final lastPart = parts.last;
+        if (lastPart.length == 4 && int.tryParse(lastPart) != null) {
+          return lastPart;
+        }
+      }
+      return released; // Eğer yıl çıkarılamazsa orijinal değeri döndür
+    }
+
+    // Poster URL'sini temizle
+    String cleanPosterUrl(String posterUrl) {
+      if (posterUrl.isEmpty) return '';
+      
+      // Bozuk URL'leri düzelt (örn: "http://...jpg" -> "http://...jpg")
+      if (posterUrl.contains('@@..jpg')) {
+        posterUrl = posterUrl.replaceAll('@@..jpg', '@@.jpg');
+      }
+      
+      // HTTP'yi HTTPS'e çevir (mobil güvenlik için)
+      if (posterUrl.startsWith('http://')) {
+        posterUrl = posterUrl.replaceFirst('http://', 'https://');
+      }
+      
+      // Eğer URL geçerli değilse boş string döndür
+      if (!posterUrl.startsWith('https://')) {
+        return '';
+      }
+      
+      return posterUrl;
+    }
+
+    // Debug poster URL
+    Logger.debug('Movie: $title - Original Poster URL: $poster');
+    final cleanedPoster = cleanPosterUrl(poster);
+    Logger.debug('Movie: $title - Cleaned Poster URL: $cleanedPoster');
+    Logger.debug('Movie: $title - Images: $images');
+
     return Movie(
-      id: id,
+      id: int.tryParse(id) ?? 0,
       title: title,
-      overview: overview,
-      posterPath: posterPath,
-      backdropPath: backdropPath,
-      voteAverage: voteAverage,
-      voteCount: voteCount,
-      releaseDate: releaseDate,
-      genreIds: genreIds,
-      adult: adult,
-      originalLanguage: originalLanguage,
-      originalTitle: originalTitle,
-      popularity: popularity,
-      video: video,
-      isFavorite: false, // Default value for entity
+      overview: plot,
+      posterPath: cleanedPoster.isNotEmpty ? cleanedPoster : null,
+      backdropPath: images.isNotEmpty ? images.first : null,
+      voteAverage: double.tryParse(imdbRating) ?? 0.0,
+      voteCount: int.tryParse(imdbVotes.replaceAll(',', '')) ?? 0,
+      releaseDate: extractYear(released),
+      genreIds: genre.split(', ').map((g) => g.hashCode).toList(),
+      adult: rated == 'R',
+      originalLanguage: language.split(', ').first,
+      originalTitle: title,
+      popularity: double.tryParse(metascore) ?? 0.0,
+      video: false,
+      isFavorite: isFavorite,
     );
   }
 }
@@ -96,20 +104,30 @@ class MovieModel {
 extension MovieX on Movie {
   MovieModel toModel() {
     return MovieModel(
-      id: id,
+      id: id.toString(),
       title: title,
-      overview: overview,
-      posterPath: posterPath,
-      backdropPath: backdropPath,
-      voteAverage: voteAverage,
-      voteCount: voteCount,
-      releaseDate: releaseDate,
-      genreIds: genreIds,
-      adult: adult,
-      originalLanguage: originalLanguage,
-      originalTitle: originalTitle,
-      popularity: popularity,
-      video: video,
+      year: releaseDate.split(' ').last,
+      rated: adult ? 'R' : 'PG-13',
+      released: releaseDate,
+      runtime: '120 min',
+      genre: 'Action, Adventure',
+      director: 'Unknown',
+      writer: 'Unknown',
+      actors: 'Unknown',
+      plot: overview,
+      language: originalLanguage,
+      country: 'USA',
+      awards: 'N/A',
+      poster: posterPath ?? '',
+      metascore: popularity.toString(),
+      imdbRating: voteAverage.toString(),
+      imdbVotes: voteCount.toString(),
+      imdbId: 'tt0000000',
+      type: 'movie',
+      response: 'True',
+      images: backdropPath != null ? [backdropPath!] : [],
+      comingSoon: false,
+      isFavorite: isFavorite,
     );
   }
 } 

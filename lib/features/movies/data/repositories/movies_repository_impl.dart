@@ -1,10 +1,11 @@
 import 'package:dartz/dartz.dart';
+import 'package:shartflix_movie_app/features/movies/movies_feature.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/error/api_exception.dart';
-import '../../domain/entities/movie.dart';
+import '../../../../core/error/exceptions.dart';
 import '../../domain/repositories/movies_repository.dart';
 import '../datasources/movies_remote_datasource.dart';
+import '../models/movies_response_model.dart';
 
 class MoviesRepositoryImpl implements MoviesRepository {
   final MoviesRemoteDataSource remoteDataSource;
@@ -12,15 +13,22 @@ class MoviesRepositoryImpl implements MoviesRepository {
   MoviesRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<Either<Failure, List<Movie>>> getPopularMovies({int page = 1}) async {
+  Future<Either<Failure, MoviesResponseModel>> getPopularMovies({int page = 1}) async {
     try {
       final result = await remoteDataSource.getMovies(page: page);
-      final movies = result.items.map((model) => model.toEntity()).toList();
-      return Right(movies);
-    } on ApiException catch (e) {
-      return Left(ServerFailure(message: e.userFriendlyMessage));
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(Failure.server(
+        message: e.message,
+        statusCode: e.statusCode,
+      ));
+    } on NetworkException catch (e) {
+      return Left(Failure.network(
+        message: e.message,
+        statusCode: e.statusCode,
+      ));
     } catch (e) {
-      return Left(ServerFailure(message: 'Beklenmeyen bir hata oluştu'));
+      return Left(Failure.server(message: 'Beklenmeyen bir hata oluştu: $e'));
     }
   }
 
@@ -30,10 +38,18 @@ class MoviesRepositoryImpl implements MoviesRepository {
       final result = await remoteDataSource.getFavoriteMovies();
       final movies = result.map((model) => model.toEntity()).toList();
       return Right(movies);
-    } on ApiException catch (e) {
-      return Left(ServerFailure(message: e.userFriendlyMessage));
+    } on ServerException catch (e) {
+      return Left(Failure.server(
+        message: e.message,
+        statusCode: e.statusCode,
+      ));
+    } on NetworkException catch (e) {
+      return Left(Failure.network(
+        message: e.message,
+        statusCode: e.statusCode,
+      ));
     } catch (e) {
-      return Left(ServerFailure(message: 'Favori filmler yüklenemedi'));
+      return Left(Failure.server(message: 'Favori filmler yüklenemedi: $e'));
     }
   }
 
@@ -42,10 +58,18 @@ class MoviesRepositoryImpl implements MoviesRepository {
     try {
       final result = await remoteDataSource.toggleFavorite(movie.id.toString());
       return Right(result);
-    } on ApiException catch (e) {
-      return Left(ServerFailure(message: e.userFriendlyMessage));
+    } on ServerException catch (e) {
+      return Left(Failure.server(
+        message: e.message,
+        statusCode: e.statusCode,
+      ));
+    } on NetworkException catch (e) {
+      return Left(Failure.network(
+        message: e.message,
+        statusCode: e.statusCode,
+      ));
     } catch (e) {
-      return Left(ServerFailure(message: 'Favori durumu güncellenemedi'));
+      return Left(Failure.server(message: 'Favori durumu güncellenemedi: $e'));
     }
   }
 } 

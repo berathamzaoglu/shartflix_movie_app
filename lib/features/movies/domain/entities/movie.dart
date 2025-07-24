@@ -74,6 +74,13 @@ class Movie {
     if (posterPath == null || posterPath!.isEmpty) {
       return 'https://via.placeholder.com/500x750?text=No+Image';
     }
+    
+    // Eğer posterPath zaten tam URL ise (http ile başlıyorsa) direkt kullan
+    if (posterPath!.startsWith('http')) {
+      return posterPath!;
+    }
+    
+    // Eğer sadece path ise TMDB base URL'si ekle
     return 'https://image.tmdb.org/t/p/w500$posterPath';
   }
 } 

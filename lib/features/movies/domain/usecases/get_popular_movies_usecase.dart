@@ -4,14 +4,15 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../entities/movie.dart';
 import '../repositories/movies_repository.dart';
+import '../../data/models/movies_response_model.dart';
 
-class GetPopularMoviesUseCase implements UseCase<List<Movie>, GetPopularMoviesParams> {
+class GetPopularMoviesUseCase implements UseCase<MoviesResponseModel, GetPopularMoviesParams> {
   final MoviesRepository repository;
 
   GetPopularMoviesUseCase(this.repository);
 
   @override
-  Future<Either<Failure, List<Movie>>> call(GetPopularMoviesParams params) async {
+  Future<Either<Failure, MoviesResponseModel>> call(GetPopularMoviesParams params) async {
     return await repository.getPopularMovies(page: params.page);
   }
 }
