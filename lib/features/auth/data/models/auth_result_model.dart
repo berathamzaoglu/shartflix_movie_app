@@ -7,12 +7,13 @@ part 'auth_result_model.freezed.dart';
 part 'auth_result_model.g.dart';
 
 @freezed
-class AuthResultModel with _$AuthResultModel {
+abstract class AuthResultModel with _$AuthResultModel {
   const factory AuthResultModel({
-    required UserModel user,
+    @JsonKey(name: '_id') required String id,
+    required String name,
+    required String email,
+    @JsonKey(name: 'photoUrl') String? photoUrl,
     required String token,
-    @JsonKey(name: 'refresh_token') required String refreshToken,
-    @JsonKey(name: 'expires_in') required int expiresIn,
   }) = _AuthResultModel;
 
   factory AuthResultModel.fromJson(Map<String, dynamic> json) =>
@@ -22,10 +23,15 @@ class AuthResultModel with _$AuthResultModel {
 extension AuthResultModelX on AuthResultModel {
   AuthResult toEntity() {
     return AuthResult(
-      user: user.toEntity(),
+      user: UserModel(
+        id: id,
+        name: name,
+        email: email,
+        profilePhoto: photoUrl,
+      ).toEntity(),
       token: token,
-      refreshToken: refreshToken,
-      expiresIn: expiresIn,
+      refreshToken: token, // Using same token as refresh for now
+      expiresIn: 3600, // 1 hour default
     );
   }
 } 

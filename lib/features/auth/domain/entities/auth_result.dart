@@ -5,7 +5,7 @@ import 'user.dart';
 part 'auth_result.freezed.dart';
 
 @freezed
-class AuthResult with _$AuthResult {
+abstract class AuthResult with _$AuthResult {
   const factory AuthResult({
     required User user,
     required String token,

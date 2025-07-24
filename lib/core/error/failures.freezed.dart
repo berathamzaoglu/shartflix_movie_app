@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,56 +9,90 @@ part of 'failures.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$Failure {
-  String get message => throw _privateConstructorUsedError;
-  int? get statusCode => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String message, int? statusCode) server,
-    required TResult Function(String message, int? statusCode) network,
-    required TResult Function(String message, int? statusCode) cache,
-    required TResult Function(String message, int? statusCode) auth,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String message, int? statusCode)? server,
-    TResult? Function(String message, int? statusCode)? network,
-    TResult? Function(String message, int? statusCode)? cache,
-    TResult? Function(String message, int? statusCode)? auth,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message, int? statusCode)? server,
-    TResult Function(String message, int? statusCode)? network,
-    TResult Function(String message, int? statusCode)? cache,
-    TResult Function(String message, int? statusCode)? auth,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ServerFailure value) server,
-    required TResult Function(NetworkFailure value) network,
-    required TResult Function(CacheFailure value) cache,
-    required TResult Function(AuthFailure value) auth,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ServerFailure value)? server,
-    TResult? Function(NetworkFailure value)? network,
-    TResult? Function(CacheFailure value)? cache,
-    TResult? Function(AuthFailure value)? auth,
-  }) =>
-      throw _privateConstructorUsedError;
+  String get message;
+  int? get statusCode;
+
+  /// Create a copy of Failure
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FailureCopyWith<Failure> get copyWith =>
+      _$FailureCopyWithImpl<Failure>(this as Failure, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Failure &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.statusCode, statusCode) ||
+                other.statusCode == statusCode));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message, statusCode);
+
+  @override
+  String toString() {
+    return 'Failure(message: $message, statusCode: $statusCode)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $FailureCopyWith<$Res> {
+  factory $FailureCopyWith(Failure value, $Res Function(Failure) _then) =
+      _$FailureCopyWithImpl;
+  @useResult
+  $Res call({String message, int? statusCode});
+}
+
+/// @nodoc
+class _$FailureCopyWithImpl<$Res> implements $FailureCopyWith<$Res> {
+  _$FailureCopyWithImpl(this._self, this._then);
+
+  final Failure _self;
+  final $Res Function(Failure) _then;
+
+  /// Create a copy of Failure
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+    Object? statusCode = freezed,
+  }) {
+    return _then(_self.copyWith(
+      message: null == message
+          ? _self.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      statusCode: freezed == statusCode
+          ? _self.statusCode
+          : statusCode // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [Failure].
+extension FailurePatterns on Failure {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ServerFailure value)? server,
@@ -66,257 +100,267 @@ mixin _$Failure {
     TResult Function(CacheFailure value)? cache,
     TResult Function(AuthFailure value)? auth,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $FailureCopyWith<Failure> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $FailureCopyWith<$Res> {
-  factory $FailureCopyWith(Failure value, $Res Function(Failure) then) =
-      _$FailureCopyWithImpl<$Res, Failure>;
-  @useResult
-  $Res call({String message, int? statusCode});
-}
-
-/// @nodoc
-class _$FailureCopyWithImpl<$Res, $Val extends Failure>
-    implements $FailureCopyWith<$Res> {
-  _$FailureCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? message = null,
-    Object? statusCode = freezed,
   }) {
-    return _then(_value.copyWith(
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-      statusCode: freezed == statusCode
-          ? _value.statusCode
-          : statusCode // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ) as $Val);
+    final _that = this;
+    switch (_that) {
+      case ServerFailure() when server != null:
+        return server(_that);
+      case NetworkFailure() when network != null:
+        return network(_that);
+      case CacheFailure() when cache != null:
+        return cache(_that);
+      case AuthFailure() when auth != null:
+        return auth(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ServerFailure value) server,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(CacheFailure value) cache,
+    required TResult Function(AuthFailure value) auth,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ServerFailure():
+        return server(_that);
+      case NetworkFailure():
+        return network(_that);
+      case CacheFailure():
+        return cache(_that);
+      case AuthFailure():
+        return auth(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ServerFailure value)? server,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(CacheFailure value)? cache,
+    TResult? Function(AuthFailure value)? auth,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ServerFailure() when server != null:
+        return server(_that);
+      case NetworkFailure() when network != null:
+        return network(_that);
+      case CacheFailure() when cache != null:
+        return cache(_that);
+      case AuthFailure() when auth != null:
+        return auth(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String message, int? statusCode)? server,
+    TResult Function(String message, int? statusCode)? network,
+    TResult Function(String message, int? statusCode)? cache,
+    TResult Function(String message, int? statusCode)? auth,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ServerFailure() when server != null:
+        return server(_that.message, _that.statusCode);
+      case NetworkFailure() when network != null:
+        return network(_that.message, _that.statusCode);
+      case CacheFailure() when cache != null:
+        return cache(_that.message, _that.statusCode);
+      case AuthFailure() when auth != null:
+        return auth(_that.message, _that.statusCode);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String message, int? statusCode) server,
+    required TResult Function(String message, int? statusCode) network,
+    required TResult Function(String message, int? statusCode) cache,
+    required TResult Function(String message, int? statusCode) auth,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ServerFailure():
+        return server(_that.message, _that.statusCode);
+      case NetworkFailure():
+        return network(_that.message, _that.statusCode);
+      case CacheFailure():
+        return cache(_that.message, _that.statusCode);
+      case AuthFailure():
+        return auth(_that.message, _that.statusCode);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String message, int? statusCode)? server,
+    TResult? Function(String message, int? statusCode)? network,
+    TResult? Function(String message, int? statusCode)? cache,
+    TResult? Function(String message, int? statusCode)? auth,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ServerFailure() when server != null:
+        return server(_that.message, _that.statusCode);
+      case NetworkFailure() when network != null:
+        return network(_that.message, _that.statusCode);
+      case CacheFailure() when cache != null:
+        return cache(_that.message, _that.statusCode);
+      case AuthFailure() when auth != null:
+        return auth(_that.message, _that.statusCode);
+      case _:
+        return null;
+    }
   }
 }
 
 /// @nodoc
-abstract class _$$ServerFailureImplCopyWith<$Res>
-    implements $FailureCopyWith<$Res> {
-  factory _$$ServerFailureImplCopyWith(
-          _$ServerFailureImpl value, $Res Function(_$ServerFailureImpl) then) =
-      __$$ServerFailureImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String message, int? statusCode});
-}
 
-/// @nodoc
-class __$$ServerFailureImplCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$ServerFailureImpl>
-    implements _$$ServerFailureImplCopyWith<$Res> {
-  __$$ServerFailureImplCopyWithImpl(
-      _$ServerFailureImpl _value, $Res Function(_$ServerFailureImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? message = null,
-    Object? statusCode = freezed,
-  }) {
-    return _then(_$ServerFailureImpl(
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-      statusCode: freezed == statusCode
-          ? _value.statusCode
-          : statusCode // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$ServerFailureImpl implements ServerFailure {
-  const _$ServerFailureImpl({required this.message, this.statusCode});
+class ServerFailure implements Failure {
+  const ServerFailure({required this.message, this.statusCode});
 
   @override
   final String message;
   @override
   final int? statusCode;
+
+  /// Create a copy of Failure
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ServerFailureCopyWith<ServerFailure> get copyWith =>
+      _$ServerFailureCopyWithImpl<ServerFailure>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ServerFailure &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.statusCode, statusCode) ||
+                other.statusCode == statusCode));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message, statusCode);
 
   @override
   String toString() {
     return 'Failure.server(message: $message, statusCode: $statusCode)';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ServerFailureImpl &&
-            (identical(other.message, message) || other.message == message) &&
-            (identical(other.statusCode, statusCode) ||
-                other.statusCode == statusCode));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, message, statusCode);
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ServerFailureImplCopyWith<_$ServerFailureImpl> get copyWith =>
-      __$$ServerFailureImplCopyWithImpl<_$ServerFailureImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String message, int? statusCode) server,
-    required TResult Function(String message, int? statusCode) network,
-    required TResult Function(String message, int? statusCode) cache,
-    required TResult Function(String message, int? statusCode) auth,
-  }) {
-    return server(message, statusCode);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String message, int? statusCode)? server,
-    TResult? Function(String message, int? statusCode)? network,
-    TResult? Function(String message, int? statusCode)? cache,
-    TResult? Function(String message, int? statusCode)? auth,
-  }) {
-    return server?.call(message, statusCode);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message, int? statusCode)? server,
-    TResult Function(String message, int? statusCode)? network,
-    TResult Function(String message, int? statusCode)? cache,
-    TResult Function(String message, int? statusCode)? auth,
-    required TResult orElse(),
-  }) {
-    if (server != null) {
-      return server(message, statusCode);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ServerFailure value) server,
-    required TResult Function(NetworkFailure value) network,
-    required TResult Function(CacheFailure value) cache,
-    required TResult Function(AuthFailure value) auth,
-  }) {
-    return server(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ServerFailure value)? server,
-    TResult? Function(NetworkFailure value)? network,
-    TResult? Function(CacheFailure value)? cache,
-    TResult? Function(AuthFailure value)? auth,
-  }) {
-    return server?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ServerFailure value)? server,
-    TResult Function(NetworkFailure value)? network,
-    TResult Function(CacheFailure value)? cache,
-    TResult Function(AuthFailure value)? auth,
-    required TResult orElse(),
-  }) {
-    if (server != null) {
-      return server(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ServerFailure implements Failure {
-  const factory ServerFailure(
-      {required final String message,
-      final int? statusCode}) = _$ServerFailureImpl;
-
-  @override
-  String get message;
-  @override
-  int? get statusCode;
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ServerFailureImplCopyWith<_$ServerFailureImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$NetworkFailureImplCopyWith<$Res>
+abstract mixin class $ServerFailureCopyWith<$Res>
     implements $FailureCopyWith<$Res> {
-  factory _$$NetworkFailureImplCopyWith(_$NetworkFailureImpl value,
-          $Res Function(_$NetworkFailureImpl) then) =
-      __$$NetworkFailureImplCopyWithImpl<$Res>;
+  factory $ServerFailureCopyWith(
+          ServerFailure value, $Res Function(ServerFailure) _then) =
+      _$ServerFailureCopyWithImpl;
   @override
   @useResult
   $Res call({String message, int? statusCode});
 }
 
 /// @nodoc
-class __$$NetworkFailureImplCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$NetworkFailureImpl>
-    implements _$$NetworkFailureImplCopyWith<$Res> {
-  __$$NetworkFailureImplCopyWithImpl(
-      _$NetworkFailureImpl _value, $Res Function(_$NetworkFailureImpl) _then)
-      : super(_value, _then);
+class _$ServerFailureCopyWithImpl<$Res>
+    implements $ServerFailureCopyWith<$Res> {
+  _$ServerFailureCopyWithImpl(this._self, this._then);
+
+  final ServerFailure _self;
+  final $Res Function(ServerFailure) _then;
 
   /// Create a copy of Failure
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
+  @pragma('vm:prefer-inline')
   $Res call({
     Object? message = null,
     Object? statusCode = freezed,
   }) {
-    return _then(_$NetworkFailureImpl(
+    return _then(ServerFailure(
       message: null == message
-          ? _value.message
+          ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
       statusCode: freezed == statusCode
-          ? _value.statusCode
+          ? _self.statusCode
           : statusCode // ignore: cast_nullable_to_non_nullable
               as int?,
     ));
@@ -325,168 +369,75 @@ class __$$NetworkFailureImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NetworkFailureImpl implements NetworkFailure {
-  const _$NetworkFailureImpl({required this.message, this.statusCode});
+class NetworkFailure implements Failure {
+  const NetworkFailure({required this.message, this.statusCode});
 
   @override
   final String message;
   @override
   final int? statusCode;
+
+  /// Create a copy of Failure
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $NetworkFailureCopyWith<NetworkFailure> get copyWith =>
+      _$NetworkFailureCopyWithImpl<NetworkFailure>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NetworkFailure &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.statusCode, statusCode) ||
+                other.statusCode == statusCode));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message, statusCode);
 
   @override
   String toString() {
     return 'Failure.network(message: $message, statusCode: $statusCode)';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$NetworkFailureImpl &&
-            (identical(other.message, message) || other.message == message) &&
-            (identical(other.statusCode, statusCode) ||
-                other.statusCode == statusCode));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, message, statusCode);
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$NetworkFailureImplCopyWith<_$NetworkFailureImpl> get copyWith =>
-      __$$NetworkFailureImplCopyWithImpl<_$NetworkFailureImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String message, int? statusCode) server,
-    required TResult Function(String message, int? statusCode) network,
-    required TResult Function(String message, int? statusCode) cache,
-    required TResult Function(String message, int? statusCode) auth,
-  }) {
-    return network(message, statusCode);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String message, int? statusCode)? server,
-    TResult? Function(String message, int? statusCode)? network,
-    TResult? Function(String message, int? statusCode)? cache,
-    TResult? Function(String message, int? statusCode)? auth,
-  }) {
-    return network?.call(message, statusCode);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message, int? statusCode)? server,
-    TResult Function(String message, int? statusCode)? network,
-    TResult Function(String message, int? statusCode)? cache,
-    TResult Function(String message, int? statusCode)? auth,
-    required TResult orElse(),
-  }) {
-    if (network != null) {
-      return network(message, statusCode);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ServerFailure value) server,
-    required TResult Function(NetworkFailure value) network,
-    required TResult Function(CacheFailure value) cache,
-    required TResult Function(AuthFailure value) auth,
-  }) {
-    return network(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ServerFailure value)? server,
-    TResult? Function(NetworkFailure value)? network,
-    TResult? Function(CacheFailure value)? cache,
-    TResult? Function(AuthFailure value)? auth,
-  }) {
-    return network?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ServerFailure value)? server,
-    TResult Function(NetworkFailure value)? network,
-    TResult Function(CacheFailure value)? cache,
-    TResult Function(AuthFailure value)? auth,
-    required TResult orElse(),
-  }) {
-    if (network != null) {
-      return network(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class NetworkFailure implements Failure {
-  const factory NetworkFailure(
-      {required final String message,
-      final int? statusCode}) = _$NetworkFailureImpl;
-
-  @override
-  String get message;
-  @override
-  int? get statusCode;
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NetworkFailureImplCopyWith<_$NetworkFailureImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$CacheFailureImplCopyWith<$Res>
+abstract mixin class $NetworkFailureCopyWith<$Res>
     implements $FailureCopyWith<$Res> {
-  factory _$$CacheFailureImplCopyWith(
-          _$CacheFailureImpl value, $Res Function(_$CacheFailureImpl) then) =
-      __$$CacheFailureImplCopyWithImpl<$Res>;
+  factory $NetworkFailureCopyWith(
+          NetworkFailure value, $Res Function(NetworkFailure) _then) =
+      _$NetworkFailureCopyWithImpl;
   @override
   @useResult
   $Res call({String message, int? statusCode});
 }
 
 /// @nodoc
-class __$$CacheFailureImplCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$CacheFailureImpl>
-    implements _$$CacheFailureImplCopyWith<$Res> {
-  __$$CacheFailureImplCopyWithImpl(
-      _$CacheFailureImpl _value, $Res Function(_$CacheFailureImpl) _then)
-      : super(_value, _then);
+class _$NetworkFailureCopyWithImpl<$Res>
+    implements $NetworkFailureCopyWith<$Res> {
+  _$NetworkFailureCopyWithImpl(this._self, this._then);
+
+  final NetworkFailure _self;
+  final $Res Function(NetworkFailure) _then;
 
   /// Create a copy of Failure
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
+  @pragma('vm:prefer-inline')
   $Res call({
     Object? message = null,
     Object? statusCode = freezed,
   }) {
-    return _then(_$CacheFailureImpl(
+    return _then(NetworkFailure(
       message: null == message
-          ? _value.message
+          ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
       statusCode: freezed == statusCode
-          ? _value.statusCode
+          ? _self.statusCode
           : statusCode // ignore: cast_nullable_to_non_nullable
               as int?,
     ));
@@ -495,167 +446,74 @@ class __$$CacheFailureImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CacheFailureImpl implements CacheFailure {
-  const _$CacheFailureImpl({required this.message, this.statusCode});
+class CacheFailure implements Failure {
+  const CacheFailure({required this.message, this.statusCode});
 
   @override
   final String message;
   @override
   final int? statusCode;
+
+  /// Create a copy of Failure
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $CacheFailureCopyWith<CacheFailure> get copyWith =>
+      _$CacheFailureCopyWithImpl<CacheFailure>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is CacheFailure &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.statusCode, statusCode) ||
+                other.statusCode == statusCode));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message, statusCode);
 
   @override
   String toString() {
     return 'Failure.cache(message: $message, statusCode: $statusCode)';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CacheFailureImpl &&
-            (identical(other.message, message) || other.message == message) &&
-            (identical(other.statusCode, statusCode) ||
-                other.statusCode == statusCode));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, message, statusCode);
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$CacheFailureImplCopyWith<_$CacheFailureImpl> get copyWith =>
-      __$$CacheFailureImplCopyWithImpl<_$CacheFailureImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String message, int? statusCode) server,
-    required TResult Function(String message, int? statusCode) network,
-    required TResult Function(String message, int? statusCode) cache,
-    required TResult Function(String message, int? statusCode) auth,
-  }) {
-    return cache(message, statusCode);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String message, int? statusCode)? server,
-    TResult? Function(String message, int? statusCode)? network,
-    TResult? Function(String message, int? statusCode)? cache,
-    TResult? Function(String message, int? statusCode)? auth,
-  }) {
-    return cache?.call(message, statusCode);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message, int? statusCode)? server,
-    TResult Function(String message, int? statusCode)? network,
-    TResult Function(String message, int? statusCode)? cache,
-    TResult Function(String message, int? statusCode)? auth,
-    required TResult orElse(),
-  }) {
-    if (cache != null) {
-      return cache(message, statusCode);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ServerFailure value) server,
-    required TResult Function(NetworkFailure value) network,
-    required TResult Function(CacheFailure value) cache,
-    required TResult Function(AuthFailure value) auth,
-  }) {
-    return cache(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ServerFailure value)? server,
-    TResult? Function(NetworkFailure value)? network,
-    TResult? Function(CacheFailure value)? cache,
-    TResult? Function(AuthFailure value)? auth,
-  }) {
-    return cache?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ServerFailure value)? server,
-    TResult Function(NetworkFailure value)? network,
-    TResult Function(CacheFailure value)? cache,
-    TResult Function(AuthFailure value)? auth,
-    required TResult orElse(),
-  }) {
-    if (cache != null) {
-      return cache(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class CacheFailure implements Failure {
-  const factory CacheFailure(
-      {required final String message,
-      final int? statusCode}) = _$CacheFailureImpl;
-
-  @override
-  String get message;
-  @override
-  int? get statusCode;
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CacheFailureImplCopyWith<_$CacheFailureImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$AuthFailureImplCopyWith<$Res>
+abstract mixin class $CacheFailureCopyWith<$Res>
     implements $FailureCopyWith<$Res> {
-  factory _$$AuthFailureImplCopyWith(
-          _$AuthFailureImpl value, $Res Function(_$AuthFailureImpl) then) =
-      __$$AuthFailureImplCopyWithImpl<$Res>;
+  factory $CacheFailureCopyWith(
+          CacheFailure value, $Res Function(CacheFailure) _then) =
+      _$CacheFailureCopyWithImpl;
   @override
   @useResult
   $Res call({String message, int? statusCode});
 }
 
 /// @nodoc
-class __$$AuthFailureImplCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$AuthFailureImpl>
-    implements _$$AuthFailureImplCopyWith<$Res> {
-  __$$AuthFailureImplCopyWithImpl(
-      _$AuthFailureImpl _value, $Res Function(_$AuthFailureImpl) _then)
-      : super(_value, _then);
+class _$CacheFailureCopyWithImpl<$Res> implements $CacheFailureCopyWith<$Res> {
+  _$CacheFailureCopyWithImpl(this._self, this._then);
+
+  final CacheFailure _self;
+  final $Res Function(CacheFailure) _then;
 
   /// Create a copy of Failure
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
+  @pragma('vm:prefer-inline')
   $Res call({
     Object? message = null,
     Object? statusCode = freezed,
   }) {
-    return _then(_$AuthFailureImpl(
+    return _then(CacheFailure(
       message: null == message
-          ? _value.message
+          ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
       statusCode: freezed == statusCode
-          ? _value.statusCode
+          ? _self.statusCode
           : statusCode // ignore: cast_nullable_to_non_nullable
               as int?,
     ));
@@ -664,24 +522,27 @@ class __$$AuthFailureImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AuthFailureImpl implements AuthFailure {
-  const _$AuthFailureImpl({required this.message, this.statusCode});
+class AuthFailure implements Failure {
+  const AuthFailure({required this.message, this.statusCode});
 
   @override
   final String message;
   @override
   final int? statusCode;
 
+  /// Create a copy of Failure
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'Failure.auth(message: $message, statusCode: $statusCode)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $AuthFailureCopyWith<AuthFailure> get copyWith =>
+      _$AuthFailureCopyWithImpl<AuthFailure>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AuthFailureImpl &&
+            other is AuthFailure &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.statusCode, statusCode) ||
                 other.statusCode == statusCode));
@@ -690,103 +551,49 @@ class _$AuthFailureImpl implements AuthFailure {
   @override
   int get hashCode => Object.hash(runtimeType, message, statusCode);
 
+  @override
+  String toString() {
+    return 'Failure.auth(message: $message, statusCode: $statusCode)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $AuthFailureCopyWith<$Res>
+    implements $FailureCopyWith<$Res> {
+  factory $AuthFailureCopyWith(
+          AuthFailure value, $Res Function(AuthFailure) _then) =
+      _$AuthFailureCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String message, int? statusCode});
+}
+
+/// @nodoc
+class _$AuthFailureCopyWithImpl<$Res> implements $AuthFailureCopyWith<$Res> {
+  _$AuthFailureCopyWithImpl(this._self, this._then);
+
+  final AuthFailure _self;
+  final $Res Function(AuthFailure) _then;
+
   /// Create a copy of Failure
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$AuthFailureImplCopyWith<_$AuthFailureImpl> get copyWith =>
-      __$$AuthFailureImplCopyWithImpl<_$AuthFailureImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String message, int? statusCode) server,
-    required TResult Function(String message, int? statusCode) network,
-    required TResult Function(String message, int? statusCode) cache,
-    required TResult Function(String message, int? statusCode) auth,
+  $Res call({
+    Object? message = null,
+    Object? statusCode = freezed,
   }) {
-    return auth(message, statusCode);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String message, int? statusCode)? server,
-    TResult? Function(String message, int? statusCode)? network,
-    TResult? Function(String message, int? statusCode)? cache,
-    TResult? Function(String message, int? statusCode)? auth,
-  }) {
-    return auth?.call(message, statusCode);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message, int? statusCode)? server,
-    TResult Function(String message, int? statusCode)? network,
-    TResult Function(String message, int? statusCode)? cache,
-    TResult Function(String message, int? statusCode)? auth,
-    required TResult orElse(),
-  }) {
-    if (auth != null) {
-      return auth(message, statusCode);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ServerFailure value) server,
-    required TResult Function(NetworkFailure value) network,
-    required TResult Function(CacheFailure value) cache,
-    required TResult Function(AuthFailure value) auth,
-  }) {
-    return auth(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ServerFailure value)? server,
-    TResult? Function(NetworkFailure value)? network,
-    TResult? Function(CacheFailure value)? cache,
-    TResult? Function(AuthFailure value)? auth,
-  }) {
-    return auth?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ServerFailure value)? server,
-    TResult Function(NetworkFailure value)? network,
-    TResult Function(CacheFailure value)? cache,
-    TResult Function(AuthFailure value)? auth,
-    required TResult orElse(),
-  }) {
-    if (auth != null) {
-      return auth(this);
-    }
-    return orElse();
+    return _then(AuthFailure(
+      message: null == message
+          ? _self.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      statusCode: freezed == statusCode
+          ? _self.statusCode
+          : statusCode // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
   }
 }
 
-abstract class AuthFailure implements Failure {
-  const factory AuthFailure(
-      {required final String message,
-      final int? statusCode}) = _$AuthFailureImpl;
-
-  @override
-  String get message;
-  @override
-  int? get statusCode;
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AuthFailureImplCopyWith<_$AuthFailureImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,170 +9,161 @@ part of 'auth_event.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$AuthEvent {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() checkAuthStatus,
-    required TResult Function(String email, String password, bool rememberMe)
-        loginRequested,
-    required TResult Function(String name, String email, String password)
-        registerRequested,
-    required TResult Function() logoutRequested,
-    required TResult Function(String email) forgotPasswordRequested,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? checkAuthStatus,
-    TResult? Function(String email, String password, bool rememberMe)?
-        loginRequested,
-    TResult? Function(String name, String email, String password)?
-        registerRequested,
-    TResult? Function()? logoutRequested,
-    TResult? Function(String email)? forgotPasswordRequested,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? checkAuthStatus,
-    TResult Function(String email, String password, bool rememberMe)?
-        loginRequested,
-    TResult Function(String name, String email, String password)?
-        registerRequested,
-    TResult Function()? logoutRequested,
-    TResult Function(String email)? forgotPasswordRequested,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AuthCheckStatusRequested value) checkAuthStatus,
-    required TResult Function(AuthLoginRequested value) loginRequested,
-    required TResult Function(AuthRegisterRequested value) registerRequested,
-    required TResult Function(AuthLogoutRequested value) logoutRequested,
-    required TResult Function(AuthForgotPasswordRequested value)
-        forgotPasswordRequested,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AuthCheckStatusRequested value)? checkAuthStatus,
-    TResult? Function(AuthLoginRequested value)? loginRequested,
-    TResult? Function(AuthRegisterRequested value)? registerRequested,
-    TResult? Function(AuthLogoutRequested value)? logoutRequested,
-    TResult? Function(AuthForgotPasswordRequested value)?
-        forgotPasswordRequested,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AuthCheckStatusRequested value)? checkAuthStatus,
-    TResult Function(AuthLoginRequested value)? loginRequested,
-    TResult Function(AuthRegisterRequested value)? registerRequested,
-    TResult Function(AuthLogoutRequested value)? logoutRequested,
-    TResult Function(AuthForgotPasswordRequested value)?
-        forgotPasswordRequested,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AuthEventCopyWith<$Res> {
-  factory $AuthEventCopyWith(AuthEvent value, $Res Function(AuthEvent) then) =
-      _$AuthEventCopyWithImpl<$Res, AuthEvent>;
-}
-
-/// @nodoc
-class _$AuthEventCopyWithImpl<$Res, $Val extends AuthEvent>
-    implements $AuthEventCopyWith<$Res> {
-  _$AuthEventCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-abstract class _$$AuthCheckStatusRequestedImplCopyWith<$Res> {
-  factory _$$AuthCheckStatusRequestedImplCopyWith(
-          _$AuthCheckStatusRequestedImpl value,
-          $Res Function(_$AuthCheckStatusRequestedImpl) then) =
-      __$$AuthCheckStatusRequestedImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$AuthCheckStatusRequestedImplCopyWithImpl<$Res>
-    extends _$AuthEventCopyWithImpl<$Res, _$AuthCheckStatusRequestedImpl>
-    implements _$$AuthCheckStatusRequestedImplCopyWith<$Res> {
-  __$$AuthCheckStatusRequestedImplCopyWithImpl(
-      _$AuthCheckStatusRequestedImpl _value,
-      $Res Function(_$AuthCheckStatusRequestedImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$AuthCheckStatusRequestedImpl implements AuthCheckStatusRequested {
-  const _$AuthCheckStatusRequestedImpl();
-
-  @override
-  String toString() {
-    return 'AuthEvent.checkAuthStatus()';
-  }
-
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AuthCheckStatusRequestedImpl);
+        (other.runtimeType == runtimeType && other is AuthEvent);
   }
 
   @override
   int get hashCode => runtimeType.hashCode;
 
   @override
+  String toString() {
+    return 'AuthEvent()';
+  }
+}
+
+/// @nodoc
+class $AuthEventCopyWith<$Res> {
+  $AuthEventCopyWith(AuthEvent _, $Res Function(AuthEvent) __);
+}
+
+/// Adds pattern-matching-related methods to [AuthEvent].
+extension AuthEventPatterns on AuthEvent {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
   @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() checkAuthStatus,
-    required TResult Function(String email, String password, bool rememberMe)
-        loginRequested,
-    required TResult Function(String name, String email, String password)
-        registerRequested,
-    required TResult Function() logoutRequested,
-    required TResult Function(String email) forgotPasswordRequested,
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AuthCheckStatusRequested value)? checkAuthStatus,
+    TResult Function(AuthLoginRequested value)? loginRequested,
+    TResult Function(AuthRegisterRequested value)? registerRequested,
+    TResult Function(AuthLogoutRequested value)? logoutRequested,
+    TResult Function(AuthForgotPasswordRequested value)?
+        forgotPasswordRequested,
+    required TResult orElse(),
   }) {
-    return checkAuthStatus();
+    final _that = this;
+    switch (_that) {
+      case AuthCheckStatusRequested() when checkAuthStatus != null:
+        return checkAuthStatus(_that);
+      case AuthLoginRequested() when loginRequested != null:
+        return loginRequested(_that);
+      case AuthRegisterRequested() when registerRequested != null:
+        return registerRequested(_that);
+      case AuthLogoutRequested() when logoutRequested != null:
+        return logoutRequested(_that);
+      case AuthForgotPasswordRequested() when forgotPasswordRequested != null:
+        return forgotPasswordRequested(_that);
+      case _:
+        return orElse();
+    }
   }
 
-  @override
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
   @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? checkAuthStatus,
-    TResult? Function(String email, String password, bool rememberMe)?
-        loginRequested,
-    TResult? Function(String name, String email, String password)?
-        registerRequested,
-    TResult? Function()? logoutRequested,
-    TResult? Function(String email)? forgotPasswordRequested,
+  TResult map<TResult extends Object?>({
+    required TResult Function(AuthCheckStatusRequested value) checkAuthStatus,
+    required TResult Function(AuthLoginRequested value) loginRequested,
+    required TResult Function(AuthRegisterRequested value) registerRequested,
+    required TResult Function(AuthLogoutRequested value) logoutRequested,
+    required TResult Function(AuthForgotPasswordRequested value)
+        forgotPasswordRequested,
   }) {
-    return checkAuthStatus?.call();
+    final _that = this;
+    switch (_that) {
+      case AuthCheckStatusRequested():
+        return checkAuthStatus(_that);
+      case AuthLoginRequested():
+        return loginRequested(_that);
+      case AuthRegisterRequested():
+        return registerRequested(_that);
+      case AuthLogoutRequested():
+        return logoutRequested(_that);
+      case AuthForgotPasswordRequested():
+        return forgotPasswordRequested(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
   }
 
-  @override
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(AuthCheckStatusRequested value)? checkAuthStatus,
+    TResult? Function(AuthLoginRequested value)? loginRequested,
+    TResult? Function(AuthRegisterRequested value)? registerRequested,
+    TResult? Function(AuthLogoutRequested value)? logoutRequested,
+    TResult? Function(AuthForgotPasswordRequested value)?
+        forgotPasswordRequested,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case AuthCheckStatusRequested() when checkAuthStatus != null:
+        return checkAuthStatus(_that);
+      case AuthLoginRequested() when loginRequested != null:
+        return loginRequested(_that);
+      case AuthRegisterRequested() when registerRequested != null:
+        return registerRequested(_that);
+      case AuthLogoutRequested() when logoutRequested != null:
+        return logoutRequested(_that);
+      case AuthForgotPasswordRequested() when forgotPasswordRequested != null:
+        return forgotPasswordRequested(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? checkAuthStatus,
@@ -184,127 +175,146 @@ class _$AuthCheckStatusRequestedImpl implements AuthCheckStatusRequested {
     TResult Function(String email)? forgotPasswordRequested,
     required TResult orElse(),
   }) {
-    if (checkAuthStatus != null) {
-      return checkAuthStatus();
+    final _that = this;
+    switch (_that) {
+      case AuthCheckStatusRequested() when checkAuthStatus != null:
+        return checkAuthStatus();
+      case AuthLoginRequested() when loginRequested != null:
+        return loginRequested(_that.email, _that.password, _that.rememberMe);
+      case AuthRegisterRequested() when registerRequested != null:
+        return registerRequested(_that.name, _that.email, _that.password);
+      case AuthLogoutRequested() when logoutRequested != null:
+        return logoutRequested();
+      case AuthForgotPasswordRequested() when forgotPasswordRequested != null:
+        return forgotPasswordRequested(_that.email);
+      case _:
+        return orElse();
     }
-    return orElse();
   }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AuthCheckStatusRequested value) checkAuthStatus,
-    required TResult Function(AuthLoginRequested value) loginRequested,
-    required TResult Function(AuthRegisterRequested value) registerRequested,
-    required TResult Function(AuthLogoutRequested value) logoutRequested,
-    required TResult Function(AuthForgotPasswordRequested value)
-        forgotPasswordRequested,
-  }) {
-    return checkAuthStatus(this);
-  }
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
 
-  @override
   @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AuthCheckStatusRequested value)? checkAuthStatus,
-    TResult? Function(AuthLoginRequested value)? loginRequested,
-    TResult? Function(AuthRegisterRequested value)? registerRequested,
-    TResult? Function(AuthLogoutRequested value)? logoutRequested,
-    TResult? Function(AuthForgotPasswordRequested value)?
-        forgotPasswordRequested,
+  TResult when<TResult extends Object?>({
+    required TResult Function() checkAuthStatus,
+    required TResult Function(String email, String password, bool rememberMe)
+        loginRequested,
+    required TResult Function(String name, String email, String password)
+        registerRequested,
+    required TResult Function() logoutRequested,
+    required TResult Function(String email) forgotPasswordRequested,
   }) {
-    return checkAuthStatus?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AuthCheckStatusRequested value)? checkAuthStatus,
-    TResult Function(AuthLoginRequested value)? loginRequested,
-    TResult Function(AuthRegisterRequested value)? registerRequested,
-    TResult Function(AuthLogoutRequested value)? logoutRequested,
-    TResult Function(AuthForgotPasswordRequested value)?
-        forgotPasswordRequested,
-    required TResult orElse(),
-  }) {
-    if (checkAuthStatus != null) {
-      return checkAuthStatus(this);
+    final _that = this;
+    switch (_that) {
+      case AuthCheckStatusRequested():
+        return checkAuthStatus();
+      case AuthLoginRequested():
+        return loginRequested(_that.email, _that.password, _that.rememberMe);
+      case AuthRegisterRequested():
+        return registerRequested(_that.name, _that.email, _that.password);
+      case AuthLogoutRequested():
+        return logoutRequested();
+      case AuthForgotPasswordRequested():
+        return forgotPasswordRequested(_that.email);
+      case _:
+        throw StateError('Unexpected subclass');
     }
-    return orElse();
   }
-}
 
-abstract class AuthCheckStatusRequested implements AuthEvent {
-  const factory AuthCheckStatusRequested() = _$AuthCheckStatusRequestedImpl;
-}
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
 
-/// @nodoc
-abstract class _$$AuthLoginRequestedImplCopyWith<$Res> {
-  factory _$$AuthLoginRequestedImplCopyWith(_$AuthLoginRequestedImpl value,
-          $Res Function(_$AuthLoginRequestedImpl) then) =
-      __$$AuthLoginRequestedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String email, String password, bool rememberMe});
-}
-
-/// @nodoc
-class __$$AuthLoginRequestedImplCopyWithImpl<$Res>
-    extends _$AuthEventCopyWithImpl<$Res, _$AuthLoginRequestedImpl>
-    implements _$$AuthLoginRequestedImplCopyWith<$Res> {
-  __$$AuthLoginRequestedImplCopyWithImpl(_$AuthLoginRequestedImpl _value,
-      $Res Function(_$AuthLoginRequestedImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? email = null,
-    Object? password = null,
-    Object? rememberMe = null,
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? checkAuthStatus,
+    TResult? Function(String email, String password, bool rememberMe)?
+        loginRequested,
+    TResult? Function(String name, String email, String password)?
+        registerRequested,
+    TResult? Function()? logoutRequested,
+    TResult? Function(String email)? forgotPasswordRequested,
   }) {
-    return _then(_$AuthLoginRequestedImpl(
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
-      rememberMe: null == rememberMe
-          ? _value.rememberMe
-          : rememberMe // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    final _that = this;
+    switch (_that) {
+      case AuthCheckStatusRequested() when checkAuthStatus != null:
+        return checkAuthStatus();
+      case AuthLoginRequested() when loginRequested != null:
+        return loginRequested(_that.email, _that.password, _that.rememberMe);
+      case AuthRegisterRequested() when registerRequested != null:
+        return registerRequested(_that.name, _that.email, _that.password);
+      case AuthLogoutRequested() when logoutRequested != null:
+        return logoutRequested();
+      case AuthForgotPasswordRequested() when forgotPasswordRequested != null:
+        return forgotPasswordRequested(_that.email);
+      case _:
+        return null;
+    }
   }
 }
 
 /// @nodoc
 
-class _$AuthLoginRequestedImpl implements AuthLoginRequested {
-  const _$AuthLoginRequestedImpl(
-      {required this.email, required this.password, this.rememberMe = false});
+class AuthCheckStatusRequested implements AuthEvent {
+  const AuthCheckStatusRequested();
 
   @override
-  final String email;
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is AuthCheckStatusRequested);
+  }
+
   @override
-  final String password;
-  @override
-  @JsonKey()
-  final bool rememberMe;
+  int get hashCode => runtimeType.hashCode;
 
   @override
   String toString() {
-    return 'AuthEvent.loginRequested(email: $email, password: $password, rememberMe: $rememberMe)';
+    return 'AuthEvent.checkAuthStatus()';
   }
+}
+
+/// @nodoc
+
+class AuthLoginRequested implements AuthEvent {
+  const AuthLoginRequested(
+      {required this.email, required this.password, this.rememberMe = false});
+
+  final String email;
+  final String password;
+  @JsonKey()
+  final bool rememberMe;
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $AuthLoginRequestedCopyWith<AuthLoginRequested> get copyWith =>
+      _$AuthLoginRequestedCopyWithImpl<AuthLoginRequested>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AuthLoginRequestedImpl &&
+            other is AuthLoginRequested &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password) &&
@@ -315,189 +325,78 @@ class _$AuthLoginRequestedImpl implements AuthLoginRequested {
   @override
   int get hashCode => Object.hash(runtimeType, email, password, rememberMe);
 
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$AuthLoginRequestedImplCopyWith<_$AuthLoginRequestedImpl> get copyWith =>
-      __$$AuthLoginRequestedImplCopyWithImpl<_$AuthLoginRequestedImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() checkAuthStatus,
-    required TResult Function(String email, String password, bool rememberMe)
-        loginRequested,
-    required TResult Function(String name, String email, String password)
-        registerRequested,
-    required TResult Function() logoutRequested,
-    required TResult Function(String email) forgotPasswordRequested,
-  }) {
-    return loginRequested(email, password, rememberMe);
+  String toString() {
+    return 'AuthEvent.loginRequested(email: $email, password: $password, rememberMe: $rememberMe)';
   }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? checkAuthStatus,
-    TResult? Function(String email, String password, bool rememberMe)?
-        loginRequested,
-    TResult? Function(String name, String email, String password)?
-        registerRequested,
-    TResult? Function()? logoutRequested,
-    TResult? Function(String email)? forgotPasswordRequested,
-  }) {
-    return loginRequested?.call(email, password, rememberMe);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? checkAuthStatus,
-    TResult Function(String email, String password, bool rememberMe)?
-        loginRequested,
-    TResult Function(String name, String email, String password)?
-        registerRequested,
-    TResult Function()? logoutRequested,
-    TResult Function(String email)? forgotPasswordRequested,
-    required TResult orElse(),
-  }) {
-    if (loginRequested != null) {
-      return loginRequested(email, password, rememberMe);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AuthCheckStatusRequested value) checkAuthStatus,
-    required TResult Function(AuthLoginRequested value) loginRequested,
-    required TResult Function(AuthRegisterRequested value) registerRequested,
-    required TResult Function(AuthLogoutRequested value) logoutRequested,
-    required TResult Function(AuthForgotPasswordRequested value)
-        forgotPasswordRequested,
-  }) {
-    return loginRequested(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AuthCheckStatusRequested value)? checkAuthStatus,
-    TResult? Function(AuthLoginRequested value)? loginRequested,
-    TResult? Function(AuthRegisterRequested value)? registerRequested,
-    TResult? Function(AuthLogoutRequested value)? logoutRequested,
-    TResult? Function(AuthForgotPasswordRequested value)?
-        forgotPasswordRequested,
-  }) {
-    return loginRequested?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AuthCheckStatusRequested value)? checkAuthStatus,
-    TResult Function(AuthLoginRequested value)? loginRequested,
-    TResult Function(AuthRegisterRequested value)? registerRequested,
-    TResult Function(AuthLogoutRequested value)? logoutRequested,
-    TResult Function(AuthForgotPasswordRequested value)?
-        forgotPasswordRequested,
-    required TResult orElse(),
-  }) {
-    if (loginRequested != null) {
-      return loginRequested(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class AuthLoginRequested implements AuthEvent {
-  const factory AuthLoginRequested(
-      {required final String email,
-      required final String password,
-      final bool rememberMe}) = _$AuthLoginRequestedImpl;
-
-  String get email;
-  String get password;
-  bool get rememberMe;
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AuthLoginRequestedImplCopyWith<_$AuthLoginRequestedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$AuthRegisterRequestedImplCopyWith<$Res> {
-  factory _$$AuthRegisterRequestedImplCopyWith(
-          _$AuthRegisterRequestedImpl value,
-          $Res Function(_$AuthRegisterRequestedImpl) then) =
-      __$$AuthRegisterRequestedImplCopyWithImpl<$Res>;
+abstract mixin class $AuthLoginRequestedCopyWith<$Res>
+    implements $AuthEventCopyWith<$Res> {
+  factory $AuthLoginRequestedCopyWith(
+          AuthLoginRequested value, $Res Function(AuthLoginRequested) _then) =
+      _$AuthLoginRequestedCopyWithImpl;
   @useResult
-  $Res call({String name, String email, String password});
+  $Res call({String email, String password, bool rememberMe});
 }
 
 /// @nodoc
-class __$$AuthRegisterRequestedImplCopyWithImpl<$Res>
-    extends _$AuthEventCopyWithImpl<$Res, _$AuthRegisterRequestedImpl>
-    implements _$$AuthRegisterRequestedImplCopyWith<$Res> {
-  __$$AuthRegisterRequestedImplCopyWithImpl(_$AuthRegisterRequestedImpl _value,
-      $Res Function(_$AuthRegisterRequestedImpl) _then)
-      : super(_value, _then);
+class _$AuthLoginRequestedCopyWithImpl<$Res>
+    implements $AuthLoginRequestedCopyWith<$Res> {
+  _$AuthLoginRequestedCopyWithImpl(this._self, this._then);
+
+  final AuthLoginRequested _self;
+  final $Res Function(AuthLoginRequested) _then;
 
   /// Create a copy of AuthEvent
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
-  @override
   $Res call({
-    Object? name = null,
     Object? email = null,
     Object? password = null,
+    Object? rememberMe = null,
   }) {
-    return _then(_$AuthRegisterRequestedImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
+    return _then(AuthLoginRequested(
       email: null == email
-          ? _value.email
+          ? _self.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
       password: null == password
-          ? _value.password
+          ? _self.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
+      rememberMe: null == rememberMe
+          ? _self.rememberMe
+          : rememberMe // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// @nodoc
 
-class _$AuthRegisterRequestedImpl implements AuthRegisterRequested {
-  const _$AuthRegisterRequestedImpl(
+class AuthRegisterRequested implements AuthEvent {
+  const AuthRegisterRequested(
       {required this.name, required this.email, required this.password});
 
-  @override
   final String name;
-  @override
   final String email;
-  @override
   final String password;
 
-  @override
-  String toString() {
-    return 'AuthEvent.registerRequested(name: $name, email: $email, password: $password)';
-  }
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $AuthRegisterRequestedCopyWith<AuthRegisterRequested> get copyWith =>
+      _$AuthRegisterRequestedCopyWithImpl<AuthRegisterRequested>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AuthRegisterRequestedImpl &&
+            other is AuthRegisterRequested &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
@@ -507,285 +406,50 @@ class _$AuthRegisterRequestedImpl implements AuthRegisterRequested {
   @override
   int get hashCode => Object.hash(runtimeType, name, email, password);
 
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AuthRegisterRequestedImplCopyWith<_$AuthRegisterRequestedImpl>
-      get copyWith => __$$AuthRegisterRequestedImplCopyWithImpl<
-          _$AuthRegisterRequestedImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() checkAuthStatus,
-    required TResult Function(String email, String password, bool rememberMe)
-        loginRequested,
-    required TResult Function(String name, String email, String password)
-        registerRequested,
-    required TResult Function() logoutRequested,
-    required TResult Function(String email) forgotPasswordRequested,
-  }) {
-    return registerRequested(name, email, password);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? checkAuthStatus,
-    TResult? Function(String email, String password, bool rememberMe)?
-        loginRequested,
-    TResult? Function(String name, String email, String password)?
-        registerRequested,
-    TResult? Function()? logoutRequested,
-    TResult? Function(String email)? forgotPasswordRequested,
-  }) {
-    return registerRequested?.call(name, email, password);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? checkAuthStatus,
-    TResult Function(String email, String password, bool rememberMe)?
-        loginRequested,
-    TResult Function(String name, String email, String password)?
-        registerRequested,
-    TResult Function()? logoutRequested,
-    TResult Function(String email)? forgotPasswordRequested,
-    required TResult orElse(),
-  }) {
-    if (registerRequested != null) {
-      return registerRequested(name, email, password);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AuthCheckStatusRequested value) checkAuthStatus,
-    required TResult Function(AuthLoginRequested value) loginRequested,
-    required TResult Function(AuthRegisterRequested value) registerRequested,
-    required TResult Function(AuthLogoutRequested value) logoutRequested,
-    required TResult Function(AuthForgotPasswordRequested value)
-        forgotPasswordRequested,
-  }) {
-    return registerRequested(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AuthCheckStatusRequested value)? checkAuthStatus,
-    TResult? Function(AuthLoginRequested value)? loginRequested,
-    TResult? Function(AuthRegisterRequested value)? registerRequested,
-    TResult? Function(AuthLogoutRequested value)? logoutRequested,
-    TResult? Function(AuthForgotPasswordRequested value)?
-        forgotPasswordRequested,
-  }) {
-    return registerRequested?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AuthCheckStatusRequested value)? checkAuthStatus,
-    TResult Function(AuthLoginRequested value)? loginRequested,
-    TResult Function(AuthRegisterRequested value)? registerRequested,
-    TResult Function(AuthLogoutRequested value)? logoutRequested,
-    TResult Function(AuthForgotPasswordRequested value)?
-        forgotPasswordRequested,
-    required TResult orElse(),
-  }) {
-    if (registerRequested != null) {
-      return registerRequested(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class AuthRegisterRequested implements AuthEvent {
-  const factory AuthRegisterRequested(
-      {required final String name,
-      required final String email,
-      required final String password}) = _$AuthRegisterRequestedImpl;
-
-  String get name;
-  String get email;
-  String get password;
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AuthRegisterRequestedImplCopyWith<_$AuthRegisterRequestedImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$AuthLogoutRequestedImplCopyWith<$Res> {
-  factory _$$AuthLogoutRequestedImplCopyWith(_$AuthLogoutRequestedImpl value,
-          $Res Function(_$AuthLogoutRequestedImpl) then) =
-      __$$AuthLogoutRequestedImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$AuthLogoutRequestedImplCopyWithImpl<$Res>
-    extends _$AuthEventCopyWithImpl<$Res, _$AuthLogoutRequestedImpl>
-    implements _$$AuthLogoutRequestedImplCopyWith<$Res> {
-  __$$AuthLogoutRequestedImplCopyWithImpl(_$AuthLogoutRequestedImpl _value,
-      $Res Function(_$AuthLogoutRequestedImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$AuthLogoutRequestedImpl implements AuthLogoutRequested {
-  const _$AuthLogoutRequestedImpl();
-
   @override
   String toString() {
-    return 'AuthEvent.logoutRequested()';
+    return 'AuthEvent.registerRequested(name: $name, email: $email, password: $password)';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AuthLogoutRequestedImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() checkAuthStatus,
-    required TResult Function(String email, String password, bool rememberMe)
-        loginRequested,
-    required TResult Function(String name, String email, String password)
-        registerRequested,
-    required TResult Function() logoutRequested,
-    required TResult Function(String email) forgotPasswordRequested,
-  }) {
-    return logoutRequested();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? checkAuthStatus,
-    TResult? Function(String email, String password, bool rememberMe)?
-        loginRequested,
-    TResult? Function(String name, String email, String password)?
-        registerRequested,
-    TResult? Function()? logoutRequested,
-    TResult? Function(String email)? forgotPasswordRequested,
-  }) {
-    return logoutRequested?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? checkAuthStatus,
-    TResult Function(String email, String password, bool rememberMe)?
-        loginRequested,
-    TResult Function(String name, String email, String password)?
-        registerRequested,
-    TResult Function()? logoutRequested,
-    TResult Function(String email)? forgotPasswordRequested,
-    required TResult orElse(),
-  }) {
-    if (logoutRequested != null) {
-      return logoutRequested();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AuthCheckStatusRequested value) checkAuthStatus,
-    required TResult Function(AuthLoginRequested value) loginRequested,
-    required TResult Function(AuthRegisterRequested value) registerRequested,
-    required TResult Function(AuthLogoutRequested value) logoutRequested,
-    required TResult Function(AuthForgotPasswordRequested value)
-        forgotPasswordRequested,
-  }) {
-    return logoutRequested(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AuthCheckStatusRequested value)? checkAuthStatus,
-    TResult? Function(AuthLoginRequested value)? loginRequested,
-    TResult? Function(AuthRegisterRequested value)? registerRequested,
-    TResult? Function(AuthLogoutRequested value)? logoutRequested,
-    TResult? Function(AuthForgotPasswordRequested value)?
-        forgotPasswordRequested,
-  }) {
-    return logoutRequested?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AuthCheckStatusRequested value)? checkAuthStatus,
-    TResult Function(AuthLoginRequested value)? loginRequested,
-    TResult Function(AuthRegisterRequested value)? registerRequested,
-    TResult Function(AuthLogoutRequested value)? logoutRequested,
-    TResult Function(AuthForgotPasswordRequested value)?
-        forgotPasswordRequested,
-    required TResult orElse(),
-  }) {
-    if (logoutRequested != null) {
-      return logoutRequested(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class AuthLogoutRequested implements AuthEvent {
-  const factory AuthLogoutRequested() = _$AuthLogoutRequestedImpl;
 }
 
 /// @nodoc
-abstract class _$$AuthForgotPasswordRequestedImplCopyWith<$Res> {
-  factory _$$AuthForgotPasswordRequestedImplCopyWith(
-          _$AuthForgotPasswordRequestedImpl value,
-          $Res Function(_$AuthForgotPasswordRequestedImpl) then) =
-      __$$AuthForgotPasswordRequestedImplCopyWithImpl<$Res>;
+abstract mixin class $AuthRegisterRequestedCopyWith<$Res>
+    implements $AuthEventCopyWith<$Res> {
+  factory $AuthRegisterRequestedCopyWith(AuthRegisterRequested value,
+          $Res Function(AuthRegisterRequested) _then) =
+      _$AuthRegisterRequestedCopyWithImpl;
   @useResult
-  $Res call({String email});
+  $Res call({String name, String email, String password});
 }
 
 /// @nodoc
-class __$$AuthForgotPasswordRequestedImplCopyWithImpl<$Res>
-    extends _$AuthEventCopyWithImpl<$Res, _$AuthForgotPasswordRequestedImpl>
-    implements _$$AuthForgotPasswordRequestedImplCopyWith<$Res> {
-  __$$AuthForgotPasswordRequestedImplCopyWithImpl(
-      _$AuthForgotPasswordRequestedImpl _value,
-      $Res Function(_$AuthForgotPasswordRequestedImpl) _then)
-      : super(_value, _then);
+class _$AuthRegisterRequestedCopyWithImpl<$Res>
+    implements $AuthRegisterRequestedCopyWith<$Res> {
+  _$AuthRegisterRequestedCopyWithImpl(this._self, this._then);
+
+  final AuthRegisterRequested _self;
+  final $Res Function(AuthRegisterRequested) _then;
 
   /// Create a copy of AuthEvent
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
-  @override
   $Res call({
+    Object? name = null,
     Object? email = null,
+    Object? password = null,
   }) {
-    return _then(_$AuthForgotPasswordRequestedImpl(
+    return _then(AuthRegisterRequested(
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
       email: null == email
-          ? _value.email
+          ? _self.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      password: null == password
+          ? _self.password
+          : password // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -793,136 +457,88 @@ class __$$AuthForgotPasswordRequestedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AuthForgotPasswordRequestedImpl implements AuthForgotPasswordRequested {
-  const _$AuthForgotPasswordRequestedImpl({required this.email});
+class AuthLogoutRequested implements AuthEvent {
+  const AuthLogoutRequested();
 
   @override
-  final String email;
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is AuthLogoutRequested);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
 
   @override
   String toString() {
-    return 'AuthEvent.forgotPasswordRequested(email: $email)';
+    return 'AuthEvent.logoutRequested()';
   }
+}
+
+/// @nodoc
+
+class AuthForgotPasswordRequested implements AuthEvent {
+  const AuthForgotPasswordRequested({required this.email});
+
+  final String email;
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $AuthForgotPasswordRequestedCopyWith<AuthForgotPasswordRequested>
+      get copyWith => _$AuthForgotPasswordRequestedCopyWithImpl<
+          AuthForgotPasswordRequested>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AuthForgotPasswordRequestedImpl &&
+            other is AuthForgotPasswordRequested &&
             (identical(other.email, email) || other.email == email));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, email);
 
+  @override
+  String toString() {
+    return 'AuthEvent.forgotPasswordRequested(email: $email)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $AuthForgotPasswordRequestedCopyWith<$Res>
+    implements $AuthEventCopyWith<$Res> {
+  factory $AuthForgotPasswordRequestedCopyWith(
+          AuthForgotPasswordRequested value,
+          $Res Function(AuthForgotPasswordRequested) _then) =
+      _$AuthForgotPasswordRequestedCopyWithImpl;
+  @useResult
+  $Res call({String email});
+}
+
+/// @nodoc
+class _$AuthForgotPasswordRequestedCopyWithImpl<$Res>
+    implements $AuthForgotPasswordRequestedCopyWith<$Res> {
+  _$AuthForgotPasswordRequestedCopyWithImpl(this._self, this._then);
+
+  final AuthForgotPasswordRequested _self;
+  final $Res Function(AuthForgotPasswordRequested) _then;
+
   /// Create a copy of AuthEvent
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
   @pragma('vm:prefer-inline')
-  _$$AuthForgotPasswordRequestedImplCopyWith<_$AuthForgotPasswordRequestedImpl>
-      get copyWith => __$$AuthForgotPasswordRequestedImplCopyWithImpl<
-          _$AuthForgotPasswordRequestedImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() checkAuthStatus,
-    required TResult Function(String email, String password, bool rememberMe)
-        loginRequested,
-    required TResult Function(String name, String email, String password)
-        registerRequested,
-    required TResult Function() logoutRequested,
-    required TResult Function(String email) forgotPasswordRequested,
+  $Res call({
+    Object? email = null,
   }) {
-    return forgotPasswordRequested(email);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? checkAuthStatus,
-    TResult? Function(String email, String password, bool rememberMe)?
-        loginRequested,
-    TResult? Function(String name, String email, String password)?
-        registerRequested,
-    TResult? Function()? logoutRequested,
-    TResult? Function(String email)? forgotPasswordRequested,
-  }) {
-    return forgotPasswordRequested?.call(email);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? checkAuthStatus,
-    TResult Function(String email, String password, bool rememberMe)?
-        loginRequested,
-    TResult Function(String name, String email, String password)?
-        registerRequested,
-    TResult Function()? logoutRequested,
-    TResult Function(String email)? forgotPasswordRequested,
-    required TResult orElse(),
-  }) {
-    if (forgotPasswordRequested != null) {
-      return forgotPasswordRequested(email);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AuthCheckStatusRequested value) checkAuthStatus,
-    required TResult Function(AuthLoginRequested value) loginRequested,
-    required TResult Function(AuthRegisterRequested value) registerRequested,
-    required TResult Function(AuthLogoutRequested value) logoutRequested,
-    required TResult Function(AuthForgotPasswordRequested value)
-        forgotPasswordRequested,
-  }) {
-    return forgotPasswordRequested(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AuthCheckStatusRequested value)? checkAuthStatus,
-    TResult? Function(AuthLoginRequested value)? loginRequested,
-    TResult? Function(AuthRegisterRequested value)? registerRequested,
-    TResult? Function(AuthLogoutRequested value)? logoutRequested,
-    TResult? Function(AuthForgotPasswordRequested value)?
-        forgotPasswordRequested,
-  }) {
-    return forgotPasswordRequested?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AuthCheckStatusRequested value)? checkAuthStatus,
-    TResult Function(AuthLoginRequested value)? loginRequested,
-    TResult Function(AuthRegisterRequested value)? registerRequested,
-    TResult Function(AuthLogoutRequested value)? logoutRequested,
-    TResult Function(AuthForgotPasswordRequested value)?
-        forgotPasswordRequested,
-    required TResult orElse(),
-  }) {
-    if (forgotPasswordRequested != null) {
-      return forgotPasswordRequested(this);
-    }
-    return orElse();
+    return _then(AuthForgotPasswordRequested(
+      email: null == email
+          ? _self.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
   }
 }
 
-abstract class AuthForgotPasswordRequested implements AuthEvent {
-  const factory AuthForgotPasswordRequested({required final String email}) =
-      _$AuthForgotPasswordRequestedImpl;
-
-  String get email;
-
-  /// Create a copy of AuthEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AuthForgotPasswordRequestedImplCopyWith<_$AuthForgotPasswordRequestedImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

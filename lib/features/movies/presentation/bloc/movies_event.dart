@@ -5,7 +5,7 @@ import '../../domain/entities/movie.dart';
 part 'movies_event.freezed.dart';
 
 @freezed
-class MoviesEvent with _$MoviesEvent {
+abstract class MoviesEvent with _$MoviesEvent {
   const factory MoviesEvent.loadPopularMovies() = LoadPopularMovies;
   const factory MoviesEvent.loadMoreMovies() = LoadMoreMovies;
   const factory MoviesEvent.refreshMovies() = RefreshMovies;

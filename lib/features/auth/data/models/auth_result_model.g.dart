@@ -6,20 +6,20 @@ part of 'auth_result_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$AuthResultModelImpl _$$AuthResultModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$AuthResultModelImpl(
-      user: UserModel.fromJson(json['user'] as Map<String, dynamic>),
+_AuthResultModel _$AuthResultModelFromJson(Map<String, dynamic> json) =>
+    _AuthResultModel(
+      id: json['_id'] as String,
+      name: json['name'] as String,
+      email: json['email'] as String,
+      photoUrl: json['photoUrl'] as String?,
       token: json['token'] as String,
-      refreshToken: json['refresh_token'] as String,
-      expiresIn: (json['expires_in'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$AuthResultModelImplToJson(
-        _$AuthResultModelImpl instance) =>
+Map<String, dynamic> _$AuthResultModelToJson(_AuthResultModel instance) =>
     <String, dynamic>{
-      'user': instance.user,
+      '_id': instance.id,
+      'name': instance.name,
+      'email': instance.email,
+      'photoUrl': instance.photoUrl,
       'token': instance.token,
-      'refresh_token': instance.refreshToken,
-      'expires_in': instance.expiresIn,
     };

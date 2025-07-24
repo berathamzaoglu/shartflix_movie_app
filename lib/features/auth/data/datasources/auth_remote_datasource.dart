@@ -2,6 +2,7 @@ import '../../../../core/error/exceptions.dart';
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/network/dio_client.dart';
 import '../../../../core/utils/logger.dart';
+import '../models/auth_response_model.dart';
 import '../models/auth_result_model.dart';
 import '../models/user_model.dart';
 
@@ -48,22 +49,26 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        final data = response.data as Map<String, dynamic>;
+        final responseData = response.data as Map<String, dynamic>;
         
-        // Store token
-        final token = data['token'] as String;
-        await _dioClient.setToken(token);
+        // Parse the API response structure
+        final authResponse = AuthResponseModel.fromJson(responseData);
         
-        // Create auth result model
-        final authResult = AuthResultModel(
-          user: UserModel.fromJson(data['user']),
-          token: token,
-          refreshToken: token, // Using same token as refresh for now
-          expiresIn: 3600, // 1 hour default
-        );
-        
-        Logger.info('Login successful for user: ${authResult.user.email}');
-        return authResult;
+        if (authResponse.response.code == 200 && authResponse.data != null) {
+          final data = authResponse.data!;
+          
+          // Store token
+          final token = data.token;
+          await _dioClient.setToken(token);
+          
+          Logger.info('Login successful for user: ${data.email}');
+          return data;
+        } else {
+          throw ServerException(
+            message: authResponse.response.message ?? 'Login failed',
+            statusCode: authResponse.response.code,
+          );
+        }
       } else {
         throw ServerException(
           message: 'Login failed with status: ${response.statusCode}',
@@ -99,22 +104,26 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.statusCode == 201) {
-        final data = response.data as Map<String, dynamic>;
+        final responseData = response.data as Map<String, dynamic>;
         
-        // Store token
-        final token = data['token'] as String;
-        await _dioClient.setToken(token);
+        // Parse the API response structure
+        final authResponse = AuthResponseModel.fromJson(responseData);
         
-        // Create auth result model
-        final authResult = AuthResultModel(
-          user: UserModel.fromJson(data['user']),
-          token: token,
-          refreshToken: token, // Using same token as refresh for now
-          expiresIn: 3600, // 1 hour default
-        );
-        
-        Logger.info('Registration successful for user: ${authResult.user.email}');
-        return authResult;
+        if (authResponse.response.code == 200 && authResponse.data != null) {
+          final data = authResponse.data!;
+          
+          // Store token
+          final token = data.token;
+          await _dioClient.setToken(token);
+          
+          Logger.info('Registration successful for user: ${data.email}');
+          return data;
+        } else {
+          throw ServerException(
+            message: authResponse.response.message ?? 'Registration failed',
+            statusCode: authResponse.response.code,
+          );
+        }
       } else {
         throw ServerException(
           message: 'Registration failed with status: ${response.statusCode}',

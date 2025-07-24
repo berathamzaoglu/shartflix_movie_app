@@ -37,9 +37,15 @@ class AuthRepositoryImpl implements AuthRepository {
         );
         
         // Cache user and tokens
-        await localDataSource.cacheUser(result.user);
+        final userModel = UserModel(
+          id: result.id,
+          name: result.name,
+          email: result.email,
+          profilePhoto: result.photoUrl,
+        );
+        await localDataSource.cacheUser(userModel);
         await localDataSource.saveToken(result.token);
-        await localDataSource.saveRefreshToken(result.refreshToken);
+        await localDataSource.saveRefreshToken(result.token); // Using same token as refresh
         
         return Right(result.toEntity());
       } on AuthException catch (e) {
@@ -82,9 +88,15 @@ class AuthRepositoryImpl implements AuthRepository {
         );
         
         // Cache user and tokens
-        await localDataSource.cacheUser(result.user);
+        final userModel = UserModel(
+          id: result.id,
+          name: result.name,
+          email: result.email,
+          profilePhoto: result.photoUrl,
+        );
+        await localDataSource.cacheUser(userModel);
         await localDataSource.saveToken(result.token);
-        await localDataSource.saveRefreshToken(result.refreshToken);
+        await localDataSource.saveRefreshToken(result.token); // Using same token as refresh
         
         return Right(result.toEntity());
       } on AuthException catch (e) {

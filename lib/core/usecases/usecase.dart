@@ -10,6 +10,6 @@ abstract class UseCase<Type, Params> {
 }
 
 @freezed
-class NoParams with _$NoParams {
+abstract class NoParams with _$NoParams {
   const factory NoParams() = _NoParams;
 } 

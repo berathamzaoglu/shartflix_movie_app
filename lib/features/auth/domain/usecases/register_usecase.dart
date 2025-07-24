@@ -7,6 +7,7 @@ import '../entities/auth_result.dart';
 import '../repositories/auth_repository.dart';
 
 part 'register_usecase.freezed.dart';
+part 'register_usecase.g.dart';
 
 class RegisterUseCase implements UseCase<AuthResult, RegisterParams> {
   final AuthRepository repository;
@@ -24,10 +25,13 @@ class RegisterUseCase implements UseCase<AuthResult, RegisterParams> {
 }
 
 @freezed
-class RegisterParams with _$RegisterParams {
+abstract class RegisterParams with _$RegisterParams {
   const factory RegisterParams({
     required String name,
     required String email,
     required String password,
   }) = _RegisterParams;
+
+  factory RegisterParams.fromJson(Map<String, dynamic> json) =>
+      _$RegisterParamsFromJson(json);
 } 

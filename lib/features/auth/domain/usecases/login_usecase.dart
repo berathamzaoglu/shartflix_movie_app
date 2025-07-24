@@ -7,6 +7,7 @@ import '../entities/auth_result.dart';
 import '../repositories/auth_repository.dart';
 
 part 'login_usecase.freezed.dart';
+part 'login_usecase.g.dart';
 
 class LoginUseCase implements UseCase<AuthResult, LoginParams> {
   final AuthRepository repository;
@@ -24,10 +25,13 @@ class LoginUseCase implements UseCase<AuthResult, LoginParams> {
 }
 
 @freezed
-class LoginParams with _$LoginParams {
+abstract class LoginParams with _$LoginParams {
   const factory LoginParams({
     required String email,
     required String password,
     @Default(false) bool rememberMe,
   }) = _LoginParams;
+
+  factory LoginParams.fromJson(Map<String, dynamic> json) =>
+      _$LoginParamsFromJson(json);
 } 

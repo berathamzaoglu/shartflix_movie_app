@@ -6,7 +6,7 @@ part 'movies_response_model.freezed.dart';
 part 'movies_response_model.g.dart';
 
 @freezed
-class MoviesResponseModel with _$MoviesResponseModel {
+abstract class MoviesResponseModel with _$MoviesResponseModel {
   const factory MoviesResponseModel({
     required int page,
     required List<MovieModel> results,

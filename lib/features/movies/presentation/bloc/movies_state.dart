@@ -5,7 +5,7 @@ import '../../domain/entities/movie.dart';
 part 'movies_state.freezed.dart';
 
 @freezed
-class MoviesState with _$MoviesState {
+abstract class MoviesState with _$MoviesState {
   const factory MoviesState.initial() = _Initial;
   const factory MoviesState.loading() = _Loading;
   const factory MoviesState.loaded({
