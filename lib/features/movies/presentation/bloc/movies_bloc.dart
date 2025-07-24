@@ -1,0 +1,117 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/utils/logger.dart';
+import '../../domain/entities/movie.dart';
+import '../../domain/usecases/get_popular_movies_usecase.dart';
+import '../../domain/usecases/toggle_favorite_usecase.dart';
+import 'movies_event.dart';
+import 'movies_state.dart';
+
+class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
+  final GetPopularMoviesUseCase _getPopularMoviesUseCase;
+  final ToggleFavoriteUseCase _toggleFavoriteUseCase;
+
+  MoviesBloc(
+    this._getPopularMoviesUseCase,
+    this._toggleFavoriteUseCase,
+  ) : super(const MoviesState.initial()) {
+    on<LoadPopularMovies>(_onLoadPopularMovies);
+    on<LoadMoreMovies>(_onLoadMoreMovies);
+    on<RefreshMovies>(_onRefreshMovies);
+    on<ToggleFavorite>(_onToggleFavorite);
+    on<SearchMovies>(_onSearchMovies);
+  }
+
+  Future<void> _onLoadPopularMovies(
+    LoadPopularMovies event,
+    Emitter<MoviesState> emit,
+  ) async {
+    emit(const MoviesState.loading());
+    
+    final result = await _getPopularMoviesUseCase(
+      const GetPopularMoviesParams(page: 1),
+    );
+    
+    result.fold(
+      (failure) {
+        Logger.error('Failed to load popular movies: ${failure.message}');
+        emit(MoviesState.error(failure.message));
+      },
+      (movies) {
+        Logger.info('Loaded ${movies.length} popular movies');
+        emit(MoviesState.loaded(
+          movies: movies,
+          currentPage: 1,
+          hasReachedMax: movies.length < 2, // 2 movies per page in mock
+        ));
+      },
+    );
+  }
+
+  Future<void> _onLoadMoreMovies(
+    LoadMoreMovies event,
+    Emitter<MoviesState> emit,
+  ) async {
+    state.whenOrNull(
+      loaded: (movies, hasReachedMax, currentPage) async {
+        if (hasReachedMax) return;
+
+        final nextPage = currentPage + 1;
+        
+        final result = await _getPopularMoviesUseCase(
+          GetPopularMoviesParams(page: nextPage),
+        );
+        
+        result.fold(
+          (failure) {
+            Logger.error('Failed to load more movies: ${failure.message}');
+            emit(MoviesState.error(failure.message));
+          },
+          (newMovies) {
+            Logger.info('Loaded ${newMovies.length} more movies (page $nextPage)');
+            emit(MoviesState.loaded(
+              movies: [...movies, ...newMovies],
+              currentPage: nextPage,
+              hasReachedMax: newMovies.length < 2, // 2 movies per page in mock
+            ));
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _onRefreshMovies(
+    RefreshMovies event,
+    Emitter<MoviesState> emit,
+  ) async {
+    add(const MoviesEvent.loadPopularMovies());
+  }
+
+  Future<void> _onToggleFavorite(
+    ToggleFavorite event,
+    Emitter<MoviesState> emit,
+  ) async {
+    final result = await _toggleFavoriteUseCase(
+      ToggleFavoriteParams(movie: event.movie),
+    );
+    
+    result.fold(
+      (failure) {
+        Logger.error('Failed to toggle favorite: ${failure.message}');
+        // TODO: Show error message to user
+      },
+      (isFavorite) {
+        Logger.info('Movie ${event.movie.title} favorite status: $isFavorite');
+        // TODO: Update UI state
+      },
+    );
+  }
+
+  Future<void> _onSearchMovies(
+    SearchMovies event,
+    Emitter<MoviesState> emit,
+  ) async {
+    // TODO: Implement search functionality
+    Logger.info('Search movies: ${event.query}');
+  }
+} 
