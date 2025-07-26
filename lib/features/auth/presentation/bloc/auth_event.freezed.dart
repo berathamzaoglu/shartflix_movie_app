@@ -56,6 +56,7 @@ extension AuthEventPatterns on AuthEvent {
     TResult Function(AuthLogoutRequested value)? logoutRequested,
     TResult Function(AuthForgotPasswordRequested value)?
         forgotPasswordRequested,
+    TResult Function(AuthUpdateProfilePhotoRequested value)? updateProfilePhoto,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -70,6 +71,8 @@ extension AuthEventPatterns on AuthEvent {
         return logoutRequested(_that);
       case AuthForgotPasswordRequested() when forgotPasswordRequested != null:
         return forgotPasswordRequested(_that);
+      case AuthUpdateProfilePhotoRequested() when updateProfilePhoto != null:
+        return updateProfilePhoto(_that);
       case _:
         return orElse();
     }
@@ -96,6 +99,8 @@ extension AuthEventPatterns on AuthEvent {
     required TResult Function(AuthLogoutRequested value) logoutRequested,
     required TResult Function(AuthForgotPasswordRequested value)
         forgotPasswordRequested,
+    required TResult Function(AuthUpdateProfilePhotoRequested value)
+        updateProfilePhoto,
   }) {
     final _that = this;
     switch (_that) {
@@ -109,6 +114,8 @@ extension AuthEventPatterns on AuthEvent {
         return logoutRequested(_that);
       case AuthForgotPasswordRequested():
         return forgotPasswordRequested(_that);
+      case AuthUpdateProfilePhotoRequested():
+        return updateProfilePhoto(_that);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -134,6 +141,8 @@ extension AuthEventPatterns on AuthEvent {
     TResult? Function(AuthLogoutRequested value)? logoutRequested,
     TResult? Function(AuthForgotPasswordRequested value)?
         forgotPasswordRequested,
+    TResult? Function(AuthUpdateProfilePhotoRequested value)?
+        updateProfilePhoto,
   }) {
     final _that = this;
     switch (_that) {
@@ -147,6 +156,8 @@ extension AuthEventPatterns on AuthEvent {
         return logoutRequested(_that);
       case AuthForgotPasswordRequested() when forgotPasswordRequested != null:
         return forgotPasswordRequested(_that);
+      case AuthUpdateProfilePhotoRequested() when updateProfilePhoto != null:
+        return updateProfilePhoto(_that);
       case _:
         return null;
     }
@@ -173,6 +184,7 @@ extension AuthEventPatterns on AuthEvent {
         registerRequested,
     TResult Function()? logoutRequested,
     TResult Function(String email)? forgotPasswordRequested,
+    TResult Function(String photoUrl)? updateProfilePhoto,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -187,6 +199,8 @@ extension AuthEventPatterns on AuthEvent {
         return logoutRequested();
       case AuthForgotPasswordRequested() when forgotPasswordRequested != null:
         return forgotPasswordRequested(_that.email);
+      case AuthUpdateProfilePhotoRequested() when updateProfilePhoto != null:
+        return updateProfilePhoto(_that.photoUrl);
       case _:
         return orElse();
     }
@@ -214,6 +228,7 @@ extension AuthEventPatterns on AuthEvent {
         registerRequested,
     required TResult Function() logoutRequested,
     required TResult Function(String email) forgotPasswordRequested,
+    required TResult Function(String photoUrl) updateProfilePhoto,
   }) {
     final _that = this;
     switch (_that) {
@@ -227,6 +242,8 @@ extension AuthEventPatterns on AuthEvent {
         return logoutRequested();
       case AuthForgotPasswordRequested():
         return forgotPasswordRequested(_that.email);
+      case AuthUpdateProfilePhotoRequested():
+        return updateProfilePhoto(_that.photoUrl);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -253,6 +270,7 @@ extension AuthEventPatterns on AuthEvent {
         registerRequested,
     TResult? Function()? logoutRequested,
     TResult? Function(String email)? forgotPasswordRequested,
+    TResult? Function(String photoUrl)? updateProfilePhoto,
   }) {
     final _that = this;
     switch (_that) {
@@ -266,6 +284,8 @@ extension AuthEventPatterns on AuthEvent {
         return logoutRequested();
       case AuthForgotPasswordRequested() when forgotPasswordRequested != null:
         return forgotPasswordRequested(_that.email);
+      case AuthUpdateProfilePhotoRequested() when updateProfilePhoto != null:
+        return updateProfilePhoto(_that.photoUrl);
       case _:
         return null;
     }
@@ -536,6 +556,73 @@ class _$AuthForgotPasswordRequestedCopyWithImpl<$Res>
       email: null == email
           ? _self.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class AuthUpdateProfilePhotoRequested implements AuthEvent {
+  const AuthUpdateProfilePhotoRequested({required this.photoUrl});
+
+  final String photoUrl;
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $AuthUpdateProfilePhotoRequestedCopyWith<AuthUpdateProfilePhotoRequested>
+      get copyWith => _$AuthUpdateProfilePhotoRequestedCopyWithImpl<
+          AuthUpdateProfilePhotoRequested>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is AuthUpdateProfilePhotoRequested &&
+            (identical(other.photoUrl, photoUrl) ||
+                other.photoUrl == photoUrl));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, photoUrl);
+
+  @override
+  String toString() {
+    return 'AuthEvent.updateProfilePhoto(photoUrl: $photoUrl)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $AuthUpdateProfilePhotoRequestedCopyWith<$Res>
+    implements $AuthEventCopyWith<$Res> {
+  factory $AuthUpdateProfilePhotoRequestedCopyWith(
+          AuthUpdateProfilePhotoRequested value,
+          $Res Function(AuthUpdateProfilePhotoRequested) _then) =
+      _$AuthUpdateProfilePhotoRequestedCopyWithImpl;
+  @useResult
+  $Res call({String photoUrl});
+}
+
+/// @nodoc
+class _$AuthUpdateProfilePhotoRequestedCopyWithImpl<$Res>
+    implements $AuthUpdateProfilePhotoRequestedCopyWith<$Res> {
+  _$AuthUpdateProfilePhotoRequestedCopyWithImpl(this._self, this._then);
+
+  final AuthUpdateProfilePhotoRequested _self;
+  final $Res Function(AuthUpdateProfilePhotoRequested) _then;
+
+  /// Create a copy of AuthEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? photoUrl = null,
+  }) {
+    return _then(AuthUpdateProfilePhotoRequested(
+      photoUrl: null == photoUrl
+          ? _self.photoUrl
+          : photoUrl // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }

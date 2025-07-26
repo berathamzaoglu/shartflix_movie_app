@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 
+import '../core/network/api_client.dart';
 import '../core/network/dio_client.dart';
 import '../core/network/network_info.dart';
 import '../features/auth/data/datasources/auth_local_datasource.dart';
@@ -13,6 +14,7 @@ import '../features/auth/domain/usecases/get_current_user_usecase.dart';
 import '../features/auth/domain/usecases/login_usecase.dart';
 import '../features/auth/domain/usecases/logout_usecase.dart';
 import '../features/auth/domain/usecases/register_usecase.dart';
+import '../features/auth/domain/usecases/upload_profile_photo_usecase.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/movies/data/datasources/movies_remote_datasource.dart';
 import '../features/movies/data/repositories/movies_repository_impl.dart';
@@ -43,38 +45,24 @@ void setupDio() {
   print('📡 Setting up Dio...');
   
   // Check if already registered
-  if (getIt.isRegistered<Dio>(instanceName: 'dio')) {
-    print('⚠️ Dio already registered, skipping...');
+  if (getIt.isRegistered<DioClient>()) {
+    print('⚠️ DioClient already registered, skipping...');
     return;
   }
   
-  // Configure Dio instance
-  final dio = Dio(BaseOptions(
-    baseUrl: 'https://caseapi.servicelabs.tech', // Use your actual API base URL
-    connectTimeout: const Duration(seconds: 30),
-    receiveTimeout: const Duration(seconds: 30),
-    sendTimeout: const Duration(seconds: 30),
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    },
-  ));
-
-  // Add logging in debug mode
-  dio.interceptors.add(
-    LogInterceptor(
-      requestBody: true,
-      responseBody: true,
-      requestHeader: true,
-      responseHeader: false,
-    ),
-  );
-
-  // Register Dio instance
-  getIt.registerLazySingleton<Dio>(() => dio, instanceName: 'dio');
+  // Register DioClient first
+  getIt.registerLazySingleton<DioClient>(() {
+    print('🔧 Creating DioClient instance...');
+    return DioClient();
+  });
   
-  // Register DioClient
-  getIt.registerLazySingleton<DioClient>(() => DioClient());
+  // Register ApiClient
+  getIt.registerLazySingleton<ApiClient>(() {
+    print('🔧 Creating ApiClient instance...');
+    final dioClient = getIt<DioClient>();
+    print('🔧 DioClient retrieved: ${dioClient != null ? 'success' : 'null'}');
+    return ApiClientImpl(dioClient);
+  });
   
   print('✅ Dio setup completed');
 }
@@ -109,7 +97,7 @@ Future<void> _setupAuthDependencies() async {
   
   if (!getIt.isRegistered<AuthRemoteDataSource>()) {
     getIt.registerLazySingleton<AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl(getIt<DioClient>()),
+      () => AuthRemoteDataSourceImpl(getIt<ApiClient>()),
     );
     print('✅ AuthRemoteDataSource registered');
   }
@@ -162,6 +150,13 @@ Future<void> _setupAuthDependencies() async {
     print('✅ GetCurrentUserUseCase registered');
   }
   
+  if (!getIt.isRegistered<UploadProfilePhotoUseCase>()) {
+    getIt.registerLazySingleton<UploadProfilePhotoUseCase>(
+      () => UploadProfilePhotoUseCase(getIt<AuthRepository>()),
+    );
+    print('✅ UploadProfilePhotoUseCase registered');
+  }
+  
   // Bloc - LazySingleton registration
   if (!getIt.isRegistered<AuthBloc>()) {
     getIt.registerLazySingleton<AuthBloc>(
@@ -170,6 +165,7 @@ Future<void> _setupAuthDependencies() async {
         getIt<RegisterUseCase>(),
         getIt<LogoutUseCase>(),
         getIt<CheckAuthStatusUseCase>(),
+        getIt<UploadProfilePhotoUseCase>(),
       ),
     );
     print('✅ AuthBloc registered as lazy singleton');

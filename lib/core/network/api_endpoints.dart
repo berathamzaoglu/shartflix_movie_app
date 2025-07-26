@@ -4,7 +4,11 @@ class ApiEndpoints {
   // Authentication endpoints
   static const String login = '/user/login';
   static const String register = '/user/register';
+  static const String logout = '/user/logout';
   static const String profile = '/user/profile';
+  static const String currentUser = '/user/current';
+  static const String uploadProfilePhoto = '/user/upload_photo';
+  static const String forgotPassword = '/user/forgot-password';
   
   // Movie endpoints (for future use)
   static const String movies = '/movies';

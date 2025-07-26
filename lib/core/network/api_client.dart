@@ -2,11 +2,14 @@ import 'package:dio/dio.dart';
 
 import '../../core/error/api_exception.dart';
 import 'api_response.dart';
+import 'dio_client.dart';
 
 abstract class ApiClient {
-  final Dio dio;
+  final DioClient _dioClient;
   
-  ApiClient(this.dio);
+  ApiClient(this._dioClient);
+  
+  Dio get dio => _dioClient.dio;
   
   // Common headers for all requests
   Map<String, dynamic> get commonHeaders => {
@@ -109,4 +112,8 @@ abstract class ApiClient {
     }
     return ApiException(message: error.toString());
   }
+}
+
+class ApiClientImpl extends ApiClient {
+  ApiClientImpl(DioClient dioClient) : super(dioClient);
 } 

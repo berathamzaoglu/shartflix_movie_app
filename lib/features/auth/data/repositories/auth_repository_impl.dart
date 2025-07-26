@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/exceptions.dart';
@@ -30,11 +32,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await remoteDataSource.login(
-          email: email,
-          password: password,
-          rememberMe: rememberMe,
-        );
+        final result = await remoteDataSource.login(email, password, rememberMe);
         
         // Cache user and tokens
         final userModel = UserModel(
@@ -81,11 +79,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await remoteDataSource.register(
-          name: name,
-          email: email,
-          password: password,
-        );
+        final result = await remoteDataSource.register(name, email, password);
         
         // Cache user and tokens
         final userModel = UserModel(
@@ -248,6 +242,60 @@ class AuthRepositoryImpl implements AuthRepository {
         return Left(Failure.server(message: 'Unexpected error: $e'));
       }
     } else {
+      return const Left(Failure.network(
+        message: 'İnternet bağlantısı bulunamadı',
+      ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> uploadProfilePhoto(File imageFile) async {
+    print('🔄 Repository: Starting uploadProfilePhoto');
+    
+    if (await networkInfo.isConnected) {
+      print('🌐 Repository: Network is connected');
+      
+      try {
+        print('📤 Repository: Calling remote data source');
+        final photoUrl = await remoteDataSource.uploadProfilePhoto(imageFile);
+        print('📥 Repository: Remote data source returned: $photoUrl');
+        
+        // Update cached user with new photo URL
+        final cachedUser = await localDataSource.getCachedUser();
+        if (cachedUser != null) {
+          print('💾 Repository: Updating cached user');
+          final updatedUser = UserModel(
+            id: cachedUser.id,
+            name: cachedUser.name,
+            email: cachedUser.email,
+            profilePhoto: photoUrl,
+          );
+          await localDataSource.cacheUser(updatedUser);
+          print('✅ Repository: Cached user updated');
+        } else {
+          print('⚠️ Repository: No cached user found');
+        }
+        
+        print('✅ Repository: Upload successful, returning: $photoUrl');
+        return Right(photoUrl);
+      } on ServerException catch (e) {
+        print('❌ Repository: ServerException: ${e.message}');
+        return Left(Failure.server(
+          message: e.message,
+          statusCode: e.statusCode,
+        ));
+      } on NetworkException catch (e) {
+        print('❌ Repository: NetworkException: ${e.message}');
+        return Left(Failure.network(
+          message: e.message,
+          statusCode: e.statusCode,
+        ));
+      } catch (e) {
+        print('❌ Repository: Unexpected error: $e');
+        return Left(Failure.server(message: 'Unexpected error: $e'));
+      }
+    } else {
+      print('❌ Repository: No network connection');
       return const Left(Failure.network(
         message: 'İnternet bağlantısı bulunamadı',
       ));

@@ -23,4 +23,8 @@ abstract class AuthEvent with _$AuthEvent {
   const factory AuthEvent.forgotPasswordRequested({
     required String email,
   }) = AuthForgotPasswordRequested;
+  
+  const factory AuthEvent.updateProfilePhoto({
+    required String photoUrl,
+  }) = AuthUpdateProfilePhotoRequested;
 } 

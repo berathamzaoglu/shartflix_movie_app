@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
@@ -26,4 +28,6 @@ abstract class AuthRepository {
   Future<Either<Failure, bool>> isLoggedIn();
 
   Future<Either<Failure, void>> forgotPassword(String email);
+  
+  Future<Either<Failure, String>> uploadProfilePhoto(File imageFile);
 } 

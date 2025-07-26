@@ -56,6 +56,9 @@ dependencies:
   # UI
   cached_network_image: ^3.4.1
   
+  # Image Picker
+  image_picker: ^1.0.7
+  
   # Utils
   dartz: ^0.10.1
 

@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../injection/injection.dart';
+import '../../../auth/auth_feature.dart';
 import '../bloc/movies_bloc.dart';
 import '../bloc/movies_event.dart';
 import '../bloc/movies_state.dart';
 import '../widgets/movie_discovery_view.dart';
 import '../widgets/bottom_navigation_bar.dart';
+import '../widgets/limited_offer_bottom_sheet.dart';
+import 'profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,9 +23,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<MoviesBloc>()
-        ..add(const MoviesEvent.loadPopularMovies()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<MoviesBloc>(
+          create: (context) => getIt<MoviesBloc>()
+            ..add(const MoviesEvent.loadPopularMovies()),
+        ),
+        BlocProvider<AuthBloc>(
+          create: (context) => getIt<AuthBloc>()
+            ..add(const AuthEvent.checkAuthStatus()),
+        ),
+      ],
       child: Scaffold(
         backgroundColor: const Color(0xFF0F172A),
         body: SafeArea(
@@ -33,17 +44,7 @@ class _HomePageState extends State<HomePage> {
               const MovieDiscoveryPage(),
               
               // Profil Sayfası
-              Container(
-                child: const Center(
-                  child: Text(
-                    'Profil Sayfası',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                    ),
-                  ),
-                ),
-              ),
+              const ProfilePage(),
             ],
           ),
         ),
@@ -116,21 +117,26 @@ class MovieDiscoveryPage extends StatelessWidget {
               ),
               
               // Special Offer Button
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE53E3E),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Text(
-                  'Sınırlı Teklif',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
+              GestureDetector(
+                onTap: () {
+                  showLimitedOfferBottomSheet(context);
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE53E3E),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Text(
+                    'Sınırlı Teklif',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
