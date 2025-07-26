@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shartflix_movie_app/features/profile/presentation/pages/profile_page.dart';
 
-import '../../../../injection/injection.dart';
+import '../../../../core/injection_container.dart';
 import '../../../auth/auth_feature.dart';
 import '../bloc/movies_bloc.dart';
 import '../bloc/movies_event.dart';
-import '../bloc/movies_state.dart';
 import '../widgets/movie_discovery_view.dart';
 import '../widgets/bottom_navigation_bar.dart';
-import '../widgets/limited_offer_bottom_sheet.dart';
-import 'profile_page.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -39,12 +38,12 @@ class _HomePageState extends State<HomePage> {
         body: SafeArea(
           child: IndexedStack(
             index: _currentIndex,
-            children: [
+            children: const [
               // Ana Sayfa - Film Keşif
-              const MovieDiscoveryPage(),
+              MovieDiscoveryPage(),
               
               // Profil Sayfası
-              const ProfilePage(),
+              ProfilePage(),
             ],
           ),
         ),

@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:shartflix_movie_app/features/movies/movies_feature.dart';
+import 'package:shartflix_movie_app/features/home/home_feature.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/error/exceptions.dart';

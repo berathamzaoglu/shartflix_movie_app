@@ -3,18 +3,30 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shartflix_movie_app/features/home/domain/entities/movie.dart';
+import 'package:shartflix_movie_app/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:shartflix_movie_app/features/profile/presentation/bloc/profile_state.dart';
+import 'package:shartflix_movie_app/features/profile/presentation/bloc/profile_event.dart';
 import 'dart:io';
 
 import '../../../auth/auth_feature.dart';
-import '../../domain/entities/movie.dart';
-import '../bloc/movies_bloc.dart';
-import '../bloc/movies_event.dart';
-import '../bloc/movies_state.dart';
-import '../widgets/movie_card.dart';
+
 import '../widgets/limited_offer_bottom_sheet.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+    // Favori filmleri yükle
+    context.read<ProfileBloc>().add(const ProfileEvent.loadFavoriteMovies());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -344,16 +356,16 @@ class ProfilePage extends StatelessWidget {
         
         // Movies Grid
         Expanded(
-          child: BlocBuilder<MoviesBloc, MoviesState>(
+          child: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
               return state.when(
                 initial: () => const _LoadingView(),
                 loading: () => const _LoadingView(),
-                loaded: (movies, hasReachedMax, currentPage) {
+                loaded: (movies) {
                   // Filter liked movies
-                  final likedMovies = movies.where((movie) => movie.isFavorite).toList();
+                  final likedMoviesList = movies.where((movie) => movie.isFavorite).toList();
                   
-                  if (likedMovies.isEmpty) {
+                  if (likedMoviesList.isEmpty) {
                     return const _EmptyLikedMoviesView();
                   }
                   
@@ -365,9 +377,9 @@ class ProfilePage extends StatelessWidget {
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
                     ),
-                    itemCount: likedMovies.length,
+                    itemCount: likedMoviesList.length,
                     itemBuilder: (context, index) {
-                      final movie = likedMovies[index];
+                      final movie = likedMoviesList[index];
                       return _LikedMovieCard(movie: movie);
                     },
                   );

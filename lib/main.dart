@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import 'app/app.dart';
 import 'app/router/app_router.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
-import 'injection/injection.dart';
+import 'core/injection_container.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

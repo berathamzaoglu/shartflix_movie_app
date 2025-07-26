@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../injection/injection.dart';
+import '../../core/injection_container.dart';
 import '../../core/usecases/usecase.dart';
 import '../../features/auth/domain/usecases/check_auth_status_usecase.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
-import '../../features/movies/presentation/pages/home_page.dart';
+import '../../features/home/presentation/pages/home_page.dart';
 
 class AppRouter {
   static GoRouter? _router;

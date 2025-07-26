@@ -16,12 +16,20 @@ import '../features/auth/domain/usecases/logout_usecase.dart';
 import '../features/auth/domain/usecases/register_usecase.dart';
 import '../features/auth/domain/usecases/upload_profile_photo_usecase.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
-import '../features/movies/data/datasources/movies_remote_datasource.dart';
-import '../features/movies/data/repositories/movies_repository_impl.dart';
-import '../features/movies/domain/repositories/movies_repository.dart';
-import '../features/movies/domain/usecases/get_popular_movies_usecase.dart';
-import '../features/movies/domain/usecases/toggle_favorite_usecase.dart';
-import '../features/movies/presentation/bloc/movies_bloc.dart';
+// Movies Feature
+import '../features/home/data/datasources/movies_remote_datasource.dart';
+import '../features/home/data/repositories/movies_repository_impl.dart';
+import '../features/home/domain/repositories/movies_repository.dart';
+import '../features/home/domain/usecases/get_popular_movies_usecase.dart';
+import '../features/home/domain/usecases/toggle_favorite_usecase.dart';
+import '../features/home/presentation/bloc/movies_bloc.dart';
+
+// Profile Feature
+import '../features/profile/data/datasources/profile_remote_datasource.dart';
+import '../features/profile/data/repositories/profile_repository_impl.dart';
+import '../features/profile/domain/repositories/profile_repository.dart';
+import '../features/profile/domain/usecases/get_favorite_movies_usecase.dart';
+import '../features/profile/presentation/bloc/profile_bloc.dart';
 
 final getIt = GetIt.instance;
 
@@ -37,6 +45,9 @@ Future<void> configureDependencies() async {
   
   // Movies
   await _setupMoviesDependencies();
+  
+  // Profile
+  await _setupProfileDependencies();
   
   print('✅ Dependency injection setup completed!');
 }
@@ -220,4 +231,44 @@ Future<void> _setupMoviesDependencies() async {
   }
   
   print('✅ Movies dependencies setup completed');
+}
+
+Future<void> _setupProfileDependencies() async {
+  print('👤 Setting up profile dependencies...');
+  
+  // Data sources
+  if (!getIt.isRegistered<ProfileRemoteDataSource>()) {
+    getIt.registerLazySingleton<ProfileRemoteDataSource>(
+      () => ProfileRemoteDataSourceImpl(getIt<DioClient>()),
+    );
+    print('✅ ProfileRemoteDataSource registered');
+  }
+  
+  // Repositories
+  if (!getIt.isRegistered<ProfileRepository>()) {
+    getIt.registerLazySingleton<ProfileRepository>(
+      () => ProfileRepositoryImpl(getIt.get<ProfileRemoteDataSource>()),
+    );
+    print('✅ ProfileRepository registered');
+  }
+  
+  // Use cases
+  if (!getIt.isRegistered<GetFavoriteMoviesUseCase>()) {
+    getIt.registerLazySingleton<GetFavoriteMoviesUseCase>(
+      () => GetFavoriteMoviesUseCase(getIt.get<ProfileRepository>()),
+    );
+    print('✅ GetFavoriteMoviesUseCase registered');
+  }
+  
+  // Blocs (LazySingleton registration)
+  if (!getIt.isRegistered<ProfileBloc>()) {
+    getIt.registerLazySingleton<ProfileBloc>(
+      () => ProfileBloc(
+        getIt.get<GetFavoriteMoviesUseCase>(),
+      ),
+    );
+    print('✅ ProfileBloc registered as lazy singleton');
+  }
+  
+  print('✅ Profile dependencies setup completed');
 } 

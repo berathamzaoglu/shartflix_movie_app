@@ -1,11 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shartflix_movie_app/features/movies/movies_feature.dart';
+import 'package:shartflix_movie_app/features/home/data/models/movie_model.dart';
 
 import '../../../../core/utils/logger.dart';
 import '../../domain/entities/movie.dart';
 import '../../domain/usecases/get_popular_movies_usecase.dart';
 import '../../domain/usecases/toggle_favorite_usecase.dart';
-import '../../data/models/movies_response_model.dart';
 import 'movies_event.dart';
 import 'movies_state.dart';
 
