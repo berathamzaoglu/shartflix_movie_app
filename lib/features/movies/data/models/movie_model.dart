@@ -41,6 +41,10 @@ abstract class MovieModel with _$MovieModel {
 
 extension MovieModelX on MovieModel {
   Movie toEntity() {
+    // Debug ID
+    Logger.debug('Movie: $title - Original ID: $id');
+    Logger.debug('Movie: $title - ID type: ${id.runtimeType}');
+    
     // Released alanından yıl kısmını çıkar (örn: "18 Dec 2009" -> "2009")
     String extractYear(String released) {
       final parts = released.split(' ');
@@ -82,7 +86,7 @@ extension MovieModelX on MovieModel {
     Logger.debug('Movie: $title - Images: $images');
 
     return Movie(
-      id: int.tryParse(id) ?? 0,
+      id: id,
       title: title,
       overview: plot,
       posterPath: cleanedPoster.isNotEmpty ? cleanedPoster : null,
@@ -104,7 +108,7 @@ extension MovieModelX on MovieModel {
 extension MovieX on Movie {
   MovieModel toModel() {
     return MovieModel(
-      id: id.toString(),
+      id: id,
       title: title,
       year: releaseDate.split(' ').last,
       rated: adult ? 'R' : 'PG-13',

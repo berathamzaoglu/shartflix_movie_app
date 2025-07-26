@@ -101,6 +101,10 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     ToggleFavorite event,
     Emitter<MoviesState> emit,
   ) async {
+    Logger.info('=== TOGGLE FAVORITE START ===');
+    Logger.info('Movie: ${event.movie.title} (ID: ${event.movie.id})');
+    Logger.info('Current favorite status: ${event.movie.isFavorite}');
+    
     final result = await _toggleFavoriteUseCase(
       ToggleFavoriteParams(movie: event.movie),
     );
@@ -108,13 +112,74 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     result.fold(
       (failure) {
         Logger.error('Failed to toggle favorite: ${failure.message}');
-        // TODO: Show error message to user
       },
-      (isFavorite) {
-        Logger.info('Movie ${event.movie.title} favorite status: $isFavorite');
-        // TODO: Update UI state
+      (responseData) {
+        Logger.info('API response: $responseData');
+        
+        // API'den dönen movie bilgisini al
+        final success = responseData['success'] ?? false;
+        final movieData = responseData['data']?['movie'];
+        
+        Logger.info('API success: $success');
+        Logger.info('Movie data: $movieData');
+        
+        // Mevcut state'i al
+        final currentState = state;
+        Logger.info('Current state type: ${currentState.runtimeType}');
+        
+        // State'i güncelle
+        currentState.when(
+          initial: () {
+            Logger.warning('Cannot update - state is initial');
+          },
+          loading: () {
+            Logger.warning('Cannot update - state is loading');
+          },
+          loaded: (movies, hasReachedMax, currentPage) {
+            Logger.info('Updating loaded state with ${movies.length} movies');
+            
+            // Movie'yi bul ve güncelle
+            final movieIndex = movies.indexWhere((movie) => movie.id == event.movie.id);
+            if (movieIndex != -1) {
+              Logger.info('Found movie at index: $movieIndex');
+              Logger.info('Old favorite status: ${movies[movieIndex].isFavorite}');
+              
+              // Yeni favorite durumu: API'den dönen movie bilgisini kullan
+              bool newFavoriteStatus;
+              if (movieData != null && movieData['isFavorite'] != null) {
+                newFavoriteStatus = movieData['isFavorite'] as bool;
+                Logger.info('Using API movie data for favorite status: $newFavoriteStatus');
+              } else {
+                // Fallback: API success ise tersine çevir
+                newFavoriteStatus = success ? !movies[movieIndex].isFavorite : movies[movieIndex].isFavorite;
+                Logger.info('Using fallback favorite status: $newFavoriteStatus');
+              }
+              
+              Logger.info('New favorite status: $newFavoriteStatus');
+              
+              // Yeni movies listesi oluştur
+              final updatedMovies = List<Movie>.from(movies);
+              updatedMovies[movieIndex] = updatedMovies[movieIndex].copyWith(isFavorite: newFavoriteStatus);
+              
+              Logger.info('Emitting new state...');
+              emit(MoviesState.loaded(
+                movies: updatedMovies,
+                currentPage: currentPage,
+                hasReachedMax: hasReachedMax,
+              ));
+              Logger.info('State emitted successfully');
+            } else {
+              Logger.error('Movie not found in list! ID: ${event.movie.id}');
+              Logger.error('Available movie IDs: ${movies.map((m) => m.id).toList()}');
+            }
+          },
+          error: (message) {
+            Logger.warning('Cannot update - state is error: $message');
+          },
+        );
       },
     );
+    Logger.info('=== TOGGLE FAVORITE END ===');
   }
 
   Future<void> _onSearchMovies(

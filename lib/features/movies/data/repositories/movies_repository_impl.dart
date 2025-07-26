@@ -54,9 +54,9 @@ class MoviesRepositoryImpl implements MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> toggleFavorite(Movie movie) async {
+  Future<Either<Failure, Map<String, dynamic>>> toggleFavorite(Movie movie) async {
     try {
-      final result = await remoteDataSource.toggleFavorite(movie.id.toString());
+      final result = await remoteDataSource.toggleFavorite(movie.id);
       return Right(result);
     } on ServerException catch (e) {
       return Left(Failure.server(

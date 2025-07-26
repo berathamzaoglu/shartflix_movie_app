@@ -8,7 +8,7 @@ import '../models/movies_response_model.dart';
 abstract class MoviesRemoteDataSource {
   Future<MoviesResponseModel> getMovies({int page = 1});
   Future<List<MovieModel>> getFavoriteMovies();
-  Future<bool> toggleFavorite(String movieId);
+  Future<Map<String, dynamic>> toggleFavorite(String movieId);
 }
 
 class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
@@ -32,7 +32,15 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
         if (responseData['response'] != null && responseData['data'] != null) {
           final data = responseData['data'] as Map<String, dynamic>;
           
+          // Debug: API response'u kontrol et
+          Logger.debug('API Response Data: $data');
+          
           final moviesResponse = MoviesResponseModel.fromJson(data);
+          
+          // Debug: Movie ID'lerini kontrol et
+          for (final movie in moviesResponse.movies) {
+            Logger.debug('Movie: ${movie.title} - ID: ${movie.id} (type: ${movie.id.runtimeType})');
+          }
           
           Logger.info('Successfully fetched ${moviesResponse.movies.length} movies for page $page');
           return moviesResponse;
@@ -85,25 +93,27 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
   }
 
   @override
-  Future<bool> toggleFavorite(String movieId) async {
+  Future<Map<String, dynamic>> toggleFavorite(String movieId) async {
     try {
-      Logger.info('Toggling favorite for movie: $movieId');
+      Logger.info('Toggling favorite for movie ID: $movieId (type: ${movieId.runtimeType})');
       
       final response = await _dioClient.dio.post('/movie/favorite/$movieId');
 
       if (response.statusCode == 200) {
         final responseData = response.data as Map<String, dynamic>;
+        Logger.debug('Toggle favorite response: $responseData');
         final success = responseData['success'] ?? false;
         
-        Logger.info('Successfully toggled favorite for movie: $movieId');
-        return success;
+        Logger.info('Successfully toggled favorite for movie: $movieId, success: $success');
+        return responseData; // Return the full response data
       } else {
-        Logger.error('Failed to toggle favorite with status: ${response.statusCode}');
-        return false;
+        Logger.error('Failed to toggle favorite with status: ${response.statusCode} for movie ID: $movieId');
+        Logger.error('Response data: ${response.data}');
+        return {'success': false, 'message': 'Failed to toggle favorite'}; // Return a default error response
       }
     } catch (e) {
       Logger.error('Error toggling favorite for movie $movieId: $e');
-      return false;
+      return {'success': false, 'message': 'Error toggling favorite'}; // Return a default error response
     }
   }
 } 

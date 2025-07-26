@@ -55,6 +55,7 @@ dependencies:
   
   # UI
   cached_network_image: ^3.4.1
+  skeletonizer: ^2.1.0+1
   
   # Image Picker
   image_picker: ^1.0.7

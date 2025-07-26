@@ -5,13 +5,13 @@ import '../../../../core/usecases/usecase.dart';
 import '../entities/movie.dart';
 import '../repositories/movies_repository.dart';
 
-class ToggleFavoriteUseCase implements UseCase<bool, ToggleFavoriteParams> {
+class ToggleFavoriteUseCase implements UseCase<Map<String, dynamic>, ToggleFavoriteParams> {
   final MoviesRepository repository;
 
   ToggleFavoriteUseCase(this.repository);
 
   @override
-  Future<Either<Failure, bool>> call(ToggleFavoriteParams params) async {
+  Future<Either<Failure, Map<String, dynamic>>> call(ToggleFavoriteParams params) async {
     return await repository.toggleFavorite(params.movie);
   }
 }

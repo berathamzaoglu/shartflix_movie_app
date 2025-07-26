@@ -1,5 +1,5 @@
 class Movie {
-  final int id;
+  final String id;
   final String title;
   final String overview;
   final String? posterPath;
@@ -34,7 +34,7 @@ class Movie {
   });
 
   Movie copyWith({
-    int? id,
+    String? id,
     String? title,
     String? overview,
     String? posterPath,

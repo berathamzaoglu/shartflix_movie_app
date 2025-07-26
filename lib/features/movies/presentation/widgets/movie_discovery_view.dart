@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import '../../../../core/utils/logger.dart';
 
 import '../../domain/entities/movie.dart';
 import '../bloc/movies_bloc.dart';
@@ -16,25 +18,41 @@ class MovieDiscoveryView extends StatefulWidget {
 }
 
 class _MovieDiscoveryViewState extends State<MovieDiscoveryView> {
-  final ScrollController _scrollController = ScrollController();
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+    _pageController.addListener(_onPageChanged);
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      // Son 200 piksel kaldığında daha fazla film yükle
-      context.read<MoviesBloc>().add(const MoviesEvent.loadMoreMovies());
+  void _onPageChanged() {
+    final newPage = _pageController.page?.round() ?? 0;
+    if (newPage != _currentPage) {
+      setState(() {
+        _currentPage = newPage;
+      });
+      
+      // Son sayfaya yaklaştığında daha fazla film yükle
+      final moviesBloc = context.read<MoviesBloc>();
+      final state = moviesBloc.state;
+      state.when(
+        initial: () {},
+        loading: () {},
+        loaded: (movies, hasReachedMax, currentPage) {
+          if (!hasReachedMax && newPage >= movies.length - 3) {
+            moviesBloc.add(const MoviesEvent.loadMoreMovies());
+          }
+        },
+        error: (message) {},
+      );
     }
   }
 
@@ -42,22 +60,32 @@ class _MovieDiscoveryViewState extends State<MovieDiscoveryView> {
   Widget build(BuildContext context) {
     return BlocBuilder<MoviesBloc, MoviesState>(
       builder: (context, state) {
+        Logger.debug('MovieDiscoveryView rebuild - State: ${state.runtimeType}');
+        
         return state.when(
           initial: () => const _LoadingView(),
           loading: () => const _LoadingView(),
           loaded: (movies, hasReachedMax, currentPage) {
+            Logger.debug('Loaded state with ${movies.length} movies');
+            // Favori durumlarını kontrol et
+            final favoriteCount = movies.where((m) => m.isFavorite).length;
+            Logger.debug('Favorite movies count: $favoriteCount');
+            
             if (movies.isEmpty) {
               return const _EmptyView();
             }
-            return _MovieListView(
+            return _MoviePageView(
               movies: movies,
-              scrollController: _scrollController,
+              pageController: _pageController,
               hasReachedMax: hasReachedMax,
               onToggleFavorite: (movie) {
+                Logger.info('Favori butonuna tıklandı: ${movie.title} (ID: ${movie.id})');
+                Logger.info('Mevcut favorite durumu: ${movie.isFavorite}');
                 context.read<MoviesBloc>().add(
                   MoviesEvent.toggleFavorite(movie),
                 );
               },
+              currentPage: _currentPage,
             );
           },
           error: (message) => _ErrorView(message: message),
@@ -67,43 +95,161 @@ class _MovieDiscoveryViewState extends State<MovieDiscoveryView> {
   }
 }
 
-class _MovieListView extends StatelessWidget {
+class _MoviePageView extends StatelessWidget {
   final List<Movie> movies;
-  final ScrollController scrollController;
+  final PageController pageController;
   final bool hasReachedMax;
   final Function(Movie) onToggleFavorite;
+  final int currentPage;
 
-  const _MovieListView({
+  const _MoviePageView({
     required this.movies,
-    required this.scrollController,
+    required this.pageController,
     required this.hasReachedMax,
     required this.onToggleFavorite,
+    required this.currentPage,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      controller: scrollController,
-      itemCount: movies.length + (hasReachedMax ? 0 : 1),
-      itemBuilder: (context, index) {
-        if (index >= movies.length) {
-          // Loading indicator for pagination
-          return const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Center(
-              child: CircularProgressIndicator(
-                color: Color(0xFFE53E3E),
+    return Stack(
+      children: [
+        // Film sayfaları
+        RefreshIndicator(
+          onRefresh: () async {
+            context.read<MoviesBloc>().add(const MoviesEvent.loadPopularMovies());
+            // Refresh tamamlanana kadar bekle
+            await Future.delayed(const Duration(seconds: 2));
+          },
+          child: PageView.builder(
+            controller: pageController,
+            scrollDirection: Axis.vertical,
+            pageSnapping: true,
+            physics: const BouncingScrollPhysics(),
+            itemCount: movies.length + (hasReachedMax ? 0 : 1),
+            itemBuilder: (context, index) {
+              if (index >= movies.length) {
+                // Loading indicator for pagination
+                return Skeletonizer(
+                  enabled: true,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: Stack(
+                      children: [
+                        // Skeleton poster
+                        Positioned.fill(
+                          child: Container(
+                            color: const Color(0xFF1E293B),
+                            child: const Center(
+                              child: Icon(
+                                Icons.movie,
+                                color: Color(0xFF64748B),
+                                size: 64,
+                              ),
+                            ),
+                          ),
+                        ),
+                        
+                        // Gradient overlay
+                        Positioned.fill(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.transparent,
+                                  Colors.black.withOpacity(0.3),
+                                  Colors.black.withOpacity(0.7),
+                                  Colors.black.withOpacity(0.9),
+                                ],
+                                stops: const [0.0, 0.4, 0.7, 1.0],
+                              ),
+                            ),
+                          ),
+                        ),
+                        
+                        // Loading mesajı
+                        Positioned(
+                          top: MediaQuery.of(context).size.height * 0.4,
+                          left: 0,
+                          right: 0,
+                          child: Center(
+                            child: Container(
+                              padding: const EdgeInsets.all(24),
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.8),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: const Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(
+                                    width: 32,
+                                    height: 32,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 3,
+                                      color: Color(0xFFE53E3E),
+                                    ),
+                                  ),
+                                  SizedBox(height: 16),
+                                  Text(
+                                    'Daha fazla film yükleniyor...',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+
+              final movie = movies[index];
+              return AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: _MovieCard(
+                  key: ValueKey(movie.id),
+                  movie: movie,
+                  onToggleFavorite: () => onToggleFavorite(movie),
+                ),
+              );
+            },
+          ),
+        ),
+        
+        // Sayfa göstergesi
+        Positioned(
+          top: MediaQuery.of(context).padding.top + 16,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.7),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                '${(currentPage + 1).clamp(1, movies.length)} / ${movies.length}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
-          );
-        }
-
-        final movie = movies[index];
-        return _MovieCard(
-          movie: movie,
-          onToggleFavorite: () => onToggleFavorite(movie),
-        );
-      },
+          ),
+        ),
+      ],
     );
   }
 }
@@ -113,6 +259,7 @@ class _MovieCard extends StatefulWidget {
   final VoidCallback onToggleFavorite;
 
   const _MovieCard({
+    super.key,
     required this.movie,
     required this.onToggleFavorite,
   });
@@ -126,46 +273,45 @@ class _MovieCardState extends State<_MovieCard> {
 
   @override
   Widget build(BuildContext context) {
+    Logger.debug('MovieCard build: ${widget.movie.title} - Favorite: ${widget.movie.isFavorite}');
+    
     return Container(
-      height: MediaQuery.of(context).size.height * 0.8, // Ekranın %80'i kadar yükseklik
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
       child: Stack(
         children: [
           // Tam ekran film posteri
           Positioned.fill(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: CachedNetworkImage(
-                imageUrl: widget.movie.fullPosterUrl,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => Container(
-                  color: const Color(0xFF1E293B),
-                  child: const Center(
-                    child: CircularProgressIndicator(
-                      color: Color(0xFFE53E3E),
-                    ),
+            child: CachedNetworkImage(
+              imageUrl: widget.movie.fullPosterUrl,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => Container(
+                color: const Color(0xFF1E293B),
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: Color(0xFFE53E3E),
                   ),
                 ),
-                errorWidget: (context, url, error) {
-                  // Poster yüklenemezse backdrop image'ı dene
-                  if (widget.movie.backdropPath != null && widget.movie.backdropPath!.isNotEmpty) {
-                    return CachedNetworkImage(
-                      imageUrl: widget.movie.backdropPath!,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Container(
-                        color: const Color(0xFF1E293B),
-                        child: const Center(
-                          child: CircularProgressIndicator(
-                            color: Color(0xFFE53E3E),
-                          ),
+              ),
+              errorWidget: (context, url, error) {
+                // Poster yüklenemezse backdrop image'ı dene
+                if (widget.movie.backdropPath != null && widget.movie.backdropPath!.isNotEmpty) {
+                  return CachedNetworkImage(
+                    imageUrl: widget.movie.backdropPath!,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Container(
+                      color: const Color(0xFF1E293B),
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          color: Color(0xFFE53E3E),
                         ),
                       ),
-                      errorWidget: (context, url, error) => _buildPlaceholder(),
-                    );
-                  }
-                  return _buildPlaceholder();
-                },
-              ),
+                    ),
+                    errorWidget: (context, url, error) => _buildPlaceholder(),
+                  );
+                }
+                return _buildPlaceholder();
+              },
             ),
           ),
           
@@ -173,7 +319,6 @@ class _MovieCardState extends State<_MovieCard> {
           Positioned.fill(
             child: Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -191,13 +336,13 @@ class _MovieCardState extends State<_MovieCard> {
           
           // Favori butonu - Dinamik konum
           Positioned(
-            bottom: _isExpanded ? 140 : 180, // Daha yukarı taşıdım
+            bottom: _isExpanded ? 140 : 180,
             right: 24,
             child: Container(
               width: 56,
               height: 56,
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.7), // Daha koyu arka plan
+                color: Colors.black.withOpacity(0.7),
                 shape: BoxShape.circle,
                 border: Border.all(
                   color: Colors.white.withOpacity(0.5),
@@ -216,10 +361,14 @@ class _MovieCardState extends State<_MovieCard> {
                 child: InkWell(
                   onTap: widget.onToggleFavorite,
                   borderRadius: BorderRadius.circular(28),
-                  child: Icon(
-                    widget.movie.isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: widget.movie.isFavorite ? const Color(0xFFE53E3E) : Colors.white,
-                    size: 28,
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 200),
+                    child: Icon(
+                      key: ValueKey(widget.movie.isFavorite),
+                      widget.movie.isFavorite ? Icons.favorite : Icons.favorite_border,
+                      color: widget.movie.isFavorite ? const Color(0xFFE53E3E) : Colors.white,
+                      size: 28,
+                    ),
                   ),
                 ),
               ),
@@ -230,7 +379,7 @@ class _MovieCardState extends State<_MovieCard> {
           Positioned(
             left: 24,
             right: 24,
-            bottom: _isExpanded ? 24 : 24, // Expandable durumuna göre konum
+            bottom: _isExpanded ? 24 : 24,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -406,9 +555,182 @@ class _LoadingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: const Color(0xFF0F172A),
-      child: const Center(
-        child: CircularProgressIndicator(
-          color: Color(0xFFE53E3E),
+      child: Skeletonizer(
+        enabled: true,
+        child: PageView.builder(
+          itemCount: 3,
+          scrollDirection: Axis.vertical,
+          itemBuilder: (context, index) {
+            return Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Stack(
+                children: [
+                  // Skeleton poster
+                  Positioned.fill(
+                    child: Container(
+                      color: const Color(0xFF1E293B),
+                      child: const Center(
+                        child: Icon(
+                          Icons.movie,
+                          color: Color(0xFF64748B),
+                          size: 64,
+                        ),
+                      ),
+                    ),
+                  ),
+                  
+                  // Gradient overlay
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            Colors.black.withOpacity(0.3),
+                            Colors.black.withOpacity(0.7),
+                            Colors.black.withOpacity(0.9),
+                          ],
+                          stops: const [0.0, 0.4, 0.7, 1.0],
+                        ),
+                      ),
+                    ),
+                  ),
+                  
+                  // Skeleton favori butonu
+                  Positioned(
+                    bottom: 180,
+                    right: 24,
+                    child: Container(
+                      width: 56,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.7),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.5),
+                          width: 1,
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.favorite_border,
+                        color: Colors.white,
+                        size: 28,
+                      ),
+                    ),
+                  ),
+                  
+                  // Skeleton film bilgileri
+                  Positioned(
+                    left: 24,
+                    right: 24,
+                    bottom: 24,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // App ikonu ve başlık
+                        Row(
+                          children: [
+                            Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFE53E3E),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  'S',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Container(
+                                height: 24,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        
+                        const SizedBox(height: 16),
+                        
+                        // Skeleton açıklama
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 16,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Container(
+                              height: 16,
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Container(
+                              height: 16,
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                          ],
+                        ),
+                        
+                        const SizedBox(height: 16),
+                        
+                        // Skeleton detaylar
+                        Row(
+                          children: [
+                            Container(
+                              height: 20,
+                              width: 60,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                            const SizedBox(width: 24),
+                            Container(
+                              height: 20,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
