@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shartflix_movie_app/features/home/domain/entities/movie.dart';
-import 'package:shartflix_movie_app/features/profile/presentation/bloc/profile_bloc.dart';
-import 'package:shartflix_movie_app/features/profile/presentation/bloc/profile_state.dart';
-import 'package:shartflix_movie_app/features/profile/presentation/bloc/profile_event.dart';
+import 'package:shartflix_movie_app/features/home/presentation/bloc/movies_bloc.dart';
+import 'package:shartflix_movie_app/features/home/presentation/bloc/movies_state.dart';
+import 'package:shartflix_movie_app/features/home/presentation/bloc/movies_event.dart';
 import 'dart:io';
 
 import '../../../auth/auth_feature.dart';
@@ -24,8 +24,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    // Favori filmleri yükle
-    context.read<ProfileBloc>().add(const ProfileEvent.loadFavoriteMovies());
+    // MoviesBloc'tan favori filmleri al
+    context.read<MoviesBloc>().add(const MoviesEvent.loadPopularMovies());
   }
 
   @override
@@ -356,12 +356,12 @@ class _ProfilePageState extends State<ProfilePage> {
         
         // Movies Grid
         Expanded(
-          child: BlocBuilder<ProfileBloc, ProfileState>(
+          child: BlocBuilder<MoviesBloc, MoviesState>(
             builder: (context, state) {
               return state.when(
                 initial: () => const _LoadingView(),
                 loading: () => const _LoadingView(),
-                loaded: (movies) {
+                loaded: (movies, hasReachedMax, currentPage) {
                   // Filter liked movies
                   final likedMoviesList = movies.where((movie) => movie.isFavorite).toList();
                   
@@ -441,20 +441,28 @@ class _LikedMovieCard extends StatelessWidget {
                     ),
                   ),
                   
-                  // Favorite Icon
+                  // Favorite Icon with Toggle
                   Positioned(
                     top: 8,
                     right: 8,
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.5),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.favorite,
-                        color: Color(0xFFE53E3E),
-                        size: 16,
+                    child: GestureDetector(
+                      onTap: () {
+                        // Toggle favorite
+                        context.read<MoviesBloc>().add(
+                          MoviesEvent.toggleFavorite(movie),
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          movie.isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: const Color(0xFFE53E3E),
+                          size: 16,
+                        ),
                       ),
                     ),
                   ),
@@ -483,7 +491,9 @@ class _LikedMovieCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'Production Co.', // Placeholder for production company
+                    movie.releaseDate.isNotEmpty 
+                        ? movie.releaseDate.split('-').first 
+                        : 'N/A',
                     style: const TextStyle(
                       color: Color(0xFF94A3B8),
                       fontSize: 10,

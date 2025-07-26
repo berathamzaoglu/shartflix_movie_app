@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 import 'app/app.dart';
 import 'app/router/app_router.dart';
-import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'core/injection_container.dart';
+import 'core/services/firebase_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
   print('🚀 Starting application...');
+  
+  // Firebase'i başlat
+  await FirebaseService.initialize();
   
   // Setup dependencies (includes Dio setup)
   await configureDependencies();

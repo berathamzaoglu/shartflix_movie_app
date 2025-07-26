@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/injection_container.dart';
+import '../../core/services/route_observer.dart';
 import '../../core/usecases/usecase.dart';
 import '../../features/auth/domain/usecases/check_auth_status_usecase.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
@@ -21,6 +22,9 @@ class AppRouter {
   static void initialize() {
     _router = GoRouter(
       initialLocation: '/login',
+      observers: [
+        AnalyticsRouteObserver(),
+      ],
       redirect: (context, state) async {
         // Auth durumunu kontrol et
         try {

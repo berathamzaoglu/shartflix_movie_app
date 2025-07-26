@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../core/injection_container.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
 import '../features/home/presentation/bloc/movies_bloc.dart';
-import '../features/profile/presentation/bloc/profile_bloc.dart';
 import 'router/app_router.dart';
 import 'theme/app_theme.dart';
 
@@ -20,9 +19,6 @@ class App extends StatelessWidget {
         ),
         BlocProvider<MoviesBloc>(
           create: (context) => getIt<MoviesBloc>(),
-        ),
-        BlocProvider<ProfileBloc>(
-          create: (context) => getIt<ProfileBloc>(),
         ),
       ],
       child: MaterialApp.router(

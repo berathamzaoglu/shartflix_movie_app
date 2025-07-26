@@ -2,6 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shartflix_movie_app/features/home/data/models/movie_model.dart';
 
 import '../../../../core/utils/logger.dart';
+import '../../../../core/services/analytics_helper.dart';
+import '../../../../core/services/crashlytics_helper.dart';
 import '../../domain/entities/movie.dart';
 import '../../domain/usecases/get_popular_movies_usecase.dart';
 import '../../domain/usecases/toggle_favorite_usecase.dart';
@@ -29,6 +31,13 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   ) async {
     emit(const MoviesState.loading());
     
+    // Analytics: Load popular movies
+    await AnalyticsHelper.logCustomEvent(
+      name: 'load_popular_movies',
+      parameters: {'page': 1},
+    );
+    await CrashlyticsHelper.log('Loading popular movies - page 1');
+    
     final result = await _getPopularMoviesUseCase(
       const GetPopularMoviesParams(page: 1),
     );
@@ -36,11 +45,37 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     result.fold(
       (failure) {
         Logger.error('Failed to load popular movies: ${failure.message}');
+        
+        // Analytics: Load movies failure
+        AnalyticsHelper.logError(
+          errorType: 'load_movies_failure',
+          errorMessage: failure.message,
+          screenName: 'home_page',
+        );
+        
+        // Crashlytics: Record load movies error
+        CrashlyticsHelper.recordError(
+          Exception('Failed to load popular movies: ${failure.message}'),
+          null,
+          reason: 'Load popular movies failure',
+        );
+        
         emit(MoviesState.error(failure.message));
       },
       (moviesResponse) {
         final movies = moviesResponse.movies.map((model) => model.toEntity()).toList();
         Logger.info('Loaded ${movies.length} popular movies for page 1');
+        
+        // Analytics: Load movies success
+        AnalyticsHelper.logCustomEvent(
+          name: 'movies_loaded',
+          parameters: {
+            'count': movies.length,
+            'page': 1,
+            'total_pages': moviesResponse.pagination.maxPage,
+          },
+        );
+        
         emit(MoviesState.loaded(
           movies: movies,
           currentPage: moviesResponse.pagination.currentPage,
@@ -104,6 +139,14 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     Logger.info('Movie: ${event.movie.title} (ID: ${event.movie.id})');
     Logger.info('Current favorite status: ${event.movie.isFavorite}');
     
+    // Analytics: Toggle favorite attempt
+    await AnalyticsHelper.logMovieFavorite(
+      movieId: event.movie.id,
+      movieTitle: event.movie.title,
+      isFavorite: !event.movie.isFavorite, // Toggle edilecek durum
+    );
+    await CrashlyticsHelper.log('Toggle favorite for movie: ${event.movie.title}');
+    
     final result = await _toggleFavoriteUseCase(
       ToggleFavoriteParams(movie: event.movie),
     );
@@ -111,6 +154,20 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     result.fold(
       (failure) {
         Logger.error('Failed to toggle favorite: ${failure.message}');
+        
+        // Analytics: Toggle favorite failure
+        AnalyticsHelper.logError(
+          errorType: 'toggle_favorite_failure',
+          errorMessage: failure.message,
+          screenName: 'home_page',
+        );
+        
+        // Crashlytics: Record toggle favorite error
+        CrashlyticsHelper.recordError(
+          Exception('Failed to toggle favorite: ${failure.message}'),
+          null,
+          reason: 'Toggle favorite failure for movie ${event.movie.title}',
+        );
       },
       (responseData) {
         Logger.info('API response: $responseData');
@@ -156,6 +213,13 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
               
               Logger.info('New favorite status: $newFavoriteStatus');
               
+              // Analytics: Toggle favorite success
+              AnalyticsHelper.logMovieFavorite(
+                movieId: event.movie.id,
+                movieTitle: event.movie.title,
+                isFavorite: newFavoriteStatus,
+              );
+              
               // Yeni movies listesi oluştur
               final updatedMovies = List<Movie>.from(movies);
               updatedMovies[movieIndex] = updatedMovies[movieIndex].copyWith(isFavorite: newFavoriteStatus);
@@ -170,6 +234,13 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
             } else {
               Logger.error('Movie not found in list! ID: ${event.movie.id}');
               Logger.error('Available movie IDs: ${movies.map((m) => m.id).toList()}');
+              
+              // Crashlytics: Record movie not found error
+              CrashlyticsHelper.recordError(
+                Exception('Movie not found in list'),
+                null,
+                reason: 'Movie ${event.movie.id} not found in movies list',
+              );
             }
           },
           error: (message) {
@@ -187,5 +258,9 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   ) async {
     // TODO: Implement search functionality
     Logger.info('Search movies: ${event.query}');
+    
+    // Analytics: Search attempt
+    await AnalyticsHelper.logSearch(searchTerm: event.query);
+    await CrashlyticsHelper.log('Search movies: ${event.query}');
   }
 } 
