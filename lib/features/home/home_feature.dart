@@ -18,7 +18,7 @@ export 'domain/usecases/toggle_favorite_usecase.dart';
 export 'presentation/bloc/movies_bloc.dart';
 export 'presentation/bloc/movies_event.dart';
 export 'presentation/bloc/movies_state.dart';
-export 'presentation/pages/home_page.dart';
+export 'presentation/pages/movie_discovery_page.dart';
 export 'presentation/widgets/movie_discovery_view.dart';
 export 'presentation/widgets/movie_card.dart';
 export 'presentation/widgets/movie_grid.dart';

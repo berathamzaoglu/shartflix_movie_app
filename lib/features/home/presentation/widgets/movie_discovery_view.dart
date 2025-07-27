@@ -120,7 +120,8 @@ class _MoviePageView extends StatelessWidget {
         // Film sayfaları
         RefreshIndicator(
           onRefresh: () async {
-            context.read<MoviesBloc>().add(const MoviesEvent.loadPopularMovies());
+            // Refresh event'i gönder (cache'i geçersiz kılar)
+            context.read<MoviesBloc>().add(const MoviesEvent.refreshMovies());
             // Refresh tamamlanana kadar bekle
             await Future.delayed(const Duration(seconds: 2));
           },

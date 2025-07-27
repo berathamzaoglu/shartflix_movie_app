@@ -14,6 +14,11 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   final GetPopularMoviesUseCase _getPopularMoviesUseCase;
   final ToggleFavoriteUseCase _toggleFavoriteUseCase;
 
+  // Cache yapısı
+  DateTime? _lastLoadTime;
+  static const Duration _cacheDuration = Duration(minutes: 5); // 5 dakika cache
+  bool _isLoading = false;
+
   MoviesBloc(
     this._getPopularMoviesUseCase,
     this._toggleFavoriteUseCase,
@@ -25,10 +30,37 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     on<SearchMovies>(_onSearchMovies);
   }
 
+  /// Cache'in geçerli olup olmadığını kontrol eder
+  bool get _isCacheValid {
+    if (_lastLoadTime == null) return false;
+    return DateTime.now().difference(_lastLoadTime!) < _cacheDuration;
+  }
+
+  /// Cache'i geçersiz kılar (refresh için)
+  void _invalidateCache() {
+    _lastLoadTime = null;
+  }
+
   Future<void> _onLoadPopularMovies(
     LoadPopularMovies event,
     Emitter<MoviesState> emit,
   ) async {
+    // Eğer zaten loading durumundaysa, yeni request yapma
+    if (_isLoading) {
+      Logger.info('Already loading movies, skipping request');
+      return;
+    }
+
+    // Cache kontrolü - eğer cache geçerliyse ve data varsa, API çağrısı yapma
+    if (_isCacheValid && state.maybeWhen(
+      loaded: (movies, hasReachedMax, currentPage) => movies.isNotEmpty,
+      orElse: () => false,
+    )) {
+      Logger.info('Using cached data, skipping API call');
+      return;
+    }
+
+    _isLoading = true;
     emit(const MoviesState.loading());
     
     // Analytics: Load popular movies
@@ -66,6 +98,9 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         final movies = moviesResponse.movies.map((model) => model.toEntity()).toList();
         Logger.info('Loaded ${movies.length} popular movies for page 1');
         
+        // Cache'i güncelle
+        _lastLoadTime = DateTime.now();
+        
         // Analytics: Load movies success
         AnalyticsHelper.logCustomEvent(
           name: 'movies_loaded',
@@ -83,6 +118,8 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         ));
       },
     );
+    
+    _isLoading = false;
   }
 
   Future<void> _onLoadMoreMovies(
@@ -100,7 +137,12 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     
     if (loadedState == null) return;
     if (loadedState.hasReachedMax) return;
+    if (_isLoading) {
+      Logger.info('Already loading more movies, skipping request');
+      return;
+    }
 
+    _isLoading = true;
     final nextPage = loadedState.currentPage + 1;
     
     final result = await _getPopularMoviesUseCase(
@@ -115,6 +157,10 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
       (moviesResponse) {
         final newMovies = moviesResponse.movies.map((model) => model.toEntity()).toList();
         Logger.info('Loaded ${newMovies.length} more movies (page $nextPage)');
+        
+        // Cache'i güncelle
+        _lastLoadTime = DateTime.now();
+        
         emit(MoviesState.loaded(
           movies: [...loadedState.movies, ...newMovies],
           currentPage: moviesResponse.pagination.currentPage,
@@ -122,12 +168,16 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         ));
       },
     );
+    
+    _isLoading = false;
   }
 
   Future<void> _onRefreshMovies(
     RefreshMovies event,
     Emitter<MoviesState> emit,
   ) async {
+    Logger.info('Refreshing movies - invalidating cache');
+    _invalidateCache(); // Cache'i geçersiz kıl
     add(const MoviesEvent.loadPopularMovies());
   }
 
