@@ -34,54 +34,26 @@ class _ProfilePageState extends State<ProfilePage> {
     final l10n = AppLocalizations.of(context)!;
     
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Header
-            _buildHeader(context),
-            
-            // Profile Info
-            _buildProfileInfo(),
-            
-            // Liked Movies Section
-            Expanded(
-              child: _buildLikedMoviesSection(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    
-    return Container(
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        children: [
-        
-          
-          const Spacer(),
-          
-          // Title
-          Text(
-            l10n.profile_profile_details,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF090909),
+        elevation: 0,
+        title: Text(
+          l10n.profile_profile_details,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
           ),
-          
-          const Spacer(),
-          
+        ),
+        centerTitle: true,
+        actions: [
           // Limited Offer Button
           GestureDetector(
             onTap: () {
               showLimitedOfferBottomSheet(context);
             },
             child: Container(
+              margin: const EdgeInsets.only(right: 16),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: const Color(0xFFE53E3E),
@@ -109,6 +81,19 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ],
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Profile Info
+            _buildProfileInfo(),
+            
+            // Liked Movies Section
+            Expanded(
+              child: _buildLikedMoviesSection(),
+            ),
+          ],
+        ),
       ),
     );
   }
