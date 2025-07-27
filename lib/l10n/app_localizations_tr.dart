@@ -203,6 +203,38 @@ class AppLocalizationsTr extends AppLocalizations {
   String get navigation_home => 'Ana Sayfa';
 
   @override
+  String get limited_offer_title => 'Sınırlı Teklif';
+
+  @override
+  String get limited_offer_description =>
+      'Jeton paketini seçerek bonus kazanın ve yeni bölümlerin kilidini açın!';
+
+  @override
+  String get limited_offer_bonuses_title => 'Alacağınız Bonuslar';
+
+  @override
+  String get limited_offer_premium_account => 'Premium\nHesap';
+
+  @override
+  String get limited_offer_more_matches => 'Daha Fazla\nEşleşme';
+
+  @override
+  String get limited_offer_featured => 'Öne\nÇıkarma';
+
+  @override
+  String get limited_offer_more_likes => 'Daha Fazla\nBeğeni';
+
+  @override
+  String get limited_offer_select_package =>
+      'Kilidi açmak için bir jeton paketi seçin';
+
+  @override
+  String get limited_offer_weekly => 'Başına haftalık';
+
+  @override
+  String get limited_offer_view_all_tokens => 'Tüm Jetonları Gör';
+
+  @override
   String get navigation_profile => 'Profil';
 
   @override

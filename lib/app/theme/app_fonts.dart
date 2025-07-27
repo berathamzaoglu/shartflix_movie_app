@@ -61,7 +61,7 @@ class AppFonts {
   
   static TextStyle get titleLarge => const TextStyle(
     fontFamily: family,
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: medium,
     letterSpacing: 0,
     height: 1.27,

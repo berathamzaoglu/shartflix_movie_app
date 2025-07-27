@@ -334,28 +334,33 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text(
-              l10n.profile_logout_cancel,
-              style: const TextStyle(
-                color: Color(0xFF94A3B8),
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+
+            FilledButton(
+                onPressed: () => Navigator.of(context).pop(),
+                style: FilledButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: Text(
+                  l10n.profile_logout_cancel,
+                  style: const TextStyle(
+                    color: Color(0xFF94A3B8),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
-            ),
-          ),
-          ElevatedButton(
+          
+          
+          FilledButton(
             onPressed: () {
               Navigator.of(context).pop();
               _performLogout(context);
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFE53E3E),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
+          
             child: Text(
               l10n.profile_logout_confirm,
               style: const TextStyle(

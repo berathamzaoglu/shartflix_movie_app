@@ -476,6 +476,66 @@ abstract class AppLocalizations {
   /// **'Home'**
   String get navigation_home;
 
+  /// No description provided for @limited_offer_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Limited Offer'**
+  String get limited_offer_title;
+
+  /// No description provided for @limited_offer_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a token package to earn bonuses and unlock new episodes!'**
+  String get limited_offer_description;
+
+  /// No description provided for @limited_offer_bonuses_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Bonuses You\'ll Get'**
+  String get limited_offer_bonuses_title;
+
+  /// No description provided for @limited_offer_premium_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium\nAccount'**
+  String get limited_offer_premium_account;
+
+  /// No description provided for @limited_offer_more_matches.
+  ///
+  /// In en, this message translates to:
+  /// **'More\nMatches'**
+  String get limited_offer_more_matches;
+
+  /// No description provided for @limited_offer_featured.
+  ///
+  /// In en, this message translates to:
+  /// **'Featured'**
+  String get limited_offer_featured;
+
+  /// No description provided for @limited_offer_more_likes.
+  ///
+  /// In en, this message translates to:
+  /// **'More\nLikes'**
+  String get limited_offer_more_likes;
+
+  /// No description provided for @limited_offer_select_package.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a token package to unlock'**
+  String get limited_offer_select_package;
+
+  /// No description provided for @limited_offer_weekly.
+  ///
+  /// In en, this message translates to:
+  /// **'per week'**
+  String get limited_offer_weekly;
+
+  /// No description provided for @limited_offer_view_all_tokens.
+  ///
+  /// In en, this message translates to:
+  /// **'View All Tokens'**
+  String get limited_offer_view_all_tokens;
+
   /// No description provided for @navigation_profile.
   ///
   /// In en, this message translates to:

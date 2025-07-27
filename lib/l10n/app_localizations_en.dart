@@ -201,6 +201,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navigation_home => 'Home';
 
   @override
+  String get limited_offer_title => 'Limited Offer';
+
+  @override
+  String get limited_offer_description =>
+      'Choose a token package to earn bonuses and unlock new episodes!';
+
+  @override
+  String get limited_offer_bonuses_title => 'Bonuses You\'ll Get';
+
+  @override
+  String get limited_offer_premium_account => 'Premium\nAccount';
+
+  @override
+  String get limited_offer_more_matches => 'More\nMatches';
+
+  @override
+  String get limited_offer_featured => 'Featured';
+
+  @override
+  String get limited_offer_more_likes => 'More\nLikes';
+
+  @override
+  String get limited_offer_select_package => 'Select a token package to unlock';
+
+  @override
+  String get limited_offer_weekly => 'per week';
+
+  @override
+  String get limited_offer_view_all_tokens => 'View All Tokens';
+
+  @override
   String get navigation_profile => 'Profile';
 
   @override
