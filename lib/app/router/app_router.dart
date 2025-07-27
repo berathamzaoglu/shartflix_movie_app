@@ -8,6 +8,7 @@ import '../../core/services/route_observer.dart';
 import '../../core/usecases/usecase.dart';
 import '../../features/auth/auth_feature.dart';
 import '../../features/auth/domain/usecases/check_auth_status_usecase.dart';
+import '../../features/auth/presentation/pages/profile_photo_setup_page.dart';
 import '../../features/home/home_feature.dart';
 import '../../features/profile/presentation/bloc/profile_bloc.dart';
 
@@ -98,19 +99,23 @@ class AppRouter {
             },
           ),
         ),
+        GoRoute(
+          path: '/profile-photo-setup',
+          name: 'profile-photo-setup',
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            child: const ProfilePhotoSetupPage(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return FadeTransition(opacity: animation, child: child);
+            },
+          ),
+        ),
         
         // Main App Shell Route
         ShellRoute(
           builder: (context, state, child) {
             return MultiBlocProvider(
               providers: [
-                BlocProvider<AuthBloc>(
-                  create: (context) => getIt<AuthBloc>()
-                    ..add(const AuthEvent.checkAuthStatus()),
-                ),
-                BlocProvider<MoviesBloc>(
-                  create: (context) => getIt<MoviesBloc>(),
-                ),
                 BlocProvider<ProfileBloc>(
                   create: (context) => getIt<ProfileBloc>(),
                 ),

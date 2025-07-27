@@ -29,8 +29,23 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    // ProfileBloc'tan favori filmleri al
-    context.read<ProfileBloc>().add(const ProfileEvent.loadFavoriteMovies());
+    // ProfileBloc'tan favori filmleri al - bir sonraki frame'de
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        try {
+          final profileBloc = context.read<ProfileBloc>();
+          if (!profileBloc.state.maybeWhen(
+            loading: () => true,
+            orElse: () => false,
+          )) {
+            profileBloc.add(const ProfileEvent.loadFavoriteMovies());
+          }
+        } catch (e) {
+          // BLoC henüz hazır değilse veya kapatılmışsa hata verme
+          debugPrint('ProfileBloc not ready: $e');
+        }
+      }
+    });
   }
 
   @override

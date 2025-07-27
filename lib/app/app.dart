@@ -5,7 +5,11 @@ import '../l10n/app_localizations.dart';
 
 import '../core/injection_container.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
+import '../features/auth/presentation/bloc/auth_event.dart';
+import '../features/auth/presentation/bloc/auth_state.dart';
 import '../features/home/presentation/bloc/movies_bloc.dart';
+import '../features/home/presentation/bloc/movies_event.dart';
+import '../features/home/presentation/bloc/movies_state.dart';
 import 'router/app_router.dart';
 import 'theme/app_theme.dart';
 
@@ -17,10 +21,42 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
-          create: (context) => getIt<AuthBloc>(),
+          create: (context) {
+            final authBloc = getIt<AuthBloc>();
+            // App başlatıldığında auth durumunu kontrol et
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              try {
+                if (authBloc.state.maybeWhen(
+                  initial: () => true,
+                  orElse: () => false,
+                )) {
+                  authBloc.add(const AuthEvent.checkAuthStatus());
+                }
+              } catch (e) {
+                debugPrint('AuthBloc not ready for checkAuthStatus: $e');
+              }
+            });
+            return authBloc;
+          },
         ),
         BlocProvider<MoviesBloc>(
-          create: (context) => getIt<MoviesBloc>(),
+          create: (context) {
+            final moviesBloc = getIt<MoviesBloc>();
+            // App başlatıldığında popüler filmleri yükle
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              try {
+                if (moviesBloc.state.maybeWhen(
+                  initial: () => true,
+                  orElse: () => false,
+                )) {
+                  moviesBloc.add(const MoviesEvent.loadPopularMovies());
+                }
+              } catch (e) {
+                debugPrint('MoviesBloc not ready for loadPopularMovies: $e');
+              }
+            });
+            return moviesBloc;
+          },
         ),
       ],
       child: MaterialApp.router(
