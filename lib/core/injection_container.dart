@@ -30,6 +30,7 @@ import '../features/profile/data/datasources/profile_remote_datasource.dart';
 import '../features/profile/data/repositories/profile_repository_impl.dart';
 import '../features/profile/domain/repositories/profile_repository.dart';
 import '../features/profile/domain/usecases/get_favorite_movies_usecase.dart';
+import '../features/profile/domain/usecases/remove_favorite_usecase.dart';
 import '../features/profile/presentation/bloc/profile_bloc.dart';
 
 final getIt = GetIt.instance;
@@ -265,12 +266,20 @@ Future<void> _setupProfileDependencies() async {
     );
     debugPrint('✅ GetFavoriteMoviesUseCase registered');
   }
+
+  if (!getIt.isRegistered<RemoveFavoriteUseCase>()) {
+    getIt.registerLazySingleton<RemoveFavoriteUseCase>(
+      () => RemoveFavoriteUseCase(getIt.get<ProfileRepository>()),
+    );
+    debugPrint('✅ RemoveFavoriteUseCase registered');
+  }
   
   // Blocs (LazySingleton registration)
   if (!getIt.isRegistered<ProfileBloc>()) {
     getIt.registerLazySingleton<ProfileBloc>(
       () => ProfileBloc(
         getIt.get<GetFavoriteMoviesUseCase>(),
+        getIt.get<RemoveFavoriteUseCase>(),
       ),
     );
     debugPrint('✅ ProfileBloc registered as lazy singleton');

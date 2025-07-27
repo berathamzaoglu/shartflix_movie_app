@@ -167,6 +167,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profile_error => 'Error';
 
   @override
+  String get profile_id_copied => 'User ID copied to clipboard';
+
+  @override
   String get navigation_home => 'Home';
 
   @override

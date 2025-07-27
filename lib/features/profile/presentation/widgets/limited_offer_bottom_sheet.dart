@@ -296,8 +296,11 @@ class LimitedOfferBottomSheet extends StatelessWidget {
 void showLimitedOfferBottomSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
+    
     isScrollControlled: true,
-    backgroundColor: Colors.transparent,
+    constraints: BoxConstraints(
+      maxHeight: MediaQuery.of(context).size.height * 0.85,
+    ),
     builder: (context) => const LimitedOfferBottomSheet(),
   );
 } 

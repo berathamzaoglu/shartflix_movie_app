@@ -58,6 +58,7 @@
   "profile_login_button": "Login",
   "profile_retry": "Retry",
   "profile_error": "Error",
+  "profile_id_copied": "User ID copied to clipboard",
   
   "navigation_home": "Home",
   "navigation_profile": "Profile",

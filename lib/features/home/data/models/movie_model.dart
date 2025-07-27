@@ -41,10 +41,6 @@ abstract class MovieModel with _$MovieModel {
 
 extension MovieModelX on MovieModel {
   Movie toEntity() {
-    // Debug ID
-    Logger.debug('Movie: $title - Original ID: $id');
-    Logger.debug('Movie: $title - ID type: ${id.runtimeType}');
-    
     // Released alanından yıl kısmını çıkar (örn: "18 Dec 2009" -> "2009")
     String extractYear(String released) {
       final parts = released.split(' ');
@@ -60,44 +56,30 @@ extension MovieModelX on MovieModel {
     // Poster URL'sini temizle
     String cleanPosterUrl(String posterUrl) {
       if (posterUrl.isEmpty) return '';
-      
-      // Bozuk URL'leri düzelt (örn: "http://...jpg" -> "http://...jpg")
-      if (posterUrl.contains('@@..jpg')) {
-        posterUrl = posterUrl.replaceAll('@@..jpg', '@@.jpg');
-      }
-      
       // HTTP'yi HTTPS'e çevir (mobil güvenlik için)
       if (posterUrl.startsWith('http://')) {
         posterUrl = posterUrl.replaceFirst('http://', 'https://');
       }
-      
       // Eğer URL geçerli değilse boş string döndür
       if (!posterUrl.startsWith('https://')) {
         return '';
       }
-      
       return posterUrl;
     }
 
-    // Debug poster URL
-    Logger.debug('Movie: $title - Original Poster URL: $poster');
-    final cleanedPoster = cleanPosterUrl(poster);
-    Logger.debug('Movie: $title - Cleaned Poster URL: $cleanedPoster');
-    Logger.debug('Movie: $title - Images: $images');
-
     return Movie(
-      id: id,
-      title: title,
-      overview: plot,
-      posterPath: cleanedPoster.isNotEmpty ? cleanedPoster : null,
+      id: id.isNotEmpty ? id : imdbId,
+      title: title.isNotEmpty ? title : 'Bilinmiyor',
+      overview: plot.isNotEmpty ? plot : 'Açıklama yok',
+      posterPath: cleanPosterUrl(poster),
       backdropPath: images.isNotEmpty ? images.first : null,
       voteAverage: double.tryParse(imdbRating) ?? 0.0,
       voteCount: int.tryParse(imdbVotes.replaceAll(',', '')) ?? 0,
-      releaseDate: extractYear(released),
-      genreIds: genre.split(', ').map((g) => g.hashCode).toList(),
+      releaseDate: released.isNotEmpty ? released : year,
+      genreIds: genre.isNotEmpty ? genre.split(', ').map((g) => g.hashCode).toList() : [],
       adult: rated == 'R',
-      originalLanguage: language.split(', ').first,
-      originalTitle: title,
+      originalLanguage: language.isNotEmpty ? language.split(',').first : 'en',
+      originalTitle: title.isNotEmpty ? title : 'Bilinmiyor',
       popularity: double.tryParse(metascore) ?? 0.0,
       video: false,
       isFavorite: isFavorite,

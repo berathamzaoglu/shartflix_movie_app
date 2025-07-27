@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shartflix_movie_app/features/profile/presentation/pages/profile_page.dart';
 
 import '../../core/injection_container.dart';
 import '../../core/services/route_observer.dart';
@@ -11,8 +12,8 @@ import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/home/home_feature.dart';
 import '../../features/home/presentation/pages/movie_discovery_page.dart';
-import '../../features/profile/presentation/pages/profile_wrapper_page.dart';
 import '../../features/home/presentation/widgets/bottom_navigation_bar.dart';
+import '../../features/profile/presentation/bloc/profile_bloc.dart';
 
 class AppRouter {
   static GoRouter? _router;
@@ -114,6 +115,9 @@ class AppRouter {
                 BlocProvider<MoviesBloc>(
                   create: (context) => getIt<MoviesBloc>(),
                 ),
+                BlocProvider<ProfileBloc>(
+                  create: (context) => getIt<ProfileBloc>(),
+                ),
               ],
               child: Scaffold(
                 body: child,
@@ -165,7 +169,7 @@ class AppRouter {
               name: 'profile',
               pageBuilder: (context, state) => CustomTransitionPage(
                 key: state.pageKey,
-                child: const ProfileWrapperPage(),
+                child: const ProfilePage(),
                 transitionsBuilder: (context, animation, secondaryAnimation, child) {
                   // Bottom navigation geçişleri için yumuşak fade animasyonu
                   return FadeTransition(

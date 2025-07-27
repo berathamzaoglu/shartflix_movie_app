@@ -59,7 +59,6 @@ class _MovieDiscoveryViewState extends State<MovieDiscoveryView> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     
     return BlocBuilder<MoviesBloc, MoviesState>(
       builder: (context, state) {
@@ -138,7 +137,7 @@ class _MoviePageView extends StatelessWidget {
                 
                 return Skeletonizer(
                   enabled: true,
-                  child: Container(
+                  child: SizedBox(
                     height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
                     child: Stack(
@@ -166,9 +165,9 @@ class _MoviePageView extends StatelessWidget {
                                 end: Alignment.bottomCenter,
                                 colors: [
                                   Colors.transparent,
-                                  Colors.black.withOpacity(0.3),
-                                  Colors.black.withOpacity(0.7),
-                                  Colors.black.withOpacity(0.9),
+                                  Colors.black.withAlpha(76),
+                                  Colors.black.withAlpha(179),
+                                  Colors.black.withAlpha(230),
                                 ],
                                 stops: const [0.0, 0.4, 0.7, 1.0],
                               ),
@@ -185,7 +184,7 @@ class _MoviePageView extends StatelessWidget {
                             child: Container(
                               padding: const EdgeInsets.all(24),
                               decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.8),
+                                color: Colors.black.withAlpha(204),
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Column(
@@ -259,7 +258,7 @@ class _MovieCardState extends State<_MovieCard> {
   Widget build(BuildContext context) {
     Logger.debug('MovieCard build: ${widget.movie.title} - Favorite: ${widget.movie.isFavorite}');
     
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: Stack(

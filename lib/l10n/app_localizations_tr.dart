@@ -168,6 +168,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profile_error => 'Hata';
 
   @override
+  String get profile_id_copied => 'Kullanıcı ID\'si panoya kopyalandı';
+
+  @override
   String get navigation_home => 'Ana Sayfa';
 
   @override

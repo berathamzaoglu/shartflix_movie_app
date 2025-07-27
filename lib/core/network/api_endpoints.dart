@@ -21,6 +21,7 @@ class ApiEndpoints {
   static const String genres = '/genres';
   
   // User endpoints
-  static const String favorites = '/user/favorites';
+  static const String favorites = '/movie/favorites';
   static const String toggleFavorite = '/user/favorites/{id}';
+  static const String removeFavorite = '/movie/favorite/{id}';
 } 

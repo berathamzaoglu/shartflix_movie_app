@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shartflix_movie_app/features/home/domain/entities/movie.dart';
-import 'package:shartflix_movie_app/features/home/presentation/bloc/movies_bloc.dart';
-import 'package:shartflix_movie_app/features/home/presentation/bloc/movies_state.dart';
-import 'package:shartflix_movie_app/features/home/presentation/bloc/movies_event.dart';
+import 'package:shartflix_movie_app/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:shartflix_movie_app/features/profile/presentation/bloc/profile_state.dart';
+import 'package:shartflix_movie_app/features/profile/presentation/bloc/profile_event.dart';
 import 'package:shartflix_movie_app/l10n/app_localizations.dart';
 import 'dart:io';
 
@@ -25,8 +26,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    // MoviesBloc'tan favori filmleri al
-    context.read<MoviesBloc>().add(const MoviesEvent.loadPopularMovies());
+    // ProfileBloc'tan favori filmleri al
+    context.read<ProfileBloc>().add(const ProfileEvent.loadFavoriteMovies());
   }
 
   @override
@@ -157,20 +158,46 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       Text(
                         user.name,
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: 15,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       const SizedBox(height: 4),
-                      Text(
-                        '${l10n.profile_user_id}: ${user.id}',
-                        style: const TextStyle(
-                          color: Color(0xFF94A3B8),
-                          fontSize: 14,
-                        ),
-                      ),
+                    
+                    
+                     ConstrainedBox(constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.4), 
+                     child:Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              '${l10n.profile_user_id}: ${user.id}',
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Color(0xFF94A3B8),
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                          IconButton(onPressed: (){
+                              Clipboard.setData(ClipboardData(text: user.id));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(l10n.profile_id_copied),
+                                  backgroundColor:  Colors.green,
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            }, icon: const Icon(
+                                Icons.copy,
+                                color: Color(0xFF94A3B8),
+                                size: 16,
+                              ),),
+                         
+                        ],
+                      ),)
                     ],
                   ),
                 ),
@@ -337,32 +364,35 @@ class _ProfilePageState extends State<ProfilePage> {
         
         // Movies Grid
         Expanded(
-          child: BlocBuilder<MoviesBloc, MoviesState>(
+          child: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
               return state.when(
                 initial: () => const _LoadingView(),
                 loading: () => const _LoadingView(),
-                loaded: (movies, hasReachedMax, currentPage) {
-                  // Filter liked movies
-                  final likedMoviesList = movies.where((movie) => movie.isFavorite).toList();
-                  
-                  if (likedMoviesList.isEmpty) {
+                loaded: (movies) {
+                  if (movies.isEmpty) {
                     return _buildEmptyState();
                   }
                   
-                  return GridView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.7,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                    ),
-                    itemCount: likedMoviesList.length,
-                    itemBuilder: (context, index) {
-                      final movie = likedMoviesList[index];
-                      return _LikedMovieCard(movie: movie);
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      context.read<ProfileBloc>().add(
+                        const ProfileEvent.refreshFavoriteMovies(),
+                      );
                     },
+                    child: GridView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 153/263,
+                        crossAxisSpacing: 16,
+                      ),
+                      itemCount: movies.length,
+                      itemBuilder: (context, index) {
+                        final movie = movies[index];
+                        return _LikedMovieCard(movie: movie);
+                      },
+                    ),
                   );
                 },
                 error: (message) => _ErrorView(message: message),
@@ -423,7 +453,7 @@ class _LikedMovieCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: const Color(0xFF1E293B),
+    
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -432,7 +462,7 @@ class _LikedMovieCard extends StatelessWidget {
           Expanded(
             flex: 3,
             child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+              borderRadius:  BorderRadius.circular(12),
               child: Stack(
                 children: [
                   Positioned.fill(
@@ -466,9 +496,9 @@ class _LikedMovieCard extends StatelessWidget {
                     right: 8,
                     child: GestureDetector(
                       onTap: () {
-                        // Toggle favorite
-                        context.read<MoviesBloc>().add(
-                          MoviesEvent.toggleFavorite(movie),
+                        // Favori filmden çıkar
+                        context.read<ProfileBloc>().add(
+                          ProfileEvent.removeFavorite(movie.id),
                         );
                       },
                       child: Container(
@@ -501,6 +531,7 @@ class _LikedMovieCard extends StatelessWidget {
                   Text(
                     movie.title,
                     style: const TextStyle(
+                      fontFamily: 'EuclidCircular',
                       color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
@@ -513,9 +544,9 @@ class _LikedMovieCard extends StatelessWidget {
                     movie.releaseDate.isNotEmpty 
                         ? movie.releaseDate.split('-').first 
                         : l10n.common_na,
-                    style: const TextStyle(
-                      color: Color(0xFF94A3B8),
-                      fontSize: 10,
+                    style:  TextStyle(
+                      color: Colors.white.withAlpha(128),
+                      fontSize: 12,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -538,44 +569,6 @@ class _LoadingView extends StatelessWidget {
     return const Center(
       child: CircularProgressIndicator(
         color: Color(0xFFE53E3E),
-      ),
-    );
-  }
-}
-
-class _EmptyLikedMoviesView extends StatelessWidget {
-  const _EmptyLikedMoviesView();
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(
-            Icons.favorite_border,
-            color: Color(0xFF64748B),
-            size: 64,
-          ),
-          const SizedBox(height: 16),
-          const Text(
-            'Henüz beğendiğiniz film yok',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'Filmleri beğenmek için kalp ikonuna tıklayın',
-            style: TextStyle(
-              color: Color(0xFF94A3B8),
-              fontSize: 14,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
       ),
     );
   }

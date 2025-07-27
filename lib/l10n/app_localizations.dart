@@ -410,6 +410,12 @@ abstract class AppLocalizations {
   /// **'Error'**
   String get profile_error;
 
+  /// No description provided for @profile_id_copied.
+  ///
+  /// In en, this message translates to:
+  /// **'User ID copied to clipboard'**
+  String get profile_id_copied;
+
   /// No description provided for @navigation_home.
   ///
   /// In en, this message translates to:

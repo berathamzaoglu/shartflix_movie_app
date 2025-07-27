@@ -4,9 +4,12 @@ import 'package:shartflix_movie_app/features/home/data/models/movie_model.dart';
 import '../../../../core/utils/logger.dart';
 import '../../../../core/services/analytics_helper.dart';
 import '../../../../core/services/crashlytics_helper.dart';
+import '../../../../core/injection_container.dart';
 import '../../domain/entities/movie.dart';
 import '../../domain/usecases/get_popular_movies_usecase.dart';
 import '../../domain/usecases/toggle_favorite_usecase.dart';
+import '../../../profile/presentation/bloc/profile_bloc.dart';
+import '../../../profile/presentation/bloc/profile_event.dart';
 import 'movies_event.dart';
 import 'movies_state.dart';
 
@@ -299,6 +302,17 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         );
       },
     );
+    
+    // ProfileBloc'u bilgilendir - favori durumu değişti
+    try {
+      final profileBloc = getIt<ProfileBloc>();
+      Logger.info('🎯 Notifying ProfileBloc about favorite change for movie: ${event.movie.title}');
+      profileBloc.add(const ProfileEvent.refreshFavoriteMovies());
+      Logger.info('✅ ProfileBloc notification sent successfully');
+    } catch (e) {
+      Logger.warning('❌ ProfileBloc not available, cannot notify about favorite change: $e');
+    }
+    
     Logger.info('=== TOGGLE FAVORITE END ===');
   }
 

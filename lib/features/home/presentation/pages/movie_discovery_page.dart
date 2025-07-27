@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../bloc/movies_bloc.dart';
 import '../bloc/movies_event.dart';
-import '../bloc/movies_state.dart';
 import '../widgets/movie_discovery_view.dart';
 
 class MovieDiscoveryPage extends StatefulWidget {
