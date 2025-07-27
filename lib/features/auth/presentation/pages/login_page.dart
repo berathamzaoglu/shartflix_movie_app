@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shartflix_movie_app/l10n/app_localizations.dart';
 
 import '../../../../core/injection_container.dart';
 import '../bloc/auth_bloc.dart';
@@ -33,6 +34,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         body: SafeArea(
@@ -65,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                         
                         // Title
                         Text(
-                          'Merhabalar',
+                          l10n.hello,
                           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -88,13 +91,13 @@ class _LoginPageState extends State<LoginPage> {
                         // Email Field
                         AuthTextField(
                           controller: _emailController,
-                          label: 'E-Posta',
+                          label: l10n.auth_email,
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
                           prefixIcon: const Icon(Icons.email_outlined),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'E-posta adresi boş olamaz';
+                              return '${l10n.auth_email} boş olamaz';
                             }
                             if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
                               return 'Geçerli bir e-posta adresi girin';
@@ -108,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                         // Password Field
                         AuthTextField(
                           controller: _passwordController,
-                          label: 'Şifre',
+                          label: l10n.auth_password,
                           obscureText: _obscurePassword,
                           textInputAction: TextInputAction.done,
                           prefixIcon: const Icon(Icons.lock_outline),
@@ -126,10 +129,10 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Şifre boş olamaz';
+                              return '${l10n.auth_password} boş olamaz';
                             }
                             if (value.length < 6) {
-                              return 'Şifre en az 6 karakter olmalıdır';
+                              return '${l10n.auth_password} en az 6 karakter olmalıdır';
                             }
                             return null;
                           },
@@ -144,9 +147,9 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: () {
                               // TODO: Implement forgot password
                             },
-                            child: const Text(
-                              'Şifremi unuttum',
-                              style: TextStyle(
+                            child: Text(
+                              l10n.auth_forgot_password,
+                              style: const TextStyle(
                                 color: Colors.white,
                                 decoration: TextDecoration.underline,
                               ),
@@ -160,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                         PrimaryButton(
                           onPressed: isLoading ? null : _handleLogin,
                           isLoading: isLoading,
-                          child: const Text('Giriş Yap'),
+                          child: Text(l10n.auth_login),
                         ),
                         
                         const SizedBox(height: 32),
@@ -175,7 +178,7 @@ class _LoginPageState extends State<LoginPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Bir hesabın yok mu? ',
+                              '${l10n.auth_dont_have_account} ',
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 color: Theme.of(context).colorScheme.onSurfaceVariant,
                               ),
@@ -184,9 +187,9 @@ class _LoginPageState extends State<LoginPage> {
                               onPressed: () {
                                 context.go('/register');
                               },
-                              child: const Text(
-                                'Kayıt Ol!',
-                                style: TextStyle(
+                              child: Text(
+                                l10n.auth_sign_up,
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
                                 ),

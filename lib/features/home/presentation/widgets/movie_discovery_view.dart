@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../core/utils/logger.dart';
+import '../../../../l10n/app_localizations.dart';
 
 import '../../domain/entities/movie.dart';
 import '../bloc/movies_bloc.dart';
@@ -58,6 +59,8 @@ class _MovieDiscoveryViewState extends State<MovieDiscoveryView> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return BlocBuilder<MoviesBloc, MoviesState>(
       builder: (context, state) {
         Logger.debug('MovieDiscoveryView rebuild - State: ${state.runtimeType}');
@@ -130,6 +133,8 @@ class _MoviePageView extends StatelessWidget {
             itemBuilder: (context, index) {
               if (index >= movies.length) {
                 // Loading indicator for pagination
+                final l10n = AppLocalizations.of(context)!;
+                
                 return Skeletonizer(
                   enabled: true,
                   child: Container(
@@ -182,10 +187,10 @@ class _MoviePageView extends StatelessWidget {
                                 color: Colors.black.withOpacity(0.8),
                                 borderRadius: BorderRadius.circular(16),
                               ),
-                              child: const Column(
+                              child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 32,
                                     height: 32,
                                     child: CircularProgressIndicator(
@@ -193,10 +198,10 @@ class _MoviePageView extends StatelessWidget {
                                       color: Color(0xFFE53E3E),
                                     ),
                                   ),
-                                  SizedBox(height: 16),
+                                  const SizedBox(height: 16),
                                   Text(
-                                    'Daha fazla film yükleniyor...',
-                                    style: TextStyle(
+                                    l10n.home_load_more,
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
@@ -742,21 +747,23 @@ class _EmptyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Container(
       color: const Color(0xFF0F172A),
-      child: const Center(
+      child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.movie,
               color: Color(0xFF64748B),
               size: 64,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
-              'Film bulunamadı',
-              style: TextStyle(
+              l10n.home_no_movies_found,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -776,6 +783,8 @@ class _ErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Container(
       color: const Color(0xFF0F172A),
       child: Center(
@@ -788,9 +797,9 @@ class _ErrorView extends StatelessWidget {
               size: 64,
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Bir hata oluştu',
-              style: TextStyle(
+            Text(
+              l10n.errors_general_error,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -819,7 +828,7 @@ class _ErrorView extends StatelessWidget {
                 backgroundColor: const Color(0xFFE53E3E),
                 foregroundColor: Colors.white,
               ),
-              child: const Text('Tekrar Dene'),
+              child: Text(l10n.errors_try_again),
             ),
           ],
         ),

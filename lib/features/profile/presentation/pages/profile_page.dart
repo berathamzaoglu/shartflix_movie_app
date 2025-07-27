@@ -7,6 +7,7 @@ import 'package:shartflix_movie_app/features/home/domain/entities/movie.dart';
 import 'package:shartflix_movie_app/features/home/presentation/bloc/movies_bloc.dart';
 import 'package:shartflix_movie_app/features/home/presentation/bloc/movies_state.dart';
 import 'package:shartflix_movie_app/features/home/presentation/bloc/movies_event.dart';
+import 'package:shartflix_movie_app/l10n/app_localizations.dart';
 import 'dart:io';
 
 import '../../../auth/auth_feature.dart';
@@ -30,6 +31,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       backgroundColor: const Color(0xFF0F172A),
       body: SafeArea(
@@ -52,6 +55,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildHeader(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Container(
       padding: const EdgeInsets.all(16),
       child: Row(
@@ -74,9 +79,9 @@ class _ProfilePageState extends State<ProfilePage> {
           const Spacer(),
           
           // Title
-          const Text(
-            'Profil Detayı',
-            style: TextStyle(
+          Text(
+            l10n.profile_profile_details,
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -105,9 +110,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     size: 16,
                   ),
                   const SizedBox(width: 4),
-                  const Text(
-                    'Sınırlı Teklif',
-                    style: TextStyle(
+                  Text(
+                    l10n.limited_offer_limited_offer,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
@@ -123,6 +128,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildProfileInfo() {
+    final l10n = AppLocalizations.of(context)!;
+    
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, authState) {
         return authState.when(
@@ -187,7 +194,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'ID: ${user.id}',
+                        '${l10n.profile_user_id}: ${user.id}',
                         style: const TextStyle(
                           color: Color(0xFF94A3B8),
                           fontSize: 14,
@@ -205,9 +212,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: const Color(0xFFE53E3E),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: const Text(
-                      'Fotoğraf Ekle',
-                      style: TextStyle(
+                    child: Text(
+                      l10n.profile_add_photo,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -226,32 +233,34 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _showImagePickerDialog(BuildContext context, User user) {
+    final l10n = AppLocalizations.of(context)!;
+    
     showCupertinoModalPopup<void>(
       context: context,
       builder: (BuildContext context) => CupertinoActionSheet(
-        title: const Text('Fotoğraf Seç'),
-        message: const Text('Profil fotoğrafınızı nasıl değiştirmek istiyorsunuz?'),
+        title: Text(l10n.auth_select_photo),
+        message: Text('Profil fotoğrafınızı nasıl değiştirmek istiyorsunuz?'),
         actions: <CupertinoActionSheetAction>[
           CupertinoActionSheetAction(
             onPressed: () {
               Navigator.pop(context);
               _pickImage(context, ImageSource.camera);
             },
-            child: const Text('Kameradan Çek'),
+            child: Text(l10n.auth_take_photo),
           ),
           CupertinoActionSheetAction(
             onPressed: () {
               Navigator.pop(context);
               _pickImage(context, ImageSource.gallery);
             },
-            child: const Text('Galeriden Seç'),
+            child: Text(l10n.auth_choose_from_gallery),
           ),
         ],
         cancelButton: CupertinoActionSheetAction(
           onPressed: () {
             Navigator.pop(context);
           },
-          child: const Text('İptal'),
+          child: Text(l10n.auth_cancel),
         ),
       ),
     );
@@ -277,10 +286,11 @@ class _ProfilePageState extends State<ProfilePage> {
         
         // Show loading indicator
         if (context.mounted) {
+          final l10n = AppLocalizations.of(context)!;
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Fotoğraf yükleniyor...'),
-              backgroundColor: Color(0xFF8B5CF6),
+            SnackBar(
+              content: Text(l10n.auth_photo_uploading),
+              backgroundColor: const Color(0xFF8B5CF6),
             ),
           );
         }
@@ -298,24 +308,21 @@ class _ProfilePageState extends State<ProfilePage> {
           result.fold(
             (failure) {
               print('❌ Upload failed: ${failure.message}');
+              final l10n = AppLocalizations.of(context)!;
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Fotoğraf yüklenirken hata oluştu: ${failure.message}'),
-                  backgroundColor: Colors.red,
+                  content: Text(l10n.auth_photo_upload_error),
+                  backgroundColor: const Color(0xFFE53E3E),
                 ),
               );
             },
-            (photoUrl) {
-              print('✅ Upload successful: $photoUrl');
-              // Update the user's profile photo
-              authBloc.add(
-                AuthEvent.updateProfilePhoto(photoUrl: photoUrl),
-              );
-              
+            (success) {
+              print('✅ Upload successful');
+              final l10n = AppLocalizations.of(context)!;
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Profil fotoğrafı başarıyla güncellendi!'),
-                  backgroundColor: Color(0xFFE53E3E),
+                SnackBar(
+                  content: Text(l10n.auth_photo_upload_success),
+                  backgroundColor: const Color(0xFF10B981),
                 ),
               );
             },
@@ -327,10 +334,11 @@ class _ProfilePageState extends State<ProfilePage> {
     } catch (e) {
       print('💥 Exception in _pickImage: $e');
       if (context.mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Fotoğraf seçilirken hata oluştu: $e'),
-            backgroundColor: Colors.red,
+            content: Text(l10n.auth_photo_pick_error),
+            backgroundColor: const Color(0xFFE53E3E),
           ),
         );
       }
@@ -338,15 +346,17 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildLikedMoviesSection() {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Section Header
-        const Padding(
-          padding: EdgeInsets.all(16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Text(
-            'Beğendiğim Filmler',
-            style: TextStyle(
+            l10n.profile_favorite_movies,
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -366,7 +376,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   final likedMoviesList = movies.where((movie) => movie.isFavorite).toList();
                   
                   if (likedMoviesList.isEmpty) {
-                    return const _EmptyLikedMoviesView();
+                    return _buildEmptyState();
                   }
                   
                   return GridView.builder(
@@ -392,6 +402,42 @@ class _ProfilePageState extends State<ProfilePage> {
       ],
     );
   }
+
+  Widget _buildEmptyState() {
+    final l10n = AppLocalizations.of(context)!;
+    
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.favorite_border,
+            size: 64,
+            color: Colors.grey.shade600,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            l10n.profile_no_favorite_movies,
+            style: TextStyle(
+              color: Colors.grey.shade400,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            l10n.profile_favorite_movies_hint,
+            style: TextStyle(
+              color: Colors.grey.shade500,
+              fontSize: 14,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _LikedMovieCard extends StatelessWidget {
@@ -401,6 +447,8 @@ class _LikedMovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -493,7 +541,7 @@ class _LikedMovieCard extends StatelessWidget {
                   Text(
                     movie.releaseDate.isNotEmpty 
                         ? movie.releaseDate.split('-').first 
-                        : 'N/A',
+                        : l10n.common_na,
                     style: const TextStyle(
                       color: Color(0xFF94A3B8),
                       fontSize: 10,
@@ -672,6 +720,8 @@ class _UnauthenticatedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
@@ -690,22 +740,22 @@ class _UnauthenticatedView extends StatelessWidget {
           const SizedBox(width: 16),
           
           // User Info
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Giriş Yapılmadı',
-                  style: TextStyle(
+                  l10n.profile_not_logged_in,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
-                  'Lütfen giriş yapın',
-                  style: TextStyle(
+                  l10n.profile_please_login,
+                  style: const TextStyle(
                     color: Color(0xFF94A3B8),
                     fontSize: 14,
                   ),
@@ -721,9 +771,9 @@ class _UnauthenticatedView extends StatelessWidget {
               color: const Color(0xFFE53E3E),
               borderRadius: BorderRadius.circular(16),
             ),
-            child: const Text(
-              'Giriş Yap',
-              style: TextStyle(
+            child: Text(
+              l10n.profile_login_button,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
@@ -743,6 +793,8 @@ class _ErrorProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
@@ -765,9 +817,9 @@ class _ErrorProfileView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Hata',
-                  style: TextStyle(
+                Text(
+                  l10n.profile_error,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -794,9 +846,9 @@ class _ErrorProfileView extends StatelessWidget {
               color: const Color(0xFFE53E3E),
               borderRadius: BorderRadius.circular(16),
             ),
-            child: const Text(
-              'Tekrar Dene',
-              style: TextStyle(
+            child: Text(
+              l10n.profile_retry,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 12,
                 fontWeight: FontWeight.w600,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shartflix_movie_app/l10n/app_localizations.dart';
 
 import '../../../../core/injection_container.dart';
 import '../bloc/auth_bloc.dart';
@@ -38,6 +39,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return BlocProvider(
       create: (context) => getIt<AuthBloc>(),
       child: Scaffold(
@@ -72,7 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         
                         // Title
                         Text(
-                          'Hoşgeldiniz',
+                          l10n.hello,
                           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -95,14 +98,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         // Name Field
                         AuthTextField(
                           controller: _nameController,
-                          label: 'Ad Soyad',
+                          label: l10n.auth_name,
                           keyboardType: TextInputType.name,
                           textInputAction: TextInputAction.next,
                           textCapitalization: TextCapitalization.words,
                           prefixIcon: const Icon(Icons.person_outline),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Ad soyad boş olamaz';
+                              return '${l10n.auth_name} boş olamaz';
                             }
                             if (value.trim().split(' ').length < 2) {
                               return 'Ad ve soyadınızı girin';
@@ -116,13 +119,13 @@ class _RegisterPageState extends State<RegisterPage> {
                         // Email Field
                         AuthTextField(
                           controller: _emailController,
-                          label: 'E-Posta',
+                          label: l10n.auth_email,
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
                           prefixIcon: const Icon(Icons.email_outlined),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'E-posta adresi boş olamaz';
+                              return '${l10n.auth_email} boş olamaz';
                             }
                             if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
                               return 'Geçerli bir e-posta adresi girin';
@@ -136,7 +139,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         // Password Field
                         AuthTextField(
                           controller: _passwordController,
-                          label: 'Şifre',
+                          label: l10n.auth_password,
                           obscureText: _obscurePassword,
                           textInputAction: TextInputAction.next,
                           prefixIcon: const Icon(Icons.lock_outline),
@@ -154,10 +157,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Şifre boş olamaz';
+                              return '${l10n.auth_password} boş olamaz';
                             }
                             if (value.length < 8) {
-                              return 'Şifre en az 8 karakter olmalıdır';
+                              return '${l10n.auth_password} en az 8 karakter olmalıdır';
                             }
                             if (!RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)').hasMatch(value)) {
                               return 'Şifre büyük harf, küçük harf ve rakam içermelidir';
@@ -171,7 +174,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         // Confirm Password Field
                         AuthTextField(
                           controller: _confirmPasswordController,
-                          label: 'Şifre Tekrar',
+                          label: l10n.auth_confirm_password,
                           obscureText: _obscureConfirmPassword,
                           textInputAction: TextInputAction.done,
                           prefixIcon: const Icon(Icons.lock_outline),
@@ -189,7 +192,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Şifre tekrarı boş olamaz';
+                              return '${l10n.auth_confirm_password} boş olamaz';
                             }
                             if (value != _passwordController.text) {
                               return 'Şifreler eşleşmiyor';
@@ -225,7 +228,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       const TextSpan(text: 'Kullanıcı sözleşmesini '),
                                       TextSpan(
                                         text: 'okudum ve kabul ediyorum',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           decoration: TextDecoration.underline,
                                         ),
@@ -245,7 +248,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         PrimaryButton(
                           onPressed: (isLoading || !_acceptTerms) ? null : _handleRegister,
                           isLoading: isLoading,
-                          child: const Text('Şimdi Kaydol'),
+                          child: Text(l10n.auth_register),
                         ),
                         
                         const SizedBox(height: 32),
@@ -260,7 +263,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Zaten bir hesabın var mı? ',
+                              '${l10n.auth_already_have_account} ',
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 color: Theme.of(context).colorScheme.onSurfaceVariant,
                               ),
@@ -269,9 +272,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               onPressed: () {
                                 context.go('/login');
                               },
-                              child: const Text(
-                                'Giriş Yap!',
-                                style: TextStyle(
+                              child: Text(
+                                l10n.auth_sign_in,
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
                                 ),

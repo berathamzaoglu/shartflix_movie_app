@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../l10n/app_localizations.dart';
 
 import '../core/injection_container.dart';
 import '../features/auth/presentation/bloc/auth_bloc.dart';
@@ -33,12 +35,18 @@ class App extends StatelessWidget {
         // Router
         routerConfig: AppRouter.router,
         
-        // Localization (TODO: Implement)
-        // locale: const Locale('tr', 'TR'),
-        // supportedLocales: const [
-        //   Locale('tr', 'TR'),
-        //   Locale('en', 'US'),
-        // ],
+        // Localization
+        locale: const Locale('tr', 'TR'),
+        supportedLocales: const [
+          Locale('tr', 'TR'),
+          Locale('en', 'US'),
+        ],
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
       ),
     );
   }

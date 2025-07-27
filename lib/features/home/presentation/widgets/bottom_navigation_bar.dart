@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
@@ -12,6 +13,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Container(
       height: 90,
       decoration: const BoxDecoration(
@@ -28,13 +31,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
           children: [
             _NavigationItem(
               icon: Icons.home_rounded,
-              label: 'Anasayfa',
+              label: l10n.navigation_home,
               isSelected: currentIndex == 0,
               onTap: () => onTap(0),
             ),
             _NavigationItem(
               icon: Icons.person_rounded,
-              label: 'Profil',
+              label: l10n.navigation_profile,
               isSelected: currentIndex == 1,
               onTap: () => onTap(1),
             ),
