@@ -1,8 +1,6 @@
 import 'package:dartz/dartz.dart';
-
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
-import '../entities/movie.dart';
 import '../repositories/movies_repository.dart';
 import '../../data/models/movies_response_model.dart';
 

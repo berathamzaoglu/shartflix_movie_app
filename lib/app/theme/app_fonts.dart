@@ -69,7 +69,7 @@ class AppFonts {
   
   static TextStyle get titleMedium => const TextStyle(
     fontFamily: family,
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: medium,
     letterSpacing: 0.15,
     height: 1.5,
@@ -93,7 +93,7 @@ class AppFonts {
   
   static TextStyle get bodyMedium => const TextStyle(
     fontFamily: family,
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: regular,
     letterSpacing: 0.25,
     height: 1.43,

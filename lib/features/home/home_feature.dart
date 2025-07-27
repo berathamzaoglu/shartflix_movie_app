@@ -20,5 +20,4 @@ export 'presentation/bloc/movies_event.dart';
 export 'presentation/bloc/movies_state.dart';
 export 'presentation/pages/movie_discovery_page.dart';
 export 'presentation/widgets/movie_discovery_view.dart';
-export 'presentation/widgets/movie_card.dart';
 export 'presentation/widgets/bottom_navigation_bar.dart'; 

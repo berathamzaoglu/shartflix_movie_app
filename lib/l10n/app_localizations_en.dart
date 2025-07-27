@@ -170,6 +170,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profile_id_copied => 'User ID copied to clipboard';
 
   @override
+  String get movie_show_more => 'Show More';
+
+  @override
+  String get movie_show_less => 'Show Less';
+
+  @override
   String get navigation_home => 'Home';
 
   @override

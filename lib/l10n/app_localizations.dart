@@ -416,6 +416,18 @@ abstract class AppLocalizations {
   /// **'User ID copied to clipboard'**
   String get profile_id_copied;
 
+  /// No description provided for @movie_show_more.
+  ///
+  /// In en, this message translates to:
+  /// **'Show More'**
+  String get movie_show_more;
+
+  /// No description provided for @movie_show_less.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Less'**
+  String get movie_show_less;
+
   /// No description provided for @navigation_home.
   ///
   /// In en, this message translates to:

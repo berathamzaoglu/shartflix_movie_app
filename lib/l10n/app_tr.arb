@@ -59,6 +59,8 @@
   "profile_retry": "Tekrar Dene",
   "profile_error": "Hata",
   "profile_id_copied": "Kullanıcı ID'si panoya kopyalandı",
+  "movie_show_more": "Daha Fazlası",
+  "movie_show_less": "Daha Az",
   
   "navigation_home": "Ana Sayfa",
   "navigation_profile": "Profil",

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -307,9 +309,9 @@ class _MovieCardState extends State<_MovieCard> {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.transparent,
-                    Colors.black.withOpacity(0.3),
-                    Colors.black.withOpacity(0.7),
-                    Colors.black.withOpacity(0.9),
+                    Colors.black.withAlpha(76),
+                    Colors.black.withAlpha(179),
+                    Colors.black.withAlpha(230),
                   ],
                   stops: const [0.0, 0.4, 0.7, 1.0],
                 ),
@@ -318,39 +320,50 @@ class _MovieCardState extends State<_MovieCard> {
           ),
           
           // Favori butonu - Dinamik konum
+         // Favori butonu - Dinamik konum
           Positioned(
-            bottom: _isExpanded ? 140 : 180,
+            bottom: _isExpanded ? 240 : 180,
             right: 24,
-            child: Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.7),
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.white.withOpacity(0.5),
-                  width: 1,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(82),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                child: Container(
+                  width: 50,
+                  height: 72,
+                  decoration: BoxDecoration(
+                    color: Colors.black.withAlpha(51), // 0.2 opacity
+                    borderRadius: BorderRadius.circular(82),
+                    border: Border.all(
+                      color: Colors.white.withAlpha(128), // 0.5 opacity
+                      width: 1,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withAlpha(51),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: widget.onToggleFavorite,
-                  borderRadius: BorderRadius.circular(28),
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 200),
-                    child: Icon(
-                      key: ValueKey(widget.movie.isFavorite),
-                      widget.movie.isFavorite ? Icons.favorite : Icons.favorite_border,
-                      color: widget.movie.isFavorite ? const Color(0xFFE53E3E) : Colors.white,
-                      size: 28,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: widget.onToggleFavorite,
+                      borderRadius: BorderRadius.circular(28),
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 200),
+                        child: Icon(
+                          key: ValueKey(widget.movie.isFavorite),
+                          widget.movie.isFavorite
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: widget.movie.isFavorite
+                              ? const Color(0xFFE53E3E)
+                              : Colors.white,
+                          size: 28,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -373,9 +386,15 @@ class _MovieCardState extends State<_MovieCard> {
                     Container(
                       width: 40,
                       height: 40,
+                      
                       decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 1.5,
+                        ),
                         color: const Color(0xFFE53E3E),
-                        borderRadius: BorderRadius.circular(8),
+                      
                       ),
                       child: const Center(
                         child: Text(
@@ -392,10 +411,9 @@ class _MovieCardState extends State<_MovieCard> {
                     Expanded(
                       child: Text(
                         widget.movie.title,
-                        style: const TextStyle(
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -425,16 +443,16 @@ class _MovieCardState extends State<_MovieCard> {
                                       ? '${widget.movie.overview.substring(0, 100)}... '
                                       : widget.movie.overview
                               : 'Açıklama bulunmuyor.',
+                          style: Theme.of(context).textTheme.bodyMedium
                         ),
                         if (widget.movie.overview.isNotEmpty && 
                             widget.movie.overview.length > 100 && 
                             !_isExpanded)
                           TextSpan(
-                            text: 'Daha Fazlası',
-                            style: const TextStyle(
-                              color: Color(0xFFE53E3E),
-                              fontWeight: FontWeight.w600,
-                              decoration: TextDecoration.underline,
+                            text: AppLocalizations.of(context)!.movie_show_more,
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color:  Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
@@ -447,11 +465,10 @@ class _MovieCardState extends State<_MovieCard> {
                             widget.movie.overview.length > 100 && 
                             _isExpanded)
                           TextSpan(
-                            text: ' Daha Az',
-                            style: const TextStyle(
-                              color: Color(0xFFE53E3E),
-                              fontWeight: FontWeight.w600,
-                              decoration: TextDecoration.underline,
+                            text: ' ${AppLocalizations.of(context)!.movie_show_less}',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color:  Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
@@ -478,9 +495,8 @@ class _MovieCardState extends State<_MovieCard> {
                     const SizedBox(width: 8),
                     Text(
                       widget.movie.voteAverage.toStringAsFixed(1),
-                      style: const TextStyle(
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: Colors.white,
-                        fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -489,9 +505,8 @@ class _MovieCardState extends State<_MovieCard> {
                       widget.movie.releaseDate.isNotEmpty 
                           ? widget.movie.releaseDate
                           : 'N/A',
-                      style: const TextStyle(
-                        color: Color(0xFF94A3B8),
-                        fontSize: 16,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Colors.white.withAlpha(128),
                       ),
                     ),
                   ],
@@ -572,9 +587,9 @@ class _LoadingView extends StatelessWidget {
                           end: Alignment.bottomCenter,
                           colors: [
                             Colors.transparent,
-                            Colors.black.withOpacity(0.3),
-                            Colors.black.withOpacity(0.7),
-                            Colors.black.withOpacity(0.9),
+                            Colors.black.withAlpha(76),
+                            Colors.black.withAlpha(179),
+                            Colors.black.withAlpha(230),
                           ],
                           stops: const [0.0, 0.4, 0.7, 1.0],
                         ),
@@ -587,13 +602,13 @@ class _LoadingView extends StatelessWidget {
                     bottom: 180,
                     right: 24,
                     child: Container(
-                      width: 56,
-                      height: 56,
+                      width: 50,
+                      height: 72,
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.7),
+                        color: Colors.black.withAlpha(179),
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.5),
+                          color: Colors.white.withAlpha(128),
                           width: 1,
                         ),
                       ),
