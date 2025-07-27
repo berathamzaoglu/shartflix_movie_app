@@ -34,7 +34,6 @@ class _ProfilePageState extends State<ProfilePage> {
     final l10n = AppLocalizations.of(context)!;
     
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
       body: SafeArea(
         child: Column(
           children: [
@@ -61,20 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          // Back Button
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade800,
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-              size: 20,
-            ),
-          ),
+        
           
           const Spacer(),
           
@@ -239,7 +225,7 @@ class _ProfilePageState extends State<ProfilePage> {
       context: context,
       builder: (BuildContext context) => CupertinoActionSheet(
         title: Text(l10n.auth_select_photo),
-        message: Text('Profil fotoğrafınızı nasıl değiştirmek istiyorsunuz?'),
+        message: Text(l10n.auth_how_change_photo),  
         actions: <CupertinoActionSheetAction>[
           CupertinoActionSheetAction(
             onPressed: () {
@@ -268,7 +254,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> _pickImage(BuildContext context, ImageSource source) async {
     try {
-      print('🖼️ Starting image picker for source: $source');
+      debugPrint('🖼️ Starting image picker for source: $source');
       
       // Get AuthBloc reference before async operations
       final authBloc = context.read<AuthBloc>();
@@ -282,7 +268,7 @@ class _ProfilePageState extends State<ProfilePage> {
       );
 
       if (image != null) {
-        print('📸 Image selected: ${image.path}');
+        debugPrint('📸 Image selected: ${image.path}');
         
         // Show loading indicator
         if (context.mounted) {
@@ -297,17 +283,17 @@ class _ProfilePageState extends State<ProfilePage> {
         
         // Convert XFile to File
         final File imageFile = File(image.path);
-        print('📁 File created: ${imageFile.path}');
+        debugPrint('📁 File created: ${imageFile.path}');
         
         // Upload photo to server
-        print('🚀 Starting upload...');
+        debugPrint('🚀 Starting upload...');
         final result = await authBloc.uploadProfilePhoto(imageFile);
-        print('📤 Upload completed, result: $result');
+        debugPrint('📤 Upload completed, result: $result');
         
         if (context.mounted) {
           result.fold(
             (failure) {
-              print('❌ Upload failed: ${failure.message}');
+              debugPrint('❌ Upload failed: ${failure.message}');
               final l10n = AppLocalizations.of(context)!;
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -317,7 +303,7 @@ class _ProfilePageState extends State<ProfilePage> {
               );
             },
             (success) {
-              print('✅ Upload successful');
+              debugPrint('✅ Upload successful');
               final l10n = AppLocalizations.of(context)!;
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -329,10 +315,10 @@ class _ProfilePageState extends State<ProfilePage> {
           );
         }
       } else {
-        print('❌ No image selected');
+        debugPrint('❌ No image selected');
       }
     } catch (e) {
-      print('💥 Exception in _pickImage: $e');
+      debugPrint('💥 Exception in _pickImage: $e');
       if (context.mounted) {
         final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(

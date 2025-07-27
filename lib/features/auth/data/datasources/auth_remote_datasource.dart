@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../../core/error/exceptions.dart';
@@ -194,7 +195,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<String> uploadProfilePhoto(File imageFile) async {
     try {
-      print('📡 RemoteDataSource: Starting uploadProfilePhoto');
+      debugPrint('📡 RemoteDataSource: Starting uploadProfilePhoto');
       Logger.info('Uploading profile photo');
       
       // Get stored token
@@ -203,9 +204,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw ServerException(message: 'Authentication token not found');
       }
       
-      print('📡 RemoteDataSource: Token found: ${token.substring(0, 20)}...');
+      debugPrint('📡 RemoteDataSource: Token found: ${token.substring(0, 20)}...');
       
-      print('📡 RemoteDataSource: Creating FormData');
+      debugPrint('📡 RemoteDataSource: Creating FormData');
       final formData = FormData.fromMap({
         'file': await MultipartFile.fromFile(
           imageFile.path,
@@ -213,7 +214,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         ),
       });
       
-      print('📡 RemoteDataSource: Calling API endpoint: ${ApiEndpoints.uploadProfilePhoto}');
+      debugPrint('📡 RemoteDataSource: Calling API endpoint: ${ApiEndpoints.uploadProfilePhoto}');
       final response = await _apiClient.post(
         ApiEndpoints.uploadProfilePhoto,
         data: formData,
@@ -222,14 +223,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         },
       );
 
-      print('📡 RemoteDataSource: API response received: ${response.statusCode}');
+      debugPrint('📡 RemoteDataSource: API response received: ${response.statusCode}');
       Logger.info('Upload profile photo response received: ${response.statusCode}');
       
-      print('📡 RemoteDataSource: Response data: ${response.data}');
+      debugPrint('📡 RemoteDataSource: Response data: ${response.data}');
       
       // Check if response.data is null
       if (response.data == null) {
-        print('❌ RemoteDataSource: Response data is null');
+        debugPrint('❌ RemoteDataSource: Response data is null');
         throw ServerException(message: 'Upload response data is null');
       }
       
@@ -239,32 +240,32 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       // First, try to get photoUrl from data.photoUrl
       if (response.data['photoUrl'] != null) {
         photoUrl = response.data['photoUrl'] as String;
-        print('📡 RemoteDataSource: Found photoUrl in data.photoUrl: $photoUrl');
+        debugPrint('📡 RemoteDataSource: Found photoUrl in data.photoUrl: $photoUrl');
       }
       // If not found, try to get it from data.data.photoUrl (nested structure)
       else if (response.data['data'] != null && response.data['data']['photoUrl'] != null) {
         photoUrl = response.data['data']['photoUrl'] as String;
-        print('📡 RemoteDataSource: Found photoUrl in data.data.photoUrl: $photoUrl');
+        debugPrint('📡 RemoteDataSource: Found photoUrl in data.data.photoUrl: $photoUrl');
       }
       // If still not found, check if the entire data object is the photoUrl
       else if (response.data is String) {
         photoUrl = response.data as String;
-        print('📡 RemoteDataSource: Found photoUrl as direct string: $photoUrl');
+        debugPrint('📡 RemoteDataSource: Found photoUrl as direct string: $photoUrl');
       }
       
       if (photoUrl == null || photoUrl.isEmpty) {
-        print('❌ RemoteDataSource: Could not find photoUrl in response');
-        print('📡 RemoteDataSource: Response structure: ${response.data.runtimeType}');
-        print('📡 RemoteDataSource: Response keys: ${response.data is Map ? (response.data as Map).keys.toList() : 'Not a Map'}');
+        debugPrint('❌ RemoteDataSource: Could not find photoUrl in response');
+        debugPrint('📡 RemoteDataSource: Response structure: ${response.data.runtimeType}');
+        debugPrint('📡 RemoteDataSource: Response keys: ${response.data is Map ? (response.data as Map).keys.toList() : 'Not a Map'}');
         throw ServerException(message: 'Upload response does not contain photoUrl');
       }
 
-      print('✅ RemoteDataSource: Photo URL extracted: $photoUrl');
+      debugPrint('✅ RemoteDataSource: Photo URL extracted: $photoUrl');
       Logger.info('Profile photo uploaded successfully: $photoUrl');
       
       return photoUrl;
     } catch (e) {
-      print('❌ RemoteDataSource: Exception occurred: $e');
+      debugPrint('❌ RemoteDataSource: Exception occurred: $e');
       Logger.error('Upload profile photo failed: $e');
       if (e is ServerException) {
         rethrow;

@@ -71,10 +71,10 @@ class LimitedOfferBottomSheet extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Column(
+      child:const  Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+           Text(
             'Sınırlı Teklif',
             style: TextStyle(
               color: Colors.white,
@@ -82,8 +82,8 @@ class LimitedOfferBottomSheet extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 8),
-          const Text(
+           SizedBox(height: 8),
+           Text(
             'Jeton paketin\'ni seçerek bonus kazanın ve yeni bölümlerin kilidini açın!',
             style: TextStyle(
               color: Colors.white,

@@ -35,8 +35,7 @@ class _HomePageState extends State<HomePage> {
       ],
       child: Scaffold(
         backgroundColor: const Color(0xFF0F172A),
-        body: SafeArea(
-          child: IndexedStack(
+        body: IndexedStack(
             index: _currentIndex,
             children: const [
               // Ana Sayfa - Film Keşif
@@ -46,7 +45,7 @@ class _HomePageState extends State<HomePage> {
               ProfilePage(),
             ],
           ),
-        ),
+        
         bottomNavigationBar: CustomBottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) {

@@ -31,6 +31,7 @@
   "auth_take_photo": "Take Photo",
   "auth_choose_from_gallery": "Choose from Gallery",
   "auth_cancel": "Cancel",
+  "auth_how_change_photo": "How would you like to change your profile photo?",
   
   "home_popular_movies": "Popular Movies",
   "home_search_movies": "Search Movies",

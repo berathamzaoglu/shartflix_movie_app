@@ -8,7 +8,7 @@ import 'core/services/firebase_service.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  print('🚀 Starting application...');
+  debugPrint('🚀 Starting application...');
   
   // Firebase'i başlat
   await FirebaseService.initialize();
@@ -22,7 +22,7 @@ Future<void> main() async {
   // Initialize router after dependencies are ready
   AppRouter.initialize();
   
-  print('✅ All initialization completed, starting app...');
+  debugPrint('✅ All initialization completed, starting app...');
   
   runApp(const App());
 }

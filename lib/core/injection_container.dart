@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 
@@ -34,7 +35,7 @@ import '../features/profile/presentation/bloc/profile_bloc.dart';
 final getIt = GetIt.instance;
 
 Future<void> configureDependencies() async {
-  print('🔧 Starting dependency injection setup...');
+  debugPrint('🔧 Starting dependency injection setup...');
   
   // Core
   setupDio();
@@ -49,37 +50,37 @@ Future<void> configureDependencies() async {
   // Profile
   await _setupProfileDependencies();
   
-  print('✅ Dependency injection setup completed!');
+  debugPrint('✅ Dependency injection setup completed!');
 }
 
 void setupDio() {
-  print('📡 Setting up Dio...');
+  debugPrint('📡 Setting up Dio...');
   
   // Check if already registered
   if (getIt.isRegistered<DioClient>()) {
-    print('⚠️ DioClient already registered, skipping...');
+    debugPrint('⚠️ DioClient already registered, skipping...');
     return;
   }
   
   // Register DioClient first
   getIt.registerLazySingleton<DioClient>(() {
-    print('🔧 Creating DioClient instance...');
+    debugPrint('🔧 Creating DioClient instance...');
     return DioClient();
   });
   
   // Register ApiClient
   getIt.registerLazySingleton<ApiClient>(() {
-    print('🔧 Creating ApiClient instance...');
+    debugPrint('🔧 Creating ApiClient instance...');
     final dioClient = getIt<DioClient>();
-    print('🔧 DioClient retrieved: ${dioClient != null ? 'success' : 'null'}');
+    debugPrint('🔧 DioClient retrieved: ${dioClient != null ? 'success' : 'null'}');
     return ApiClientImpl(dioClient);
   });
   
-  print('✅ Dio setup completed');
+  debugPrint('✅ Dio setup completed');
 }
 
 Future<void> _setupCoreDependencies() async {
-  print('🔧 Setting up core dependencies...');
+  debugPrint('🔧 Setting up core dependencies...');
   
   getIt.registerLazySingleton<FlutterSecureStorage>(
     () => const FlutterSecureStorage(),
@@ -95,11 +96,11 @@ Future<void> _setupCoreDependencies() async {
     () => FirebaseService(),
   );
   
-  print('✅ Core dependencies setup completed');
+  debugPrint('✅ Core dependencies setup completed');
 }
 
 Future<void> _setupAuthDependencies() async {
-  print('🔐 Setting up auth dependencies...');
+  debugPrint('🔐 Setting up auth dependencies...');
   
   // Data sources
   if (!getIt.isRegistered<AuthLocalDataSource>()) {
@@ -108,14 +109,14 @@ Future<void> _setupAuthDependencies() async {
         getIt<FlutterSecureStorage>(),
       ),
     );
-    print('✅ AuthLocalDataSource registered');
+    debugPrint('✅ AuthLocalDataSource registered');
   }
   
   if (!getIt.isRegistered<AuthRemoteDataSource>()) {
     getIt.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(getIt<ApiClient>()),
     );
-    print('✅ AuthRemoteDataSource registered');
+    debugPrint('✅ AuthRemoteDataSource registered');
   }
   
   // Repository
@@ -127,7 +128,7 @@ Future<void> _setupAuthDependencies() async {
         networkInfo: getIt<NetworkInfo>(),
       ),
     );
-    print('✅ AuthRepository registered');
+    debugPrint('✅ AuthRepository registered');
   }
   
   // Use cases
@@ -135,42 +136,42 @@ Future<void> _setupAuthDependencies() async {
     getIt.registerLazySingleton<LoginUseCase>(
       () => LoginUseCase(getIt<AuthRepository>()),
     );
-    print('✅ LoginUseCase registered');
+    debugPrint('✅ LoginUseCase registered');
   }
   
   if (!getIt.isRegistered<RegisterUseCase>()) {
     getIt.registerLazySingleton<RegisterUseCase>(
       () => RegisterUseCase(getIt<AuthRepository>()),
     );
-    print('✅ RegisterUseCase registered');
+    debugPrint('✅ RegisterUseCase registered');
   }
   
   if (!getIt.isRegistered<LogoutUseCase>()) {
     getIt.registerLazySingleton<LogoutUseCase>(
       () => LogoutUseCase(getIt<AuthRepository>()),
     );
-    print('✅ LogoutUseCase registered');
+    debugPrint('✅ LogoutUseCase registered');
   }
   
   if (!getIt.isRegistered<CheckAuthStatusUseCase>()) {
     getIt.registerLazySingleton<CheckAuthStatusUseCase>(
       () => CheckAuthStatusUseCase(getIt<AuthRepository>()),
     );
-    print('✅ CheckAuthStatusUseCase registered');
+    debugPrint('✅ CheckAuthStatusUseCase registered');
   }
   
   if (!getIt.isRegistered<GetCurrentUserUseCase>()) {
     getIt.registerLazySingleton<GetCurrentUserUseCase>(
       () => GetCurrentUserUseCase(getIt<AuthRepository>()),
     );
-    print('✅ GetCurrentUserUseCase registered');
+    debugPrint('✅ GetCurrentUserUseCase registered');
   }
   
   if (!getIt.isRegistered<UploadProfilePhotoUseCase>()) {
     getIt.registerLazySingleton<UploadProfilePhotoUseCase>(
       () => UploadProfilePhotoUseCase(getIt<AuthRepository>()),
     );
-    print('✅ UploadProfilePhotoUseCase registered');
+    debugPrint('✅ UploadProfilePhotoUseCase registered');
   }
   
   // Bloc - LazySingleton registration
@@ -184,21 +185,21 @@ Future<void> _setupAuthDependencies() async {
         getIt<UploadProfilePhotoUseCase>(),
       ),
     );
-    print('✅ AuthBloc registered as lazy singleton');
+    debugPrint('✅ AuthBloc registered as lazy singleton');
   }
   
-  print('✅ Auth dependencies setup completed');
+  debugPrint('✅ Auth dependencies setup completed');
 }
 
 Future<void> _setupMoviesDependencies() async {
-  print('🎬 Setting up movies dependencies...');
+  debugPrint('🎬 Setting up movies dependencies...');
   
   // Data sources
   if (!getIt.isRegistered<MoviesRemoteDataSource>()) {
     getIt.registerLazySingleton<MoviesRemoteDataSource>(
       () => MoviesRemoteDataSourceImpl(getIt<DioClient>()),
     );
-    print('✅ MoviesRemoteDataSource registered');
+    debugPrint('✅ MoviesRemoteDataSource registered');
   }
   
   // Repositories
@@ -206,7 +207,7 @@ Future<void> _setupMoviesDependencies() async {
     getIt.registerLazySingleton<MoviesRepository>(
       () => MoviesRepositoryImpl(getIt.get<MoviesRemoteDataSource>()),
     );
-    print('✅ MoviesRepository registered');
+    debugPrint('✅ MoviesRepository registered');
   }
   
   // Use cases
@@ -214,14 +215,14 @@ Future<void> _setupMoviesDependencies() async {
     getIt.registerLazySingleton<GetPopularMoviesUseCase>(
       () => GetPopularMoviesUseCase(getIt.get<MoviesRepository>()),
     );
-    print('✅ GetPopularMoviesUseCase registered');
+    debugPrint('✅ GetPopularMoviesUseCase registered');
   }
   
   if (!getIt.isRegistered<ToggleFavoriteUseCase>()) {
     getIt.registerLazySingleton<ToggleFavoriteUseCase>(
       () => ToggleFavoriteUseCase(getIt.get<MoviesRepository>()),
     );
-    print('✅ ToggleFavoriteUseCase registered');
+    debugPrint('✅ ToggleFavoriteUseCase registered');
   }
   
   // Blocs (LazySingleton registration)
@@ -232,21 +233,21 @@ Future<void> _setupMoviesDependencies() async {
         getIt.get<ToggleFavoriteUseCase>(),
       ),
     );
-    print('✅ MoviesBloc registered as lazy singleton');
+    debugPrint('✅ MoviesBloc registered as lazy singleton');
   }
   
-  print('✅ Movies dependencies setup completed');
+  debugPrint('✅ Movies dependencies setup completed');
 }
 
 Future<void> _setupProfileDependencies() async {
-  print('👤 Setting up profile dependencies...');
+  debugPrint('👤 Setting up profile dependencies...');
   
   // Data sources
   if (!getIt.isRegistered<ProfileRemoteDataSource>()) {
     getIt.registerLazySingleton<ProfileRemoteDataSource>(
       () => ProfileRemoteDataSourceImpl(getIt<DioClient>()),
     );
-    print('✅ ProfileRemoteDataSource registered');
+    debugPrint('✅ ProfileRemoteDataSource registered');
   }
   
   // Repositories
@@ -254,7 +255,7 @@ Future<void> _setupProfileDependencies() async {
     getIt.registerLazySingleton<ProfileRepository>(
       () => ProfileRepositoryImpl(getIt.get<ProfileRemoteDataSource>()),
     );
-    print('✅ ProfileRepository registered');
+    debugPrint('✅ ProfileRepository registered');
   }
   
   // Use cases
@@ -262,7 +263,7 @@ Future<void> _setupProfileDependencies() async {
     getIt.registerLazySingleton<GetFavoriteMoviesUseCase>(
       () => GetFavoriteMoviesUseCase(getIt.get<ProfileRepository>()),
     );
-    print('✅ GetFavoriteMoviesUseCase registered');
+    debugPrint('✅ GetFavoriteMoviesUseCase registered');
   }
   
   // Blocs (LazySingleton registration)
@@ -272,8 +273,8 @@ Future<void> _setupProfileDependencies() async {
         getIt.get<GetFavoriteMoviesUseCase>(),
       ),
     );
-    print('✅ ProfileBloc registered as lazy singleton');
+    debugPrint('✅ ProfileBloc registered as lazy singleton');
   }
   
-  print('✅ Profile dependencies setup completed');
+  debugPrint('✅ Profile dependencies setup completed');
 } 

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
@@ -250,20 +251,20 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, String>> uploadProfilePhoto(File imageFile) async {
-    print('🔄 Repository: Starting uploadProfilePhoto');
+    debugPrint('🔄 Repository: Starting uploadProfilePhoto');
     
     if (await networkInfo.isConnected) {
-      print('🌐 Repository: Network is connected');
+      debugPrint('🌐 Repository: Network is connected');
       
       try {
-        print('📤 Repository: Calling remote data source');
+        debugPrint('📤 Repository: Calling remote data source');
         final photoUrl = await remoteDataSource.uploadProfilePhoto(imageFile);
-        print('📥 Repository: Remote data source returned: $photoUrl');
+        debugPrint('📥 Repository: Remote data source returned: $photoUrl');
         
         // Update cached user with new photo URL
         final cachedUser = await localDataSource.getCachedUser();
         if (cachedUser != null) {
-          print('💾 Repository: Updating cached user');
+          debugPrint('💾 Repository: Updating cached user');
           final updatedUser = UserModel(
             id: cachedUser.id,
             name: cachedUser.name,
@@ -271,31 +272,31 @@ class AuthRepositoryImpl implements AuthRepository {
             profilePhoto: photoUrl,
           );
           await localDataSource.cacheUser(updatedUser);
-          print('✅ Repository: Cached user updated');
+          debugPrint('✅ Repository: Cached user updated');
         } else {
-          print('⚠️ Repository: No cached user found');
+          debugPrint('⚠️ Repository: No cached user found');
         }
         
-        print('✅ Repository: Upload successful, returning: $photoUrl');
+        debugPrint('✅ Repository: Upload successful, returning: $photoUrl');
         return Right(photoUrl);
       } on ServerException catch (e) {
-        print('❌ Repository: ServerException: ${e.message}');
+        debugPrint('❌ Repository: ServerException: ${e.message}');
         return Left(Failure.server(
           message: e.message,
           statusCode: e.statusCode,
         ));
       } on NetworkException catch (e) {
-        print('❌ Repository: NetworkException: ${e.message}');
+        debugPrint('❌ Repository: NetworkException: ${e.message}');
         return Left(Failure.network(
           message: e.message,
           statusCode: e.statusCode,
         ));
       } catch (e) {
-        print('❌ Repository: Unexpected error: $e');
+        debugPrint('❌ Repository: Unexpected error: $e');
         return Left(Failure.server(message: 'Unexpected error: $e'));
       }
     } else {
-      print('❌ Repository: No network connection');
+      debugPrint('❌ Repository: No network connection');
       return const Left(Failure.network(
         message: 'İnternet bağlantısı bulunamadı',
       ));

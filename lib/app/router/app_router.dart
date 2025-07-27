@@ -30,7 +30,7 @@ class AppRouter {
         try {
           // Dependency injection'ın hazır olup olmadığını kontrol et
           if (!getIt.isRegistered<CheckAuthStatusUseCase>()) {
-            print('CheckAuthStatusUseCase not registered yet, staying on current route');
+            debugPrint('CheckAuthStatusUseCase not registered yet, staying on current route');
             return null;
           }
           
@@ -59,7 +59,7 @@ class AppRouter {
           return null;
         } catch (e) {
           // Hata durumunda login'e yönlendir
-          print('Router redirect error: $e');
+          debugPrint('Router redirect error: $e');
           return '/login';
         }
       },

@@ -230,30 +230,8 @@ class _MoviePageView extends StatelessWidget {
             },
           ),
         ),
-        
-        // Sayfa göstergesi
-        Positioned(
-          top: MediaQuery.of(context).padding.top + 16,
-          left: 0,
-          right: 0,
-          child: Center(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.7),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text(
-                '${(currentPage + 1).clamp(1, movies.length)} / ${movies.length}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ),
-        ),
+   
+   
       ],
     );
   }

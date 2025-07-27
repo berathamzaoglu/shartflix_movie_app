@@ -91,6 +91,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get auth_cancel => 'İptal';
 
   @override
+  String get auth_how_change_photo =>
+      'Profil fotoğrafınızı nasıl değiştirmek istiyorsunuz?';
+
+  @override
   String get home_popular_movies => 'Popüler Filmler';
 
   @override

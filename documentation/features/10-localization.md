@@ -1179,11 +1179,11 @@ class LocalizationTestHelper {
     final missingInEnglish = trKeys.difference(enKeys);
     
     if (missingInTurkish.isNotEmpty) {
-      print('Missing in Turkish: $missingInTurkish');
+      debugPrint('Missing in Turkish: $missingInTurkish');
     }
     
     if (missingInEnglish.isNotEmpty) {
-      print('Missing in English: $missingInEnglish');
+      debugPrint('Missing in English: $missingInEnglish');
     }
     
     assert(missingInTurkish.isEmpty, 'Missing translations in Turkish');

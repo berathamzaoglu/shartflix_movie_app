@@ -260,6 +260,12 @@ abstract class AppLocalizations {
   /// **'Cancel'**
   String get auth_cancel;
 
+  /// No description provided for @auth_how_change_photo.
+  ///
+  /// In en, this message translates to:
+  /// **'How would you like to change your profile photo?'**
+  String get auth_how_change_photo;
+
   /// No description provided for @home_popular_movies.
   ///
   /// In en, this message translates to:

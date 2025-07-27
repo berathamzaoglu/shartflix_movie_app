@@ -18,11 +18,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
     return Container(
       height: 90,
       decoration: const BoxDecoration(
-        color: Color(0xFF1E293B),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(24),
-          topRight: Radius.circular(24),
-        ),
+        color: Color(0xFF090909),
+     
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),

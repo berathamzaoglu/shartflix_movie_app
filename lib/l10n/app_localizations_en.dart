@@ -90,6 +90,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get auth_cancel => 'Cancel';
 
   @override
+  String get auth_how_change_photo =>
+      'How would you like to change your profile photo?';
+
+  @override
   String get home_popular_movies => 'Popular Movies';
 
   @override
