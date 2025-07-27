@@ -19,7 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _rememberMe = false;
   bool _obscurePassword = true;
 
   @override
@@ -208,7 +207,7 @@ class _LoginPageState extends State<LoginPage> {
         AuthEvent.loginRequested(
           email: _emailController.text.trim(),
           password: _passwordController.text,
-          rememberMe: _rememberMe,
+          rememberMe: true,
         ),
       );
     }

@@ -68,12 +68,14 @@ class _NavigationItem extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
       child: Container(
+        width: MediaQuery.of(context).size.width * 0.4,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
         decoration: BoxDecoration(
           border: Border.all(color: isSelected ?  Colors.white : Colors.white.withAlpha(51), width: 1),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(

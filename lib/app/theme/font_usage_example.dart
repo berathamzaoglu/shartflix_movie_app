@@ -82,7 +82,7 @@ class FontUsageExample {
   
   /// Font weight örnekleri
   static Widget fontWeightExamples() {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Light Weight', style: TextStyle(fontFamily: AppFonts.family, fontWeight: AppFonts.light)),

@@ -3,9 +3,6 @@ import 'package:shartflix_movie_app/features/home/home_feature.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/error/exceptions.dart';
-import '../../domain/repositories/movies_repository.dart';
-import '../datasources/movies_remote_datasource.dart';
-import '../models/movies_response_model.dart';
 
 class MoviesRepositoryImpl implements MoviesRepository {
   final MoviesRemoteDataSource remoteDataSource;

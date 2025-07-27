@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../core/utils/logger.dart';
 import '../../domain/entities/movie.dart';
 
 part 'movie_model.freezed.dart';

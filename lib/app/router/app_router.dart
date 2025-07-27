@@ -38,7 +38,7 @@ class AppRouter {
           }
           
           final checkAuthStatusUseCase = getIt<CheckAuthStatusUseCase>();
-          final result = await checkAuthStatusUseCase(NoParams());
+          final result = await checkAuthStatusUseCase(const NoParams());
           
           final isAuthenticated = result.fold(
             (failure) => false,

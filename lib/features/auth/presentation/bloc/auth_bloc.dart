@@ -159,7 +159,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await AnalyticsHelper.logLogout();
     await CrashlyticsHelper.log('Logout requested');
     
-    final result = await _logoutUseCase(NoParams());
+    final result = await _logoutUseCase(const NoParams());
 
     result.fold(
       (failure) {
@@ -206,7 +206,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     Logger.info('Checking auth status');
     
-    final result = await _checkAuthStatusUseCase(NoParams());
+    final result = await _checkAuthStatusUseCase(const NoParams());
 
     result.fold(
       (failure) {

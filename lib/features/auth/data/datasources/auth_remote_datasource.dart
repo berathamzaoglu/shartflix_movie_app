@@ -56,7 +56,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final authResponse = AuthResponseModel.fromJson(response.data);
       
       if (authResponse.data == null) {
-        throw ServerException(message: 'Login response data is null');
+        throw const ServerException(message: 'Login response data is null');
       }
 
       return authResponse.data!;
@@ -88,7 +88,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final authResponse = AuthResponseModel.fromJson(response.data);
       
       if (authResponse.data == null) {
-        throw ServerException(message: 'Registration response data is null');
+        throw const ServerException(message: 'Registration response data is null');
       }
 
       return authResponse.data!;
@@ -150,7 +150,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       Logger.info('Profile response received: ${response.statusCode}');
       
       if (response.data == null) {
-        throw ServerException(message: 'Profile response data is null');
+        throw const ServerException(message: 'Profile response data is null');
       }
 
       return UserModel.fromJson(response.data);
@@ -178,7 +178,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       Logger.info('Forgot password response received: ${response.statusCode}');
       
       if (response.data == null) {
-        throw ServerException(message: 'Forgot password response data is null');
+        throw const ServerException(message: 'Forgot password response data is null');
       }
 
       Logger.info('Forgot password successful');
@@ -200,7 +200,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       // Get stored token
       final token = await _getStoredToken();
       if (token == null) {
-        throw ServerException(message: 'Authentication token not found');
+        throw const ServerException(message: 'Authentication token not found');
       }
       
       debugPrint('📡 RemoteDataSource: Token found: ${token.substring(0, 20)}...');
@@ -230,7 +230,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       // Check if response.data is null
       if (response.data == null) {
         debugPrint('❌ RemoteDataSource: Response data is null');
-        throw ServerException(message: 'Upload response data is null');
+        throw const ServerException(message: 'Upload response data is null');
       }
       
       // Try to extract photoUrl from different possible locations
@@ -256,7 +256,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         debugPrint('❌ RemoteDataSource: Could not find photoUrl in response');
         debugPrint('📡 RemoteDataSource: Response structure: ${response.data.runtimeType}');
         debugPrint('📡 RemoteDataSource: Response keys: ${response.data is Map ? (response.data as Map).keys.toList() : 'Not a Map'}');
-        throw ServerException(message: 'Upload response does not contain photoUrl');
+        throw const ServerException(message: 'Upload response does not contain photoUrl');
       }
 
       debugPrint('✅ RemoteDataSource: Photo URL extracted: $photoUrl');
