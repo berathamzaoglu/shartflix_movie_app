@@ -8,6 +8,7 @@ import '../../core/services/route_observer.dart';
 import '../../core/usecases/usecase.dart';
 import '../../features/auth/auth_feature.dart';
 import '../../features/auth/domain/usecases/check_auth_status_usecase.dart';
+import '../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../features/auth/presentation/pages/profile_photo_setup_page.dart';
 import '../../features/home/home_feature.dart';
 import '../../features/profile/presentation/bloc/profile_bloc.dart';
@@ -116,6 +117,9 @@ class AppRouter {
           builder: (context, state, child) {
             return MultiBlocProvider(
               providers: [
+                BlocProvider<AuthBloc>(
+                  create: (context) => getIt<AuthBloc>(),
+                ),
                 BlocProvider<ProfileBloc>(
                   create: (context) => getIt<ProfileBloc>(),
                 ),

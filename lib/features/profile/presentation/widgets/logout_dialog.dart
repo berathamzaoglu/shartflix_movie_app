@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../auth/auth_feature.dart';
 import '../../../../core/services/analytics_helper.dart';
@@ -70,16 +71,27 @@ class LogoutDialog {
   }
 
   static void _performLogout(BuildContext context) {
-    final authBloc = context.read<AuthBloc>();
-    authBloc.add(const AuthEvent.logoutRequested());
-    
-    // Analytics: Logout event
-    AnalyticsHelper.logCustomEvent(
-      name: 'user_logout',
-      parameters: {'source': 'profile_page'},
-    );
-    
-    // Crashlytics: Log logout
-    CrashlyticsHelper.log('User logged out from profile page');
+    try {
+      final authBloc = context.read<AuthBloc>();
+      
+      // Logout event'ini AuthBloc'a ekle
+      authBloc.add(const AuthEvent.logoutRequested());
+      debugPrint('Logout event added to AuthBloc');
+      
+      // Analytics: Logout event
+      AnalyticsHelper.logCustomEvent(
+        name: 'user_logout',
+        parameters: {'source': 'profile_page'},
+      );
+      
+      // Crashlytics: Log logout
+      CrashlyticsHelper.log('User logged out from profile page');
+    } catch (e) {
+      debugPrint('Error during logout: $e');
+      // Hata durumunda doğrudan login sayfasına yönlendir
+      if (context.mounted) {
+        context.go('/login');
+      }
+    }
   }
 } 
