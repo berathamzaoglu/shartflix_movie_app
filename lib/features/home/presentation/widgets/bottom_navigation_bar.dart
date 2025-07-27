@@ -27,13 +27,15 @@ class CustomBottomNavigationBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _NavigationItem(
-              icon: Icons.home_rounded,
+              icon: Icons.home_outlined,
+              selectedIcon: Icons.home_rounded,
               label: l10n.navigation_home,
               isSelected: currentIndex == 0,
               onTap: () => onTap(0),
             ),
             _NavigationItem(
-              icon: Icons.person_rounded,
+              icon: Icons.person_outline,
+              selectedIcon: Icons.person_rounded,
               label: l10n.navigation_profile,
               isSelected: currentIndex == 1,
               onTap: () => onTap(1),
@@ -47,12 +49,14 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
 class _NavigationItem extends StatelessWidget {
   final IconData icon;
+  final IconData selectedIcon;
   final String label;
   final bool isSelected;
   final VoidCallback onTap;
 
   const _NavigationItem({
     required this.icon,
+    required this.selectedIcon,
     required this.label,
     required this.isSelected,
     required this.onTap,
@@ -66,18 +70,19 @@ class _NavigationItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF374151) : Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: isSelected ?  Colors.white : Colors.white.withAlpha(51), width: 1),
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              icon,
-              color: isSelected ? Colors.white : const Color(0xFF64748B),
+              isSelected ? selectedIcon : icon,
+              color: isSelected ? Colors.white : Colors.white.withAlpha(102),
               size: 24,
             ),
-            if (isSelected) ...[
+
+           
               const SizedBox(width: 8),
               Text(
                 label,
@@ -87,7 +92,7 @@ class _NavigationItem extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-            ],
+            
           ],
         ),
       ),
