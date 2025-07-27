@@ -428,6 +428,48 @@ abstract class AppLocalizations {
   /// **'Show Less'**
   String get movie_show_less;
 
+  /// No description provided for @profile_logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get profile_logout;
+
+  /// No description provided for @profile_logout_confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout?'**
+  String get profile_logout_confirmation;
+
+  /// No description provided for @profile_logout_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, Logout'**
+  String get profile_logout_confirm;
+
+  /// No description provided for @profile_logout_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get profile_logout_cancel;
+
+  /// No description provided for @register_terms_read.
+  ///
+  /// In en, this message translates to:
+  /// **'I have read and accept the '**
+  String get register_terms_read;
+
+  /// No description provided for @register_terms_accept.
+  ///
+  /// In en, this message translates to:
+  /// **'user agreement'**
+  String get register_terms_accept;
+
+  /// No description provided for @register_terms_continue.
+  ///
+  /// In en, this message translates to:
+  /// **'. Please read this agreement to continue.'**
+  String get register_terms_continue;
+
   /// No description provided for @navigation_home.
   ///
   /// In en, this message translates to:

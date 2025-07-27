@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shartflix_movie_app/l10n/app_localizations.dart';
-
-import '../../../../core/injection_container.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
 import '../widgets/auth_text_field.dart';
-import '../widgets/primary_button.dart';
 import '../widgets/social_login_buttons.dart';
 
 class LoginPage extends StatefulWidget {
@@ -37,7 +34,6 @@ class _LoginPageState extends State<LoginPage> {
     final l10n = AppLocalizations.of(context)!;
     
     return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
         body: SafeArea(
           child: BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
@@ -69,9 +65,9 @@ class _LoginPageState extends State<LoginPage> {
                         // Title
                         Text(
                           l10n.hello,
-                          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -80,9 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                         
                         Text(
                           'Tempus varius a vitae interdum id\ntortor elementum tristique eleifend at.',
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium,
                           textAlign: TextAlign.center,
                         ),
                         
@@ -158,14 +152,13 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         
                         const SizedBox(height: 24),
-                        
-                        // Login Button
-                        PrimaryButton(
+
+                        FilledButton(
                           onPressed: isLoading ? null : _handleLogin,
-                          isLoading: isLoading,
                           child: Text(l10n.auth_login),
                         ),
                         
+                     
                         const SizedBox(height: 32),
                         
                         // Social Login Buttons
@@ -180,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                             Text(
                               '${l10n.auth_dont_have_account} ',
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                color: Colors.white.withAlpha(128),
                               ),
                             ),
                             TextButton(

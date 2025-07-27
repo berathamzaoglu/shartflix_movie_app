@@ -8,11 +8,7 @@ import '../../core/services/route_observer.dart';
 import '../../core/usecases/usecase.dart';
 import '../../features/auth/auth_feature.dart';
 import '../../features/auth/domain/usecases/check_auth_status_usecase.dart';
-import '../../features/auth/presentation/pages/login_page.dart';
-import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/home/home_feature.dart';
-import '../../features/home/presentation/pages/movie_discovery_page.dart';
-import '../../features/home/presentation/widgets/bottom_navigation_bar.dart';
 import '../../features/profile/presentation/bloc/profile_bloc.dart';
 
 class AppRouter {

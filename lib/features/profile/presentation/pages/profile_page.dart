@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,6 +10,8 @@ import 'package:shartflix_movie_app/features/profile/presentation/bloc/profile_b
 import 'package:shartflix_movie_app/features/profile/presentation/bloc/profile_state.dart';
 import 'package:shartflix_movie_app/features/profile/presentation/bloc/profile_event.dart';
 import 'package:shartflix_movie_app/l10n/app_localizations.dart';
+import 'package:shartflix_movie_app/core/services/analytics_helper.dart';
+import 'package:shartflix_movie_app/core/services/crashlytics_helper.dart';
 import 'dart:io';
 
 import '../../../auth/auth_feature.dart';
@@ -34,7 +37,16 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     
-    return Scaffold(
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        state.whenOrNull(
+          unauthenticated: () {
+            // Logout başarılı olduğunda login sayfasına yönlendir
+            context.go('/login');
+          },
+        );
+      },
+      child: Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF090909),
         elevation: 0,
@@ -54,7 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
               showLimitedOfferBottomSheet(context);
             },
             child: Container(
-              margin: const EdgeInsets.only(right: 16),
+              margin: const EdgeInsets.only(right: 8),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: const Color(0xFFE53E3E),
@@ -81,6 +93,41 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
+          // Logout Button
+          GestureDetector(
+            onTap: () => _showLogoutDialog(context),
+            child: Container(
+              margin: const EdgeInsets.only(right: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: Colors.white.withAlpha(128),
+                  width: 1,
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                    size: 16,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    l10n.profile_logout,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
       body: SafeArea(
@@ -95,7 +142,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ],
         ),
-      ),
+      ),)
     );
   }
 
@@ -130,30 +177,14 @@ class _ProfilePageState extends State<ProfilePage> {
                               )
                             : null,
                       ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFE53E3E),
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 2),
-                          ),
-                          child: const Icon(
-                            Icons.camera_alt,
-                            color: Colors.white,
-                            size: 12,
-                          ),
-                        ),
-                      ),
+                    
                     ],
                   ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -165,7 +196,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 4),
                     
                     
                      ConstrainedBox(constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.4), 
@@ -175,9 +205,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             child: Text(
                               '${l10n.profile_user_id}: ${user.id}',
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                color: Color(0xFF94A3B8),
-                                fontSize: 12,
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: Colors.white.withAlpha(128),
                               ),
                             ),
                           ),
@@ -262,6 +291,82 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        backgroundColor: const Color(0xFF1E293B),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        title: Text(
+          l10n.profile_logout_confirmation,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        content: Text(
+          l10n.profile_logout_confirmation,
+          style: const TextStyle(
+            color: Color(0xFF94A3B8),
+            fontSize: 14,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(
+              l10n.profile_logout_cancel,
+              style: const TextStyle(
+                color: Color(0xFF94A3B8),
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              _performLogout(context);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFE53E3E),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: Text(
+              l10n.profile_logout_confirm,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _performLogout(BuildContext context) {
+    final authBloc = context.read<AuthBloc>();
+    authBloc.add(const AuthEvent.logoutRequested());
+    
+    // Analytics: Logout event
+    AnalyticsHelper.logCustomEvent(
+      name: 'user_logout',
+      parameters: {'source': 'profile_page'},
+    );
+    
+    // Crashlytics: Log logout
+    CrashlyticsHelper.log('User logged out from profile page');
   }
 
   Future<void> _pickImage(BuildContext context, ImageSource source) async {

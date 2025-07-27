@@ -104,17 +104,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> logout() async {
     try {
-      Logger.info('Attempting logout');
+      Logger.info('Attempting local logout (no API call)');
       
-      await _apiClient.post(ApiEndpoints.logout);
+      // API çağrısı yapmıyoruz, sadece local logout
+      // Token silme ve diğer temizlik işlemleri AuthBloc'ta yapılacak
       
-      Logger.info('Logout successful');
+      Logger.info('Local logout successful');
     } catch (e) {
-      Logger.error('Logout failed: $e');
-      if (e is ServerException) {
-        rethrow;
-      }
-      throw ServerException(message: 'Logout failed: $e');
+      Logger.error('Local logout failed: $e');
+      // Local logout'ta hata olmamalı, ama yine de logluyoruz
+      throw ServerException(message: 'Local logout failed: $e');
     }
   }
 

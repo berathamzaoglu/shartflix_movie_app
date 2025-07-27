@@ -33,10 +33,7 @@ class AuthTextField extends StatelessWidget {
       textCapitalization: textCapitalization ?? TextCapitalization.none,
       obscureText: obscureText,
       validator: validator,
-      style: const TextStyle(
-        color: Colors.white,
-        fontSize: 16,
-      ),
+      style: Theme.of(context).textTheme.bodySmall,
       decoration: InputDecoration(
         labelText: label,
         labelStyle: TextStyle(
@@ -61,40 +58,40 @@ class AuthTextField extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.outline.withOpacity(0.3),
+            color: Theme.of(context).colorScheme.outline.withAlpha(76),
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(18),
           borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.outline.withOpacity(0.3),
+            color: Theme.of(context).colorScheme.outline.withAlpha(76),
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.primary,
+          borderRadius: BorderRadius.circular(18),
+          borderSide: const BorderSide(
+            color: Colors.white,
             width: 2,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(18),
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.error,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(18),
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.error,
             width: 2,
           ),
         ),
         filled: true,
-        fillColor: const Color(0xFF374151),
+        fillColor: const Color(0xFFffffff).withAlpha(25),
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 16,
+          horizontal: 24,
+          vertical: 24,
         ),
       ),
     );

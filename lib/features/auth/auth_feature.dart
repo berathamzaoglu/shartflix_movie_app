@@ -21,5 +21,4 @@ export 'presentation/bloc/auth_state.dart';
 export 'presentation/pages/login_page.dart';
 export 'presentation/pages/register_page.dart';
 export 'presentation/widgets/auth_text_field.dart';
-export 'presentation/widgets/primary_button.dart';
 export 'presentation/widgets/social_login_buttons.dart';

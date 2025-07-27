@@ -9,25 +9,23 @@ class SocialLoginButtons extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _SocialButton(
-          icon: _GoogleIcon(),
+          icon: Icons.g_mobiledata,
           onPressed: () {
             // TODO: Implement Google login
           },
         ),
         const SizedBox(width: 16),
         _SocialButton(
-          icon: const Icon(
-            Icons.apple,
-            color: Colors.white,
-            size: 24,
-          ),
+          icon:
+            Icons.apple_outlined,
+           
           onPressed: () {
             // TODO: Implement Apple login
           },
         ),
         const SizedBox(width: 16),
         _SocialButton(
-          icon: _FacebookIcon(),
+          icon: Icons.facebook,
           onPressed: () {
             // TODO: Implement Facebook login
           },
@@ -38,7 +36,7 @@ class SocialLoginButtons extends StatelessWidget {
 }
 
 class _SocialButton extends StatelessWidget {
-  final Widget icon;
+  final IconData icon;
   final VoidCallback onPressed;
 
   const _SocialButton({
@@ -49,45 +47,19 @@ class _SocialButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 56,
-      height: 56,
+      width: 60,
+      height: 60,
       decoration: BoxDecoration(
-        color: const Color(0xFF374151),
-        borderRadius: BorderRadius.circular(16),
+        color: const Color(0xFFffffff).withAlpha(25),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.white.withAlpha(52), width: 1),
       ),
-      child: IconButton(
-        onPressed: onPressed,
-        icon: icon,
-      ),
+      child: Icon(icon, color: Colors.white, size: 24),
     );
   }
 }
 
-class _GoogleIcon extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 24,
-      height: 24,
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.white,
-      ),
-      child: const Center(
-        child: Text(
-          'G',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-    );
-  }
-}
 
-class _FacebookIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -108,5 +80,5 @@ class _FacebookIcon extends StatelessWidget {
         ),
       ),
     );
-  }
+  
 } 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'app_fonts.dart';
 
 class AppTheme {
-  static const Color _primaryColor = Color(0xFF6366F1);
+  static const Color _primaryColor = Color(0xFFE50914);
   static const Color _secondaryColor = Color(0xFF06B6D4);
   static const Color _errorColor = Color(0xFFEF4444);
   static const Color _backgroundColor = Color(0xFF090909);
@@ -50,6 +50,25 @@ class AppTheme {
       inputDecorationTheme: _inputDecorationTheme,
       appBarTheme: _appBarTheme,
       scaffoldBackgroundColor: _backgroundColor,
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: _primaryColor,
+          foregroundColor: Colors.white,
+          textStyle: const TextStyle(
+            fontFamily: "EuclidCircular",
+            fontSize: 15,
+            color: Colors.white,
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 16,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+        
+        ),
+      ),
     );
   }
 

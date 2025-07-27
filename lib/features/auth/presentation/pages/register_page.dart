@@ -8,7 +8,6 @@ import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
 import '../widgets/auth_text_field.dart';
-import '../widgets/primary_button.dart';
 import '../widgets/social_login_buttons.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -44,7 +43,6 @@ class _RegisterPageState extends State<RegisterPage> {
     return BlocProvider(
       create: (context) => getIt<AuthBloc>(),
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
         body: SafeArea(
           child: BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
@@ -76,7 +74,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         // Title
                         Text(
                           l10n.hello,
-                          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
@@ -87,9 +85,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         
                         Text(
                           'Tempus varius a vitae interdum id tortor\nelementum tristique eleifend at.',
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium,
                           textAlign: TextAlign.center,
                         ),
                         
@@ -207,33 +203,25 @@ class _RegisterPageState extends State<RegisterPage> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Checkbox(
-                              value: _acceptTerms,
-                              onChanged: (value) {
-                                setState(() {
-                                  _acceptTerms = value ?? false;
-                                });
-                              },
-                              activeColor: const Color(0xFFE53E3E),
-                            ),
+                           
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 12.0),
                                 child: RichText(
                                   text: TextSpan(
-                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: Colors.white.withAlpha(128),
                                     ),
                                     children: [
-                                      const TextSpan(text: 'Kullanıcı sözleşmesini '),
+                                      TextSpan(text: l10n.register_terms_read),
                                       TextSpan(
-                                        text: 'okudum ve kabul ediyorum',
+                                        text: l10n.register_terms_accept,
                                         style: const TextStyle(
                                           color: Colors.white,
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),
-                                      const TextSpan(text: '. Bu sözleşmeyi okuyarak devam ediniz lütfen.'),
+                                      TextSpan(text: l10n.register_terms_continue),
                                     ],
                                   ),
                                 ),
@@ -245,9 +233,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         const SizedBox(height: 32),
                         
                         // Register Button
-                        PrimaryButton(
+                        FilledButton(
                           onPressed: (isLoading || !_acceptTerms) ? null : _handleRegister,
-                          isLoading: isLoading,
                           child: Text(l10n.auth_register),
                         ),
                         

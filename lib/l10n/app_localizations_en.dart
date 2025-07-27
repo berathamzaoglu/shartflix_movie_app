@@ -176,6 +176,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get movie_show_less => 'Show Less';
 
   @override
+  String get profile_logout => 'Logout';
+
+  @override
+  String get profile_logout_confirmation => 'Are you sure you want to logout?';
+
+  @override
+  String get profile_logout_confirm => 'Yes, Logout';
+
+  @override
+  String get profile_logout_cancel => 'Cancel';
+
+  @override
+  String get register_terms_read => 'I have read and accept the ';
+
+  @override
+  String get register_terms_accept => 'user agreement';
+
+  @override
+  String get register_terms_continue =>
+      '. Please read this agreement to continue.';
+
+  @override
   String get navigation_home => 'Home';
 
   @override

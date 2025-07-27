@@ -61,6 +61,13 @@
   "profile_id_copied": "Kullanıcı ID'si panoya kopyalandı",
   "movie_show_more": "Daha Fazlası",
   "movie_show_less": "Daha Az",
+  "profile_logout": "Çıkış Yap",
+  "profile_logout_confirmation": "Çıkış yapmak istediğinizden emin misiniz?",
+  "profile_logout_confirm": "Evet, Çıkış Yap",
+  "profile_logout_cancel": "İptal",
+  "register_terms_read": "Kullanıcı sözleşmesini ",
+  "register_terms_accept": "okudum ve kabul ediyorum",
+  "register_terms_continue": ". Bu sözleşmeyi okuyarak devam ediniz lütfen.",
   
   "navigation_home": "Ana Sayfa",
   "navigation_profile": "Profil",

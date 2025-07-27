@@ -61,6 +61,13 @@
   "profile_id_copied": "User ID copied to clipboard",
   "movie_show_more": "Show More",
   "movie_show_less": "Show Less",
+  "profile_logout": "Logout",
+  "profile_logout_confirmation": "Are you sure you want to logout?",
+  "profile_logout_confirm": "Yes, Logout",
+  "profile_logout_cancel": "Cancel",
+  "register_terms_read": "I have read and accept the ",
+  "register_terms_accept": "user agreement",
+  "register_terms_continue": ". Please read this agreement to continue.",
   
   "navigation_home": "Home",
   "navigation_profile": "Profile",

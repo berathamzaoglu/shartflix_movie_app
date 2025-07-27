@@ -177,6 +177,29 @@ class AppLocalizationsTr extends AppLocalizations {
   String get movie_show_less => 'Daha Az';
 
   @override
+  String get profile_logout => 'Çıkış Yap';
+
+  @override
+  String get profile_logout_confirmation =>
+      'Çıkış yapmak istediğinizden emin misiniz?';
+
+  @override
+  String get profile_logout_confirm => 'Evet, Çıkış Yap';
+
+  @override
+  String get profile_logout_cancel => 'İptal';
+
+  @override
+  String get register_terms_read => 'Kullanıcı sözleşmesini ';
+
+  @override
+  String get register_terms_accept => 'okudum ve kabul ediyorum';
+
+  @override
+  String get register_terms_continue =>
+      '. Bu sözleşmeyi okuyarak devam ediniz lütfen.';
+
+  @override
   String get navigation_home => 'Ana Sayfa';
 
   @override
